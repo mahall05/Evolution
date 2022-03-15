@@ -3,7 +3,7 @@ import javax.swing.JFrame;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 
-public class Game extends Canvas implements Runnable{
+public class Main extends Canvas implements Runnable{
     public static final int WIDTH = 1000, HEIGHT = WIDTH / 12 * 9;     // Set the size of the window
 
     private Thread thread;  // The game runs on this thread
@@ -25,12 +25,11 @@ public class Game extends Canvas implements Runnable{
         Game,
     };
     
-
     public static STATE gameState = STATE.Game;
 
-    public Game(){
+    public Main(){
         hud = new HUD();
-        new Window(WIDTH, HEIGHT, "Let's Build a Game!", this);
+        new Window(WIDTH, HEIGHT, "Evolution", this);
         test = new Body();
 
         r = new Random();
@@ -136,6 +135,6 @@ public class Game extends Canvas implements Runnable{
     }
 	
 	public static void main(String args[]) {
-		new Game();
+		new Main();
 	}
 }
