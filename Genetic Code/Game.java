@@ -16,7 +16,9 @@ public class Game extends Canvas implements Runnable{
     // 1 = hard
 
     private Random r;
+    private HUD hud;
 
+    private Body test;
     
     public enum STATE{
         Menu,
@@ -27,7 +29,9 @@ public class Game extends Canvas implements Runnable{
     public static STATE gameState = STATE.Game;
 
     public Game(){
+        hud = new HUD();
         new Window(WIDTH, HEIGHT, "Let's Build a Game!", this);
+        test = new Body();
 
         r = new Random();
     }
@@ -79,6 +83,7 @@ public class Game extends Canvas implements Runnable{
     private void tick(){
         if(gameState == STATE.Game){
             if(!paused){
+                test.tick();
             }
         }
     }
@@ -102,6 +107,7 @@ public class Game extends Canvas implements Runnable{
 
         if(gameState == STATE.Game){
             // render HUD, and all bodies
+            test.render(g);
 		}
 
         g.dispose();
