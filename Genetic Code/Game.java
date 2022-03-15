@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.image.BufferStrategy;
 
 public class Game extends Canvas implements Runnable{
-    public static final int WIDTH = 640, HEIGHT = WIDTH / 12 * 9;     // Set the size of the window
+    public static final int WIDTH = 1000, HEIGHT = WIDTH / 12 * 9;     // Set the size of the window
 
     private Thread thread;  // The game runs on this thread
     private boolean running = false;
@@ -14,8 +14,6 @@ public class Game extends Canvas implements Runnable{
     
     // 0 = normal
     // 1 = hard
-
-    //private HUD hud;
 
     private Random r;
 
@@ -33,7 +31,6 @@ public class Game extends Canvas implements Runnable{
     public static STATE gameState = STATE.Game;
 
     public Game(){
-        //hud = new HUD();
         new Window(WIDTH, HEIGHT, "Let's Build a Game!", this);
 
         r = new Random();
@@ -86,19 +83,6 @@ public class Game extends Canvas implements Runnable{
     private void tick(){
         if(gameState == STATE.Game){
             if(!paused){
-                //hud.tick();
-                /*
-				spawner.tick();
-				handler.tick();
-				if(HUD.HEALTH <= 0) {
-					HUD.HEALTH = 100;
-					gameState = STATE.End;
-					handler.clearEnemies();
-					for(int i = 0; i < 20; i++) {
-						handler.addObject(new MenuParticle(r.nextInt(WIDTH - 16), r.nextInt(HEIGHT - 16), ID.MenuParticle, handler));
-					}
-				}
-                */
             }
         }
     }
@@ -112,23 +96,17 @@ public class Game extends Canvas implements Runnable{
 
         Graphics g = bs.getDrawGraphics();
 
-        g.setColor(Color.black);
+        g.setColor(Color.white);
         g.fillRect(0, 0, WIDTH, HEIGHT);
 
         if(paused){
-            g.setColor(Color.white);
+            g.setColor(Color.black);
             g.drawString("PAUSED", 100, 100);
         }
 
         if(gameState == STATE.Game){
-            //hud.render(g);
-            //handler.render(g);
-        }/*else if(gameState == STATE.Shop) {
-			shop.render(g);
-		}else if(gameState == STATE.Menu || gameState == STATE.Help || gameState == STATE.End || gameState == STATE.Select) {
-			menu.render(g);
-			handler.render(g);
-		}*/
+            // render HUD, and all bodies
+		}
 
         g.dispose();
         bs.show();
