@@ -1,29 +1,41 @@
 import java.awt.*;
 
 public class Body {
-    int x = 0;
-    int y = 0;
     int width = 7;
     int height = 7;
   private Brain brain;
+  private Path path;
 
-  Path[] paths = new Path[400];
+  boolean dead = false;
+  boolean reachedGoal = false;
+  boolean isBest = false;
 
   public Body(){
-    brain = new Brain();
-    for(int i = 0; i < paths.length; i++){
-      paths[i] = new Path(Main.randomDouble(-7, 7), Main.randomDouble(-7, 7));
-    }
+    brain = new Brain(500);
+
+    path = new Path(200, 200);
+    path.setVelLimit(7);
   }
 
     public void tick(){
-        x += paths[brain.step].xAcc;
-      y += paths[brain.step].yAcc;
+         move();
+        System.out.print(path.x + ", ");
+        System.out.println(path.y);
+    }
+
+  public void move(){
+    if(brain.paths.length > brain.step){
+      path.accelerate(brain.paths[brain.step]);
       brain.step++;
     }
+    else{
+      //dead = true;
+    }
+    path.moveAtCurrentVel();
+  }
   
     public void render(Graphics g){
         g.setColor(Color.black);
-        g.fillOval(x, y, width, height);
+        g.fillOval(path.x, path.y, width, height);
     }
 }

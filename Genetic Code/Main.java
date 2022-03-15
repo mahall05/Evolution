@@ -50,6 +50,7 @@ public class Main extends Canvas implements Runnable{
         }
     }
 
+  /*
     public void run() {     // The game loop
 		this.requestFocus();
 		long lastTime = System.nanoTime();
@@ -78,6 +79,17 @@ public class Main extends Canvas implements Runnable{
 		}
 		stop();
 	}
+  */
+
+  public void run(){
+    double pastTime = System.currentTimeMillis();
+    while(running){
+      if(System.currentTimeMillis() - pastTime >= 1000){
+        tick();
+        render();
+      }
+    }
+  }
 
     private void tick(){
         if(gameState == STATE.Game){
