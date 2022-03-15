@@ -20,11 +20,7 @@ public class Game extends Canvas implements Runnable{
     
     public enum STATE{
         Menu,
-        Select,
-        Help,
-        Shop,
         Game,
-        End
     };
     
 
