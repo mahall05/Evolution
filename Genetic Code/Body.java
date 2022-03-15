@@ -1,17 +1,45 @@
 import java.awt.*;
 
 public class Body {
-    int x = 0;
-    int y = 0;
+    public Brain brain;
+    public Path path;
+
     int width = 7;
     int height = 7;
 
-    public void tick(){
-        x += 4;
-        y += 4;
+    boolean dead = false;
+    boolean reachedGoal = false;
+    //boolean isBest = false;
+
+    public Body(){
+        brain = new Brain(Population.brainSize);
+        path = new Path();
+        path.setVelCap(7);
     }
+
+    private void move(){
+        /*
+        if(brain.directions.length > brain.step){
+            path.addAcceleration(brain.directions[brain.step].xAcc, brain.directions[brain.step].yAcc);
+            brain.step++;
+        }else{
+            dead = true;
+        }
+        */
+        path.addAcceleration(brain.directions[brain.step].xAcc, brain.directions[brain.step].yAcc);
+        brain.step++;
+        path.accelerate();
+        path.move();
+    }
+
+    public void tick(){
+        if(!dead && !reachedGoal){
+            move();
+        }
+    }
+
     public void render(Graphics g){
         g.setColor(Color.black);
-        g.fillOval(x, y, width, height);
+        g.fillOval(path.x, path.y, width, height);
     }
 }
