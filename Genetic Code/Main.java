@@ -3,9 +3,9 @@ import javax.swing.JFrame;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 
-public class Game extends Canvas implements Runnable{
+public class Main extends Canvas implements Runnable{
     public static final int WIDTH = 1000, HEIGHT = WIDTH / 12 * 9;     // Set the size of the window
-    public static final int POPULATION_SIZE = 1000;
+    public static final int POPULATION_SIZE = 100;
 
     private Thread thread;  // The game runs on this thread
     private boolean running = false;
@@ -18,20 +18,24 @@ public class Game extends Canvas implements Runnable{
 
     private Random r;
     private HUD hud;
+    private Obstacles obs;
 
-    private Population pop = new Population(POPULATION_SIZE);
+    private Population pop;
+    //private Body test;
     
     public enum STATE{
         Menu,
         Game,
     };
     
-
     public static STATE gameState = STATE.Game;
 
-    public Game(){
+    public Main(){
+        pop = new Population(POPULATION_SIZE);
+        //test = new Body(500);
         hud = new HUD();
-        new Window(WIDTH, HEIGHT, "Let's Build a Game!", this);
+        obs = new Obstacles();
+        new Window(WIDTH, HEIGHT, "Evolution", this);
 
         r = new Random();
     }
@@ -80,10 +84,32 @@ public class Game extends Canvas implements Runnable{
 		stop();
 	}
 
+  /*
+  public void run(){
+    double pastTime = System.currentTimeMillis();
+    while(running){
+      if(System.currentTimeMillis() - pastTime >= 1000){
+        tick();
+        render();
+      }
+    }
+  }
+  */
+
     private void tick(){
         if(gameState == STATE.Game){
             if(!paused){
-                pop.tick();
+                pop.tick(obs);
+                //test.tick(obs);
+                obs.tick();
+                if(pop.allDotsDead()){
+                    // TODO implement these methods
+                    /*
+                    pop.calculateFitness();
+                    pop.naturalSelection();
+                    pop.mutate();
+                    */
+                }
             }
         }
     }
@@ -108,6 +134,8 @@ public class Game extends Canvas implements Runnable{
         if(gameState == STATE.Game){
             // render HUD, and all bodies
             pop.render(g);
+            //test.render(g);
+            obs.render(g);
 		}
 
         g.dispose();
@@ -136,6 +164,6 @@ public class Game extends Canvas implements Runnable{
     }
 	
 	public static void main(String args[]) {
-		new Game();
+		new Main();
 	}
 }

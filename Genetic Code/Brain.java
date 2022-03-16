@@ -1,15 +1,15 @@
 public class Brain {
-    public Path[] directions;
-    public int step = 0;
+  public int step = 0;
+  public AccelVector[] paths;
 
-    public Brain(int size){
-        directions = new Path[size];
-        randomize();
-    }
+  public Brain(int size){
+    paths = new AccelVector[size];
+    randomize();
+  }
 
-    private void randomize(){
-        for(int i = 0; i < directions.length; i++){
-            directions[i] = new Path(Game.randomDouble(-7, 7), Game.randomDouble(-7, 7));
-        }
+  public void randomize(){
+    for(int i = 0; i < paths.length; i++){
+      paths[i] = new AccelVector(Main.randomDouble(-7, 7), Main.randomDouble(-7, 7));
     }
+  }
 }

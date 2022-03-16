@@ -1,52 +1,71 @@
-public class Path {
-    int x = 0;
-    int y = 0;
-    double xVel = 0;
-    double yVel = 0;
-    double xAcc = 0;
-    double yAcc = 0;
-    int velCap = 1000;
+public class Path{
+  public double xVel;
+  public double yVel;
 
-    public Path(){
+  public int x;
+  public int y;
 
+  private int velLimit = 1000;
+
+  public Path(){
+    x = 0;
+    y = 0;
+    xVel = 0;
+    yVel = 0;
+  }
+
+  public Path(int x, int y){
+    this.x = x;
+    this.y = y;
+    xVel = 0;
+    yVel = 0;
+  }
+
+  public void accelerate(AccelVector a){
+    xVel += a.xAcc;
+    yVel += a.yAcc;
+    double xDir = xVel / Math.abs(xVel);
+    double yDir = yVel / Math.abs(yVel);
+    // TODO figure out a way to keep the angle of movement the same, but reduce the length of movement
+
+    /*
+    while(calcVel() > velLimit){
+      xVel -= (0.5 * xDir);
+      yVel -= (0.5 * yDir);
     }
-
-    public Path(double xAcc, double yAcc){
-        this.xAcc = xAcc;
-        this.yAcc = yAcc;
+    */
+    
+    while(calcVel() > velLimit){
+      if(xVel < 0 && yVel < 0){
+        xVel += 0.5;
+        yVel += 0.5;
+      }
+      else if(xVel > 0 && yVel > 0){
+        xVel -= 0.5;
+        yVel -= 0.5;
+      }
+      else if(xVel > 0 && yVel < 0){
+        xVel -= 0.5;
+        yVel += 0.5;
+      }
+      else if(xVel < 0 && yVel > 0){
+        xVel += 0.5;
+        yVel -= 0.5;
+      }
     }
+  }
 
-    public void move(){
-        x +=  xVel;
-        y += yVel;
-    }
+  private double calcVel(){
+    double vel = Math.sqrt(((xVel - 0) * (xVel - 0)) + ((yVel - 0) * (yVel - 0)));
+    return vel;
+  }
 
-    public void addAcceleration(double xAcc, double yAcc){
-        this.xAcc += xAcc;
-        this.yAcc += yAcc;
-    }
+  public void moveAtCurrentVel(){
+    x += xVel;
+    y += yVel;
+  }
 
-    public void accelerate(){
-        xVel += xAcc;
-        yVel += yAcc;
-        if(calcAcc() > velCap){
-            while(calcAcc() > velCap){
-                xVel -= 0.1;
-                yVel -= 0.1;
-            }
-        }else if(calcAcc() < -velCap){
-            while(calcAcc() < -velCap){
-                xVel += 0.1;
-                yVel -= 0.1;
-            }
-        }
-    }
-
-    private double calcAcc(){
-        return Math.sqrt(((xVel - 0) * (xVel - 0)) + ((yVel - 0) * (yVel - 0)));
-    }
-
-    public void setVelCap(int cap){
-        velCap = cap;
-    }
+  public void setVelLimit(int limit){
+    this.velLimit = limit;
+  }
 }
