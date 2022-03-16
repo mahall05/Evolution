@@ -10,11 +10,21 @@ public class Body {
   boolean reachedGoal = false;
   boolean isBest = false;
 
+  double fitness = 0;
+
+  long start;
+  long finish;
+  long elapsedTime;
+
+  int brainSize;
+
   public Body(int brainSize){
+    this.brainSize = brainSize;
     brain = new Brain(brainSize);
 
     path = new Path(Main.WIDTH/2+20, Main.HEIGHT-75);
     path.setVelLimit(7);
+    start  = System.currentTimeMillis();
   }
 
     public void tick(Obstacles obs){
@@ -25,12 +35,12 @@ public class Body {
         }
         else if(checkCollision(obs.goal)){
           reachedGoal = true;
-          System.out.println("Win");
+          finish = System.currentTimeMillis();
+          elapsedTime = finish - start;
         }
         else{
           for (int i = 0; i < obs.obstacles.length; i++){
             if(checkCollision(obs.obstacles[i])){
-              System.out.println("Dead");
               dead = true;
             }
           }
@@ -50,8 +60,28 @@ public class Body {
   }
   
   public void render(Graphics g){
+    if(isBest){
+      g.setColor(Color.red);
+      g.fillOval(path.x, path.y, width+3, height+3);
+    }else{
       g.setColor(Color.black);
       g.fillOval(path.x, path.y, width, height);
+    }
+  }
+
+  public void calculateFitness(Obstacles.Goal g){
+    if(reachedGoal){
+      fitness = 1.0/16.0 + 10000.0/(double)(brain.step * brain.step); // Bodies that make it to the goal have the highest fitness score
+    }else{
+      double distanceToGoal = Math.sqrt(((g.x - path.x) * (g.x - path.x)) + (g.y - path.y) * (g.y - path.y));
+      fitness = 1.0/(distanceToGoal * distanceToGoal);
+    }
+  }
+
+  public Body clone(){
+    Body clone = new Body(brainSize);
+    clone.brain = brain.clone();
+    return clone;
   }
 
   public boolean checkCollision(Obstacles.Obstacle o){
