@@ -17,10 +17,10 @@ public class Main extends Canvas implements Runnable{
     // 1 = hard
 
     private Random r;
-    private HUD hud;
-    private Obstacles obs;
 
-    private Population pop;
+    private Obstacles obs;
+    private Body test;
+
     //private Body test;
     
     public enum STATE{
@@ -31,10 +31,8 @@ public class Main extends Canvas implements Runnable{
     public static STATE gameState = STATE.Game;
 
     public Main(){
-        pop = new Population(POPULATION_SIZE);
-        //test = new Body(500);
-        hud = new HUD(pop);
         obs = new Obstacles();
+        test = new Body();
         new Window(WIDTH, HEIGHT, "Evolution", this);
 
         r = new Random();
@@ -55,6 +53,7 @@ public class Main extends Canvas implements Runnable{
         }
     }
 
+    /*
     public void run() {     // The game loop
 		this.requestFocus();
 		long lastTime = System.nanoTime();
@@ -83,32 +82,26 @@ public class Main extends Canvas implements Runnable{
 		}
 		stop();
 	}
+    */
 
-  /*
   public void run(){
     double pastTime = System.currentTimeMillis();
     while(running){
       if(System.currentTimeMillis() - pastTime >= 1000){
         tick();
         render();
+        pastTime = System.currentTimeMillis();
       }
     }
   }
-  */
 
     private void tick(){
         if(gameState == STATE.Game){
             if(!paused){
-                //test.tick(obs);
                 obs.tick();
-                if(pop.allDotsDead()){
-                    // TODO implement these methods
-                    pop.calculateFitness(obs);
-                    pop.naturalSelection(obs);
-                    pop.mutate();
-                }else{
-                    pop.tick(obs);
-                }
+                test.tick();
+            }else{
+
             }
         }
     }
@@ -132,11 +125,13 @@ public class Main extends Canvas implements Runnable{
 
         if(gameState == STATE.Game){
             // render HUD, and all bodies
-            //test.render(g);
-            obs.render(g);
-            if(!pop.allDotsDead()){
-                pop.render(g);
+            //obs.render(g);
+            test.render(g);
+            /*
+            if(!allDotsDead){
+
             }
+            */
 		}
 
         g.dispose();

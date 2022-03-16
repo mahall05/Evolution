@@ -1,0 +1,4 @@
+Immediate flaw is the way the the best one is picked. The best dot is picked based off of how close it is to the goal.
+The problem is, this means they will keep smashing into the wall straight on because it gets them the closest, rather than going around the 
+wall to get even close. Because if they started going around, that would technically get them further from the goal.
+I'm not sure how to fix this issue.

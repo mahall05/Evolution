@@ -1,0 +1,4 @@
+Calculate fitness based on the closest it EVER got, not just where it died
+Menu to select options
+Better tune the movement
+Make a baby with the top two dots, rather than just cloning the best

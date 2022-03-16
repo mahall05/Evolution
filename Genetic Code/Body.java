@@ -85,7 +85,7 @@ public class Body {
   }
 
   public boolean checkCollision(Obstacles.Obstacle o){
-    if(path.x > o.x && path.y > o.y && path.x < o.width+o.x && path.y < o.height+o.y){
+    if(path.x+width > o.x && path.y+height > o.y && path.x < o.width+o.x && path.y < o.height+o.y){
       return true;
     }
     else{

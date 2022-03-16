@@ -37,20 +37,20 @@ public class Path{
     
     while(calcVel() > velLimit){
       if(xVel < 0 && yVel < 0){
-        xVel += 0.5;
-        yVel += 0.5;
+        xVel += 0.1;
+        yVel += 0.1;
       }
       else if(xVel > 0 && yVel > 0){
-        xVel -= 0.5;
-        yVel -= 0.5;
+        xVel -= 0.1;
+        yVel -= 0.1;
       }
       else if(xVel > 0 && yVel < 0){
-        xVel -= 0.5;
-        yVel += 0.5;
+        xVel -= 0.1;
+        yVel += 0.1;
       }
       else if(xVel < 0 && yVel > 0){
-        xVel += 0.5;
-        yVel -= 0.5;
+        xVel += 0.1;
+        yVel -= 0.1;
       }
     }
   }

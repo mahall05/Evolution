@@ -2,7 +2,7 @@ import java.awt.Graphics;
 
 public class Population {
     private Body[] bodies;
-    private int brainSize = 500;
+    private int brainSize = 400;
 
     public int gen = 1;
 
@@ -74,7 +74,8 @@ public class Population {
     }
 
     private Body selectParent(){
-        double random = Main.randomDouble(0, fitnessSum);
+        //double random = Main.randomDouble(0, fitnessSum);
+        double random = Math.random() - (1 - fitnessSum);
 
         double runningSum = 0;
 
@@ -108,6 +109,7 @@ public class Population {
 
         if(bodies[best].reachedGoal){
             brainSize = bodies[best].brain.step;
+            System.out.println("Step: " + bodies[best].brain.step);
         }
     }
 }
