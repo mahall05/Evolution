@@ -99,7 +99,6 @@ public class Main extends Canvas implements Runnable{
     private void tick(){
         if(gameState == STATE.Game){
             if(!paused){
-                pop.tick(obs);
                 //test.tick(obs);
                 obs.tick();
                 if(pop.allDotsDead()){
@@ -109,6 +108,8 @@ public class Main extends Canvas implements Runnable{
                     pop.naturalSelection();
                     pop.mutate();
                     */
+                }else{
+                    pop.tick(obs);
                 }
             }
         }
@@ -133,9 +134,11 @@ public class Main extends Canvas implements Runnable{
 
         if(gameState == STATE.Game){
             // render HUD, and all bodies
-            pop.render(g);
             //test.render(g);
             obs.render(g);
+            if(!pop.allDotsDead()){
+                pop.render(g);
+            }
 		}
 
         g.dispose();

@@ -12,4 +12,23 @@ public class Brain {
       paths[i] = new AccelVector(Main.randomDouble(-7, 7), Main.randomDouble(-7, 7));
     }
   }
+
+  public Brain clone(){
+    Brain clone = new Brain(paths.length);
+    for(int i = 0; i < paths.length; i++){
+      clone.paths[i] = paths[i];
+    }
+    return clone;
+  }
+
+  public void mutate(){
+    double mutationRate = 0.01; // % chance each step will have a mutation, where 1 is 100%
+    for(int i = 0; i < paths.length; i++){
+      double random = Main.randomDouble(0, 1);
+      if(random < mutationRate){
+        //randomize the direction
+        paths[i] = new AccelVector(Main.randomDouble(-7, 7), Main.randomDouble(-7, 7));
+      }
+    }
+  }
 }
