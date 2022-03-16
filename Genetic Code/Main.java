@@ -18,8 +18,10 @@ public class Main extends Canvas implements Runnable{
 
     private Random r;
     private HUD hud;
+    private Obstacles obs;
 
     private Population pop;
+    //private Body test;
     
     public enum STATE{
         Menu,
@@ -30,7 +32,9 @@ public class Main extends Canvas implements Runnable{
 
     public Main(){
         pop = new Population(POPULATION_SIZE);
+        //test = new Body(500);
         hud = new HUD();
+        obs = new Obstacles();
         new Window(WIDTH, HEIGHT, "Evolution", this);
 
         r = new Random();
@@ -95,7 +99,9 @@ public class Main extends Canvas implements Runnable{
     private void tick(){
         if(gameState == STATE.Game){
             if(!paused){
-                pop.tick();
+                pop.tick(obs);
+                //test.tick(obs);
+                obs.tick();
             }
         }
     }
@@ -120,6 +126,8 @@ public class Main extends Canvas implements Runnable{
         if(gameState == STATE.Game){
             // render HUD, and all bodies
             pop.render(g);
+            //test.render(g);
+            obs.render(g);
 		}
 
         g.dispose();

@@ -2,7 +2,7 @@ import java.awt.Graphics;
 
 public class Population {
     private Body[] bodies;
-    private int brainSize = 400;
+    private int brainSize = 500;
 
     public Population(int size){
         bodies = new Body[size];
@@ -17,13 +17,13 @@ public class Population {
         }
     }
 
-    public void tick(){
+    public void tick(Obstacles obs){
         for(int i = 0; i < bodies.length; i++){
             if(bodies[i].brain.step > brainSize){
                 bodies[i].dead = true;
             }
             else{
-                bodies[i].tick();
+                bodies[i].tick(obs);
             }
         }
     }

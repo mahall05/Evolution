@@ -1,0 +1,60 @@
+import java.awt.Color;
+import java.awt.Graphics;
+
+public class Obstacles {
+    public class Goal{
+        public int x = 0;
+        public int y = 0;
+        public int width = 0;
+        public int height = 0;
+        public Goal(int x, int y, int width, int height){
+            this.x = x;
+            this.y = y;
+            this.width = width;
+            this.height = height;
+        }
+    }
+
+    public class Obstacle{
+        public int x = 0;
+        public int y = 0;
+        public int width = 0;
+        public int height = 0;
+        public Obstacle(int x, int y, int width, int height){
+            this.x = x;
+            this.y = y;
+            this.width = width;
+            this.height = height;
+        }
+    }
+
+    int goalXD = 50;
+    int goalYD = 50;
+    public Goal goal = new Goal((Main.WIDTH/2)-(goalXD/2), 10, goalXD, goalYD);
+
+    public Obstacle[] obstacles = {
+        new Obstacle(Main.WIDTH/2 - goal.width/2 - 40, 0, 20, 80),                          //   Walls around the goal
+        new Obstacle(Main.WIDTH/2 - goal.width/2 - 40, goal.height + goal.y + 20, 40, 20),  //   Walls around the goal
+        new Obstacle(Main.WIDTH/2 + goal.width/2 + 20, 0, 20, 80),                          //   Walls around the goal
+        new Obstacle(Main.WIDTH/2 + goal.width/2, goal.height + goal.y + 20, 40, 20),       //   Walls around the goal
+        new Obstacle(0, 200, 200, 20),
+        new Obstacle(150, 300, Main.WIDTH - 150, 20),
+        new Obstacle(0, 400, 300, 20),
+        new Obstacle(Main.WIDTH/2 - 100, Main.HEIGHT - 140, 20, 100),
+        new Obstacle(Main.WIDTH/2 - 100, Main.HEIGHT - 140, 200, 20),
+    };
+
+    public void tick(){
+
+    }
+
+    public void render(Graphics g){
+        g.setColor(Color.red);
+        g.fillRect(goal.x, goal.y, goal.width, goal.height);
+
+        g.setColor(Color.gray);
+        for(int i = 0; i < obstacles.length; i++){
+            g.fillRect(obstacles[i].x, obstacles[i].y, obstacles[i].width, obstacles[i].height);
+        }
+    }
+}
