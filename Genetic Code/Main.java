@@ -33,7 +33,7 @@ public class Main extends Canvas implements Runnable{
     public Main(){
         pop = new Population(POPULATION_SIZE);
         //test = new Body(500);
-        hud = new HUD();
+        hud = new HUD(pop);
         obs = new Obstacles();
         new Window(WIDTH, HEIGHT, "Evolution", this);
 
@@ -103,11 +103,9 @@ public class Main extends Canvas implements Runnable{
                 obs.tick();
                 if(pop.allDotsDead()){
                     // TODO implement these methods
-                    /*
-                    pop.calculateFitness();
-                    pop.naturalSelection();
+                    pop.calculateFitness(obs);
+                    pop.naturalSelection(obs);
                     pop.mutate();
-                    */
                 }else{
                     pop.tick(obs);
                 }
