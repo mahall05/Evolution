@@ -4,6 +4,8 @@ public class Population {
     private Body[] bodies;
     private int brainSize = 500;
 
+    public static int gen = 1;
+
     public Population(int size){
         bodies = new Body[size];
         for(int i = 0; i < size; i++){
@@ -26,5 +28,14 @@ public class Population {
                 bodies[i].tick(obs);
             }
         }
+    }
+
+    public boolean allDotsDead(){
+        for(int i = 0; i < bodies.length; i++){
+            if(!bodies[i].dead && !bodies[i].reachedGoal){ // If there is still even one dot alive, then all of them aren't dead so return false
+                return false;
+            }
+        }
+        return true; // If it never returns false, then they are all dead so return true
     }
 }
