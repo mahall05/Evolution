@@ -3,24 +3,26 @@ import java.awt.*;
 public class Body {
     int width = 7;
     int height = 7;
-  private Brain brain;
+  public Brain brain;
   private Path path;
 
   boolean dead = false;
   boolean reachedGoal = false;
   boolean isBest = false;
 
-  public Body(){
-    brain = new Brain(500);
+  public Body(int brainSize){
+    brain = new Brain(brainSize);
 
     path = new Path(200, 200);
     path.setVelLimit(7);
   }
 
     public void tick(){
-         move();
-        System.out.print(path.x + ", ");
-        System.out.println(path.y);
+      if(!dead && !reachedGoal){
+        move();
+      }
+      System.out.print(path.x + ", ");
+      System.out.println(path.y);
     }
 
   public void move(){
@@ -29,7 +31,7 @@ public class Body {
       brain.step++;
     }
     else{
-      //dead = true;
+      dead = true;
     }
     path.moveAtCurrentVel();
   }

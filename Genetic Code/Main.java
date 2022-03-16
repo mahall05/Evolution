@@ -5,6 +5,7 @@ import java.awt.image.BufferStrategy;
 
 public class Main extends Canvas implements Runnable{
     public static final int WIDTH = 1000, HEIGHT = WIDTH / 12 * 9;     // Set the size of the window
+    public static final int POPULATION_SIZE = 100;
 
     private Thread thread;  // The game runs on this thread
     private boolean running = false;
@@ -18,7 +19,7 @@ public class Main extends Canvas implements Runnable{
     private Random r;
     private HUD hud;
 
-    private Body test;
+    private Population pop;
     
     public enum STATE{
         Menu,
@@ -28,9 +29,9 @@ public class Main extends Canvas implements Runnable{
     public static STATE gameState = STATE.Game;
 
     public Main(){
+        pop = new Population(POPULATION_SIZE);
         hud = new HUD();
         new Window(WIDTH, HEIGHT, "Evolution", this);
-        test = new Body();
 
         r = new Random();
     }
@@ -94,7 +95,7 @@ public class Main extends Canvas implements Runnable{
     private void tick(){
         if(gameState == STATE.Game){
             if(!paused){
-                test.tick();
+                pop.tick();
             }
         }
     }
@@ -118,7 +119,7 @@ public class Main extends Canvas implements Runnable{
 
         if(gameState == STATE.Game){
             // render HUD, and all bodies
-            test.render(g);
+            pop.render(g);
 		}
 
         g.dispose();
