@@ -19,13 +19,14 @@ public class Main extends Canvas implements Runnable{
     private Random r;
     private HUD hud;
     private Obstacles obs;
+    private Menu menu;
 
     private Population pop;
     //private Body test;
     
     public enum STATE{
-        Menu,
         Game,
+        Settings,
     };
     
     public static STATE gameState = STATE.Game;
@@ -35,6 +36,7 @@ public class Main extends Canvas implements Runnable{
         //test = new Body(500);
         hud = new HUD(pop);
         obs = new Obstacles();
+        menu = new Menu();
         new Window(WIDTH, HEIGHT, "Evolution", this);
 
         r = new Random();
@@ -101,6 +103,7 @@ public class Main extends Canvas implements Runnable{
             if(!paused){
                 //test.tick(obs);
                 obs.tick();
+                hud.tick();
                 if(pop.allDotsDead()){
                     // TODO implement these methods
                     pop.calculateFitness(obs);
@@ -109,6 +112,9 @@ public class Main extends Canvas implements Runnable{
                 }else{
                     pop.tick(obs);
                 }
+            }
+            else{
+                menu.pause.tick();
             }
         }
     }
@@ -122,20 +128,22 @@ public class Main extends Canvas implements Runnable{
 
         Graphics g = bs.getDrawGraphics();
 
-        g.setColor(Color.white);
-        g.fillRect(0, 0, WIDTH, HEIGHT);
-
-        if(paused){
-            g.setColor(Color.black);
-            g.drawString("PAUSED", 100, 100);
-        }
-
         if(gameState == STATE.Game){
-            // render HUD, and all bodies
-            //test.render(g);
-            obs.render(g);
-            if(!pop.allDotsDead()){
-                pop.render(g);
+            if(!paused){
+                // render HUD, and all bodies
+                //test.render(g);
+                g.setColor(Color.white);
+                g.fillRect(0, 0, WIDTH, HEIGHT);
+                obs.render(g);
+                hud.render(g);
+                if(!pop.allDotsDead()){
+                    pop.render(g);
+                }
+            }
+            else{
+                //g.setColor(Color.black);
+                //g.fillRect(0, 0, WIDTH, HEIGHT);
+                menu.pause.render(g);
             }
 		}
 
