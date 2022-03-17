@@ -21,8 +21,8 @@ public class Brain {
     return clone;
   }
 
-  public void mutate(){
-    double mutationRate = 0.1; // % chance each step will have a mutation, where 1 is 100%
+  public void mutate(double mutationRate){
+    // % chance each step will have a mutation, where 1 is 100%
     for(int i = 0; i < paths.length; i++){
       double random = Main.randomDouble(0, 1);
       if(random < mutationRate){

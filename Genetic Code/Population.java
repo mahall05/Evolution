@@ -9,6 +9,14 @@ public class Population {
     private double fitnessSum;
     private int best;
 
+    public double oldBestScore = 0;
+    public double bestScore = 0;
+    private int timesWithinScore = 0;
+
+    public double mutationRate = 0.1;
+
+    public boolean ableToReachGoal = false;
+
     public Population(int size){
         bodies = new Body[size];
         for(int i = 0; i < size; i++){
@@ -62,6 +70,11 @@ public class Population {
             newBodies[i] = parent.clone();
         }
 
+        if(timesWithinScore >= 5){
+            mutationRate = mutationRate + 0.05;
+            System.out.println("Mutation rate: " + mutationRate);
+        }
+
         bodies = newBodies.clone();
         gen++;
     }
@@ -91,7 +104,7 @@ public class Population {
 
     public void mutate(){
         for(int i = 1; i < bodies.length; i++){
-            bodies[i].brain.mutate();
+            bodies[i].brain.mutate(mutationRate);
         }
     }
 
@@ -106,10 +119,34 @@ public class Population {
         }
 
         best = maxIndex;
+        oldBestScore = bestScore;
+        bestScore = bodies[best].fitness;
+        System.out.println("Old best: " + oldBestScore);
+        System.out.println("New best: " + bestScore);
+        if(!ableToReachGoal){
+            withinScoreRange();
+        }
+        else{
+            mutationRate = 0.1;
+            timesWithinScore = 0;
+        }
 
         if(bodies[best].reachedGoal){
             brainSize = bodies[best].brain.step;
             System.out.println("Step: " + bodies[best].brain.step);
+        }
+    }
+
+    public void withinScoreRange(){
+        if(bestScore *1000000 > oldBestScore *1000000 - 0.1 && bestScore *1000000 < oldBestScore *1000000 + 0.1){
+            timesWithinScore++;
+            System.out.println("Times: " + timesWithinScore);
+        }
+        else{
+            timesWithinScore = 0;  // If the dots reach a new best score outside of the range, everything will reset back to normal
+            mutationRate = 0.1;
+            System.out.println("Times: " + timesWithinScore);
+            System.out.println("Mutation Rate: " + mutationRate);
         }
     }
 }

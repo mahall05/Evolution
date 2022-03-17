@@ -105,7 +105,6 @@ public class Main extends Canvas implements Runnable{
                 obs.tick();
                 hud.tick();
                 if(pop.allDotsDead()){
-                    // TODO implement these methods
                     pop.calculateFitness(obs);
                     pop.naturalSelection(obs);
                     pop.mutate();

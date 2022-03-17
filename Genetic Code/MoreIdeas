@@ -5,3 +5,6 @@ Make a baby with the top two dots, rather than just cloning the best
 Give the ability for the player to take over a dot??  (Use KeyInput class from eclipse)
 Have a system that encourages new thinking (mutations)
 If the dots are staying within the same score range for a while, increase the mutation rate
+Have mutations only happen later rather than having a flat mutation rate
+Have a random chance to skip a step, and have that choice carry over to the next generation
+Directional movement/facing an angle
