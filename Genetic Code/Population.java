@@ -14,6 +14,7 @@ public class Population {
     private int timesWithinScore = 0;
 
     public double mutationRate = 0.1;
+    public double skipChance = 0.001;
 
     public boolean ableToReachGoal = false;
 
@@ -105,6 +106,12 @@ public class Population {
     public void mutate(){
         for(int i = 1; i < bodies.length; i++){
             bodies[i].brain.mutate(mutationRate);
+        }
+    }
+
+    public void skipSteps(){
+        for(int i = 1; i < bodies.length; i++){
+            bodies[i].brain.skipStep(skipChance);
         }
     }
 

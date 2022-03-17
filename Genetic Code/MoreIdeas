@@ -1,10 +1,21 @@
-Calculate fitness based on the closest it EVER got, not just where it died
-Menu to select options
-Better tune the movement
-Make a baby with the top two dots, rather than just cloning the best
-Give the ability for the player to take over a dot??  (Use KeyInput class from eclipse)
-Have a system that encourages new thinking (mutations)
-If the dots are staying within the same score range for a while, increase the mutation rate
-Have mutations only happen later rather than having a flat mutation rate
-Have a random chance to skip a step, and have that choice carry over to the next generation
-Directional movement/facing an angle
+1. Calculate fitness based on the closest it EVER got, not just where it died
+2. Menu to select options
+3. Better tune the movement
+4. Make a baby with the top two dots, rather than just cloning the best
+5. Give the ability for the player to take over a dot??  (Use KeyInput class from eclipse)
+6. Have a system that encourages new thinking (mutations)
+7. If the dots are staying within the same score range for a while, increase the mutation rate
+8. Have mutations only happen later rather than having a flat mutation rate
+9. Have a random chance to skip a step, and have that choice carry over to the next generation
+10. Directional movement/facing an angle
+
+1. 
+2. 
+3. 
+4. 
+5.
+6. 
+7. 
+8. 
+9. This works... kind of? Something isn't right with it though. It breaks everything, so not really
+10. 

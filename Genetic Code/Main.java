@@ -108,6 +108,7 @@ public class Main extends Canvas implements Runnable{
                     pop.calculateFitness(obs);
                     pop.naturalSelection(obs);
                     pop.mutate();
+                    //pop.skipSteps();
                 }else{
                     pop.tick(obs);
                 }
