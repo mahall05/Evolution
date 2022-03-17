@@ -21,11 +21,38 @@ public class Obstacles {
         public int y = 0;
         public int width = 0;
         public int height = 0;
+
+        public Point[] topSide;
+        public Point[] rightSide;
+        public Point[] bottomSide;
+        public Point[] leftSide;
         public Obstacle(int x, int y, int width, int height){
             this.x = x;
             this.y = y;
             this.width = width;
             this.height = height;
+
+            topSide = new Point[width];
+            bottomSide = new Point[width];
+            rightSide = new Point[height];
+            leftSide = new Point[height];
+
+            for(int i = 0; i < width; i++){
+                topSide[i] = new Point(x+i, y);
+                bottomSide[i] = new Point(x+i, y+height-1);
+            }
+            for(int i = 0; i < height; i++){
+                rightSide[i] = new Point(x+width-1, y+i);
+                leftSide[i] = new Point(x, y+i);
+            }
+        }
+    }
+
+    public class Point{
+        int x, y;
+        public Point(int x, int y){
+            this.x = x;
+            this.y = y;
         }
     }
 
