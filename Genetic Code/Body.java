@@ -18,6 +18,8 @@ public class Body {
 
   int brainSize;
 
+  double bestDist = 50000;
+
   public Body(int brainSize){
     this.brainSize = brainSize;
     brain = new Brain(brainSize);
@@ -30,6 +32,11 @@ public class Body {
     public void tick(Obstacles obs){
       if(!dead && !reachedGoal){
         move();
+        if(detectDist(obs.goal) < bestDist){
+          bestDist = detectDist(obs.goal);
+          brain.bestStep = brain.step;
+        }
+
         if(path.x < 2 || path.y < 2 || path.x > Main.WIDTH-2 || path.y > Main.HEIGHT-45){ // Check for screen boundaries
           dead = true;
         }
@@ -67,6 +74,10 @@ public class Body {
       g.setColor(Color.black);
       g.fillOval(path.x, path.y, width, height);
     }
+  }
+
+  public double detectDist(Obstacles.Goal g){
+    return Math.sqrt(((g.x - path.x) * (g.x - path.x)) + ((g.y - path.y) * (g.y - path.y)));
   }
 
   public void calculateFitness(Obstacles.Goal g){

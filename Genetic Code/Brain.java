@@ -1,6 +1,7 @@
 public class Brain {
   public int step = 0;
   public AccelVector[] paths;
+  public int bestStep = 0;
 
   public Brain(int size){
     paths = new AccelVector[size];

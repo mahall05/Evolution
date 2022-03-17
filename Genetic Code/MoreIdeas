@@ -15,7 +15,8 @@
 4. 
 5.
 6. 
-7. 
+7. This worked successfully, but had a negative side effect. More mutation means they just get worse and worse. The mutations need to happen later on
+    rather than effecting their entire path
 8. 
 9. This works... kind of? Something isn't right with it though. It breaks everything, so not really
 10. 
