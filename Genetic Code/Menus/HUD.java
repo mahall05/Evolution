@@ -1,4 +1,7 @@
+package Menus;
 import java.awt.*;
+
+import Dots.Population;
 
 public class HUD {
     private Population pop;

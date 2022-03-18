@@ -1,4 +1,7 @@
+package Dots;
 import java.awt.Graphics;
+
+import More.Obstacles;
 
 public class Population {
     private Body[] bodies;

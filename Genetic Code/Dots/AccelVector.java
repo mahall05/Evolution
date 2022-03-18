@@ -1,3 +1,4 @@
+package Dots;
 public class AccelVector{
   public double xAcc;
   public double yAcc;

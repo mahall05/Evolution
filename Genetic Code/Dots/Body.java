@@ -1,4 +1,8 @@
+package Dots;
 import java.awt.*;
+
+import Core.Constants;
+import More.Obstacles;
 
 public class Body {
     int width = 7;
@@ -24,7 +28,7 @@ public class Body {
     this.brainSize = brainSize;
     brain = new Brain(brainSize);
 
-    path = new Path(Main.WIDTH/2+20, Main.HEIGHT-75);
+    path = new Path(Constants.WIDTH/2+20, Constants.HEIGHT-75);
     path.setVelLimit(7);
     start  = System.currentTimeMillis();
   }
@@ -37,7 +41,7 @@ public class Body {
           brain.bestStep = brain.step;
         }
 
-        if(path.x < 2 || path.y < 2 || path.x > Main.WIDTH-2 || path.y > Main.HEIGHT-45){ // Check for screen boundaries
+        if(path.x < 2 || path.y < 2 || path.x > Constants.WIDTH-2 || path.y > Constants.HEIGHT-45){ // Check for screen boundaries
           dead = true;
         }
         else if(checkCollision(obs.goal)){

@@ -1,3 +1,6 @@
+package Dots;
+import Core.Main;
+
 public class Brain {
   public int step = 0;
   public AccelVector[] paths;

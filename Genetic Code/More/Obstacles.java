@@ -1,5 +1,8 @@
+package More;
 import java.awt.Color;
 import java.awt.Graphics;
+
+import Core.Constants;
 
 public class Obstacles {
     public static int goalOffset = -300;
@@ -31,19 +34,19 @@ public class Obstacles {
 
     int goalXD = 50;
     int goalYD = 50;
-    public Goal goal = new Goal((Main.WIDTH/2)-(goalXD/2)+goalOffset, 10, goalXD, goalYD);
+    public Goal goal = new Goal((Constants.WIDTH/2)-(goalXD/2)+goalOffset, 10, goalXD, goalYD);
 
     public Obstacle[] obstacles = {
-        new Obstacle(Main.WIDTH/2 - goal.width/2 - 40 + goalOffset, 0, 20, 80),                          //   Walls around the goal
-        new Obstacle(Main.WIDTH/2 - goal.width/2 - 40 + goalOffset, goal.height + goal.y + 20, 40, 20),  //   Walls around the goal
-        new Obstacle(Main.WIDTH/2 + goal.width/2 + 20 + goalOffset, 0, 20, 80),                          //   Walls around the goal
-        new Obstacle(Main.WIDTH/2 + goal.width/2 + goalOffset, goal.height + goal.y + 20, 40, 20),       //   Walls around the goal
+        new Obstacle(Constants.WIDTH/2 - goal.width/2 - 40 + goalOffset, 0, 20, 80),                          //   Walls around the goal
+        new Obstacle(Constants.WIDTH/2 - goal.width/2 - 40 + goalOffset, goal.height + goal.y + 20, 40, 20),  //   Walls around the goal
+        new Obstacle(Constants.WIDTH/2 + goal.width/2 + 20 + goalOffset, 0, 20, 80),                          //   Walls around the goal
+        new Obstacle(Constants.WIDTH/2 + goal.width/2 + goalOffset, goal.height + goal.y + 20, 40, 20),       //   Walls around the goal
         new Obstacle(0, 200, 200, 20),
-        new Obstacle(150, 300, Main.WIDTH - 150, 20),
+        new Obstacle(150, 300, Constants.WIDTH - 150, 20),
         new Obstacle(0, 400, 300, 20),
-        //new Obstacle(Main.WIDTH/2 - 100, Main.HEIGHT - 140, 20, 100),
-        //new Obstacle(Main.WIDTH/2 - 100, Main.HEIGHT - 140, 200, 20),
-        new Obstacle(Main.WIDTH/2 - 100, Main.HEIGHT - 200, 200, 20),
+        //new Obstacle(Constants.WIDTH/2 - 100, Constants.HEIGHT - 140, 20, 100),
+        //new Obstacle(Constants.WIDTH/2 - 100, Constants.HEIGHT - 140, 200, 20),
+        new Obstacle(Constants.WIDTH/2 - 100, Constants.HEIGHT - 200, 200, 20),
     };
 
     public void tick(){

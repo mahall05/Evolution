@@ -1,4 +1,6 @@
+package Core;
 import javax.swing.JFrame;
+
 import java.awt.*;
 
 public class Window extends Canvas{

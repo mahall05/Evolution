@@ -1,19 +1,22 @@
+package Core;
 import java.util.Random;
 import javax.swing.JFrame;
 
+import Dots.Population;
+import Menus.HUD;
 import Menus.PauseMenu;
+import More.Obstacles;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 
 public class Main extends Canvas implements Runnable{
-    public static final int WIDTH = 1000, HEIGHT = WIDTH / 12 * 9;     // Set the size of the window
     public static final int POPULATION_SIZE = 5000;
 
     private Thread thread;  // The game runs on this thread
     private boolean running = false;
 
-    public static boolean paused = true;
+    public static boolean paused = false;
     //public int diff;
     
     // 0 = normal
@@ -39,8 +42,8 @@ public class Main extends Canvas implements Runnable{
         //test = new Body(500);
         hud = new HUD(pop);
         obs = new Obstacles();
-        pause = new PauseMenu(WIDTH, HEIGHT);
-        new Window(WIDTH, HEIGHT, "Evolution", this);
+        pause = new PauseMenu();
+        new Window(Constants.WIDTH, Constants.HEIGHT, "Evolution", this);
 
         r = new Random();
     }
@@ -136,7 +139,7 @@ public class Main extends Canvas implements Runnable{
                 // render HUD, and all bodies
                 //test.render(g);
                 g.setColor(Color.white);
-                g.fillRect(0, 0, WIDTH, HEIGHT);
+                g.fillRect(0, 0, Constants.WIDTH, Constants.HEIGHT);
                 obs.render(g);
                 hud.render(g);
                 if(!pop.allDotsDead()){
