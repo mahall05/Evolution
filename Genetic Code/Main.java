@@ -1,5 +1,8 @@
 import java.util.Random;
 import javax.swing.JFrame;
+
+import Menus.PauseMenu;
+
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 
@@ -10,7 +13,7 @@ public class Main extends Canvas implements Runnable{
     private Thread thread;  // The game runs on this thread
     private boolean running = false;
 
-    public static boolean paused = false;
+    public static boolean paused = true;
     //public int diff;
     
     // 0 = normal
@@ -19,7 +22,7 @@ public class Main extends Canvas implements Runnable{
     private Random r;
     private HUD hud;
     private Obstacles obs;
-    private Menu menu;
+    private PauseMenu pause;
 
     private Population pop;
     //private Body test;
@@ -36,7 +39,7 @@ public class Main extends Canvas implements Runnable{
         //test = new Body(500);
         hud = new HUD(pop);
         obs = new Obstacles();
-        menu = new Menu();
+        pause = new PauseMenu(WIDTH, HEIGHT);
         new Window(WIDTH, HEIGHT, "Evolution", this);
 
         r = new Random();
@@ -114,7 +117,7 @@ public class Main extends Canvas implements Runnable{
                 }
             }
             else{
-                menu.pause.tick();
+                pause.tick();
             }
         }
     }
@@ -143,7 +146,7 @@ public class Main extends Canvas implements Runnable{
             else{
                 //g.setColor(Color.black);
                 //g.fillRect(0, 0, WIDTH, HEIGHT);
-                menu.pause.render(g);
+                pause.render(g);
             }
 		}
 

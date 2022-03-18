@@ -18,7 +18,7 @@ public class Body {
 
   int brainSize;
 
-  double bestDist = 50000;
+  double bestDist = 5000000;
 
   public Body(int brainSize){
     this.brainSize = brainSize;
@@ -84,7 +84,7 @@ public class Body {
     if(reachedGoal){
       fitness = 1.0/16.0 + 10000.0/(double)(brain.step * brain.step); // Bodies that make it to the goal have the highest fitness score
     }else{
-      double distanceToGoal = Math.sqrt(((g.x - path.x) * (g.x - path.x)) + (g.y - path.y) * (g.y - path.y));
+      double distanceToGoal = detectDist(g);
       fitness = 1.0/(distanceToGoal * distanceToGoal);
     }
   }
