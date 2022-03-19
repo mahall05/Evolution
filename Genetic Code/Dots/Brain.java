@@ -17,6 +17,12 @@ public class Brain {
     }
   }
 
+  public void randomizeFromBest(){
+    for(int i = bestStep+1; i < paths.length - i; i++){
+      paths[i] = new AccelVector(Main.randomDouble(-3, 3), Main.randomDouble(-3, 3));
+    }
+  }
+
   public Brain clone(){
     Brain clone = new Brain(paths.length);
     for(int i = 0; i < paths.length; i++){

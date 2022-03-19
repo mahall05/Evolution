@@ -1,6 +1,7 @@
 package Dots;
 import java.awt.Graphics;
 
+import Core.Constants;
 import More.Obstacles;
 
 public class Population {
@@ -66,11 +67,19 @@ public class Population {
         setBestDot();
         calculateFitnessSum();
 
-        newBodies[0] = bodies[best].clone();
+        if(Constants.calcBestStep){
+            newBodies[0] = bodies[best].cloneFromBestStep();
+        }else{
+            newBodies[0] = bodies[best].clone();
+        }
+
         newBodies[0].isBest = true;
         for(int i = 1; i < newBodies.length; i++){
             Body parent = selectParent();
-
+            if(Constants.calcBestStep){
+                parent.brain.randomizeFromBest();
+            }
+            
             newBodies[i] = parent.clone();
         }
 

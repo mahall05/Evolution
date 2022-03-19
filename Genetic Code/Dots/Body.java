@@ -87,6 +87,8 @@ public class Body {
   public void calculateFitness(Obstacles.Goal g){
     if(reachedGoal){
       fitness = 1.0/16.0 + 10000.0/(double)(brain.step * brain.step); // Bodies that make it to the goal have the highest fitness score
+    }else if(Constants.calcBestStep){
+      fitness = 1.0/(bestDist * bestDist);
     }else{
       double distanceToGoal = detectDist(g);
       fitness = 1.0/(distanceToGoal * distanceToGoal);
@@ -95,6 +97,13 @@ public class Body {
 
   public Body clone(){
     Body clone = new Body(brainSize);
+    clone.brain = brain.clone();
+    return clone;
+  }
+
+  public Body cloneFromBestStep(){
+    Body clone = new Body(brainSize);
+    brain.randomizeFromBest();
     clone.brain = brain.clone();
     return clone;
   }
