@@ -8,6 +8,7 @@
 8. Have mutations only happen later rather than having a flat mutation rate
 9. Have a random chance to skip a step, and have that choice carry over to the next generation
 10. Directional movement/facing an angle
+11. Add the ability to export the current best path to pickup where I left off (Ryan's idea)
 
 1. 
 2. 

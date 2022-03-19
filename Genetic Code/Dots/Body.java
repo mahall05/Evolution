@@ -30,7 +30,17 @@ public class Body {
 
     path = new Path(Constants.WIDTH/2+20, Constants.HEIGHT-75);
     path.setVelLimit(7);
-    start  = System.currentTimeMillis();
+    start = System.currentTimeMillis();
+  }
+
+  public Body(AccelVector[] brain, int brainSize){
+    this.brainSize = brainSize;
+    this.brain = new Brain(brainSize);
+
+    path = new Path(Constants.WIDTH/2+20, Constants.HEIGHT-75);
+    path.setVelLimit(7);
+    start = System.currentTimeMillis();
+    this.brain.paths = brain;
   }
 
     public void tick(Obstacles obs){
@@ -46,6 +56,7 @@ public class Body {
         }
         else if(checkCollision(obs.goal)){
           reachedGoal = true;
+          Constants.ableToReachGoal = true;
           finish = System.currentTimeMillis();
           elapsedTime = finish - start;
         }
@@ -72,7 +83,7 @@ public class Body {
   
   public void render(Graphics g){
     if(isBest){
-      g.setColor(Color.red);
+      g.setColor(Color.green);
       g.fillOval(path.x, path.y, width+3, height+3);
     }else{
       g.setColor(Color.black);

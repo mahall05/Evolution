@@ -2,6 +2,7 @@ package Dots;
 import java.awt.Graphics;
 
 import Core.Constants;
+import Core.Main;
 import More.Obstacles;
 
 public class Population {
@@ -20,12 +21,17 @@ public class Population {
     public double mutationRate = 0.1;
     public double skipChance = 0.001;
 
-    public boolean ableToReachGoal = false;
-
     public Population(int size){
         bodies = new Body[size];
         for(int i = 0; i < size; i++){
             bodies[i] = new Body(brainSize);
+        }
+    }
+
+    public Population(AccelVector[] brain, int size){
+        bodies = new Body[size];
+        for(int i = 0; i < size; i++){
+            bodies[i] = new Body(brain, brainSize);
         }
     }
 
@@ -79,7 +85,7 @@ public class Population {
             if(Constants.calcBestStep){
                 parent.brain.randomizeFromBest();
             }
-            
+
             newBodies[i] = parent.clone();
         }
 
@@ -88,6 +94,7 @@ public class Population {
             System.out.println("Mutation rate: " + mutationRate);
         }
 
+        Main.save(newBodies[0].brain.paths);
         bodies = newBodies.clone();
         gen++;
     }
@@ -142,7 +149,7 @@ public class Population {
         bestScore = bodies[best].fitness;
         System.out.println("Old best: " + oldBestScore);
         System.out.println("New best: " + bestScore);
-        if(!ableToReachGoal){
+        if(!Constants.ableToReachGoal){
             withinScoreRange();
         }
         else{

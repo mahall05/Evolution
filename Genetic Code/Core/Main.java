@@ -2,6 +2,8 @@ package Core;
 import java.util.Random;
 import javax.swing.JFrame;
 
+import Dots.AccelVector;
+import Dots.Brain;
 import Dots.Population;
 import Menus.HUD;
 import Menus.PauseMenu;
@@ -9,6 +11,11 @@ import More.Obstacles;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 public class Main extends Canvas implements Runnable{
     public static final int POPULATION_SIZE = 5000;
@@ -18,6 +25,8 @@ public class Main extends Canvas implements Runnable{
 
     public static boolean paused = false;
     //public int diff;
+
+    public static AccelVector[] loadedBrain;
     
     // 0 = normal
     // 1 = hard
@@ -38,7 +47,11 @@ public class Main extends Canvas implements Runnable{
     public static STATE gameState = STATE.Game;
 
     public Main(){
-        pop = new Population(POPULATION_SIZE);
+        if(!Constants.load){
+            pop = new Population(POPULATION_SIZE);
+        }else{
+            pop = new Population(loadedBrain, POPULATION_SIZE);
+        }
         //test = new Body(500);
         hud = new HUD(pop);
         obs = new Obstacles();
@@ -181,4 +194,36 @@ public class Main extends Canvas implements Runnable{
 	public static void main(String args[]) {
 		new Main();
 	}
+
+    /* Save Brains */
+    public static void save(AccelVector[] brain){
+        try{
+            FileOutputStream fileOut = new FileOutputStream("brain.ser");//creates a card serial file in output stream
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);//routs an object into the output stream.
+            out.writeObject(brain);// we designate our array of cards to be routed
+            out.close();// closes the data paths
+            fileOut.close();// closes the data paths
+        }catch(IOException i){//exception stuff
+            i.printStackTrace();
+        }
+    }
+
+    public static void load(){
+        try{ // If this doesnt work throw an exception
+            FileInputStream fileIn = new FileInputStream("brain"+".ser");// Read serial file.
+            ObjectInputStream in = new ObjectInputStream(fileIn);// input the read file.
+            loadedBrain = (AccelVector[]) in.readObject();// allocate it to the object file already instanciated.
+            in.close();//closes the input stream.
+            fileIn.close();//closes the file data stream.
+        }catch(IOException i)//exception stuff
+        {
+            i.printStackTrace();
+            return;
+        }catch(ClassNotFoundException c)//more exception stuff
+        {
+            System.out.println("Error");
+            c.printStackTrace();
+            return;
+        }
+    }
 }

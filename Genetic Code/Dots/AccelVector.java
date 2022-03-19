@@ -1,5 +1,8 @@
 package Dots;
-public class AccelVector{
+
+import java.io.Serializable;
+
+public class AccelVector implements Serializable{
   public double xAcc;
   public double yAcc;
   
