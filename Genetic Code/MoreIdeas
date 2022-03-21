@@ -3,14 +3,15 @@
 3. Better tune the movement
 4. Make a baby with the top two dots, rather than just cloning the best
 5. Give the ability for the player to take over a dot??  (Use KeyInput class from eclipse)
-6. Have a system that encourages new thinking (mutations)
+6. Have a system that encourages new thinking (mutations) (more mutations with the same performance gets better fitness rating)
 7. If the dots are staying within the same score range for a while, increase the mutation rate
-8. Have mutations only happen later rather than having a flat mutation rate
+8. Have mutations only happen later rather than having a flat mutation rate (see number 12)
 9. Have a random chance to skip a step, and have that choice carry over to the next generation
 10. Directional movement/facing an angle
 11. Add the ability to export the current best path to pickup where I left off (Ryan's idea)
+12. Possibly, with a combination of number 1 and number 8, have mutations occur only after the best possible position?
 
-1. 
+1. This worked amazingly. The dots are much smarter now and get to the goal much faster
 2. 
 3. 
 4. 

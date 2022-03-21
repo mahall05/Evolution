@@ -28,11 +28,8 @@ public class Population {
         }
     }
 
-    public Population(AccelVector[] brain, int size){
-        bodies = new Body[size];
-        for(int i = 0; i < size; i++){
-            bodies[i] = new Body(brain, brainSize);
-        }
+    public Population(Body[] loadedBodies){
+        bodies = loadedBodies;
     }
 
     public void render(Graphics g){
@@ -94,8 +91,8 @@ public class Population {
             System.out.println("Mutation rate: " + mutationRate);
         }
 
-        Main.save(newBodies[0].brain.paths);
         bodies = newBodies.clone();
+        Main.save(bodies);
         gen++;
     }
 

@@ -1,10 +1,11 @@
 package Dots;
 import java.awt.*;
+import java.io.Serializable;
 
 import Core.Constants;
 import More.Obstacles;
 
-public class Body {
+public class Body implements Serializable{
     int width = 7;
     int height = 7;
   public Brain brain;
@@ -31,16 +32,6 @@ public class Body {
     path = new Path(Constants.WIDTH/2+20, Constants.HEIGHT-75);
     path.setVelLimit(7);
     start = System.currentTimeMillis();
-  }
-
-  public Body(AccelVector[] brain, int brainSize){
-    this.brainSize = brainSize;
-    this.brain = new Brain(brainSize);
-
-    path = new Path(Constants.WIDTH/2+20, Constants.HEIGHT-75);
-    path.setVelLimit(7);
-    start = System.currentTimeMillis();
-    this.brain.paths = brain;
   }
 
     public void tick(Obstacles obs){

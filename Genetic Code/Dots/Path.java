@@ -1,5 +1,8 @@
 package Dots;
-public class Path{
+
+import java.io.Serializable;
+
+public class Path implements Serializable{
   public double xVel;
   public double yVel;
 

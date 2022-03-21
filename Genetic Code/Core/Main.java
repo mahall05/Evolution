@@ -3,6 +3,7 @@ import java.util.Random;
 import javax.swing.JFrame;
 
 import Dots.AccelVector;
+import Dots.Body;
 import Dots.Brain;
 import Dots.Population;
 import Menus.HUD;
@@ -25,8 +26,6 @@ public class Main extends Canvas implements Runnable{
 
     public static boolean paused = false;
     //public int diff;
-
-    public static AccelVector[] loadedBrain;
     
     // 0 = normal
     // 1 = hard
@@ -38,6 +37,8 @@ public class Main extends Canvas implements Runnable{
 
     private Population pop;
     //private Body test;
+
+    private static Body[] loadedBodies;
     
     public enum STATE{
         Game,
@@ -50,7 +51,8 @@ public class Main extends Canvas implements Runnable{
         if(!Constants.load){
             pop = new Population(POPULATION_SIZE);
         }else{
-            pop = new Population(loadedBrain, POPULATION_SIZE);
+            load();
+            pop = new Population(loadedBodies);
         }
         //test = new Body(500);
         hud = new HUD(pop);
@@ -196,23 +198,30 @@ public class Main extends Canvas implements Runnable{
 	}
 
     /* Save Brains */
-    public static void save(AccelVector[] brain){
-        try{
-            FileOutputStream fileOut = new FileOutputStream("brain.ser");//creates a card serial file in output stream
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);//routs an object into the output stream.
-            out.writeObject(brain);// we designate our array of cards to be routed
-            out.close();// closes the data paths
-            fileOut.close();// closes the data paths
-        }catch(IOException i){//exception stuff
-            i.printStackTrace();
-        }
+    public static void save(Body[] bodies){
+        try
+		  {
+			 //Create file output stream
+			 FileOutputStream fileOutStr =  new FileOutputStream("bodies.ser"); 
+			//Create object output stream and write object
+			 ObjectOutputStream objOutStr = new ObjectOutputStream(fileOutStr);
+			 objOutStr.writeObject(bodies);
+			 //Close all streams
+			 objOutStr.close();
+			 fileOutStr.close();
+			 //System.out.printf("Serialized data is saved in a file - bodies.ser");
+		  }catch(IOException exp)
+		  {
+			  System.out.println("Error IOException");
+			  exp.printStackTrace();
+		  }
     }
 
     public static void load(){
         try{ // If this doesnt work throw an exception
-            FileInputStream fileIn = new FileInputStream("brain"+".ser");// Read serial file.
+            FileInputStream fileIn = new FileInputStream("bodies"+".ser");// Read serial file.
             ObjectInputStream in = new ObjectInputStream(fileIn);// input the read file.
-            loadedBrain = (AccelVector[]) in.readObject();// allocate it to the object file already instanciated.
+            loadedBodies = (Body[]) in.readObject();// allocate it to the object file already instanciated.
             in.close();//closes the input stream.
             fileIn.close();//closes the file data stream.
         }catch(IOException i)//exception stuff
@@ -225,5 +234,22 @@ public class Main extends Canvas implements Runnable{
             c.printStackTrace();
             return;
         }
+
+        try{
+			FileInputStream fileInStr = new FileInputStream("bodies.ser");
+		 	ObjectInputStream objInStr = new ObjectInputStream(fileInStr);
+		 	loadedBodies = (Body[]) objInStr.readObject();
+		 	objInStr.close();
+		 	fileInStr.close();
+			//System.out.println(", theBuilding has been deserialized");
+	  	}catch(IOException exp){
+		  	System.out.println("Error IOException");
+		 	exp.printStackTrace();
+		 	return;
+	  	}catch(ClassNotFoundException cexp){
+			System.out.println("BuildingGUI class not found");
+			cexp.printStackTrace();
+			return;
+	  	}
     }
 }

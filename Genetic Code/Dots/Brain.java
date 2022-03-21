@@ -1,7 +1,9 @@
 package Dots;
+import java.io.Serializable;
+
 import Core.Main;
 
-public class Brain {
+public class Brain implements Serializable{
   public int step = 0;
   public AccelVector[] paths;
   public int bestStep = 0;
