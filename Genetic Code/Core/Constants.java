@@ -7,5 +7,5 @@ public class Constants {
 
     public static boolean ableToReachGoal = false;
 
-    public static boolean load = true;
+    public static boolean load = false;
 }

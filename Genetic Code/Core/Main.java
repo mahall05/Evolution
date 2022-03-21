@@ -218,23 +218,6 @@ public class Main extends Canvas implements Runnable{
     }
 
     public static void load(){
-        try{ // If this doesnt work throw an exception
-            FileInputStream fileIn = new FileInputStream("bodies"+".ser");// Read serial file.
-            ObjectInputStream in = new ObjectInputStream(fileIn);// input the read file.
-            loadedBodies = (Body[]) in.readObject();// allocate it to the object file already instanciated.
-            in.close();//closes the input stream.
-            fileIn.close();//closes the file data stream.
-        }catch(IOException i)//exception stuff
-        {
-            i.printStackTrace();
-            return;
-        }catch(ClassNotFoundException c)//more exception stuff
-        {
-            System.out.println("Error");
-            c.printStackTrace();
-            return;
-        }
-
         try{
 			FileInputStream fileInStr = new FileInputStream("bodies.ser");
 		 	ObjectInputStream objInStr = new ObjectInputStream(fileInStr);
@@ -252,4 +235,5 @@ public class Main extends Canvas implements Runnable{
 			return;
 	  	}
     }
+    // try to read through this for help: https://stackoverflow.com/questions/54292078/saving-and-loading-an-object-in-java-that-isnt-a-string-or-int
 }
