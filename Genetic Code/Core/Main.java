@@ -8,6 +8,7 @@ import Dots.Brain;
 import Dots.Population;
 import Menus.HUD;
 import Menus.PauseMenu;
+import Menus.SettingsMenu;
 import Menus.StartMenu;
 import More.Obstacles;
 
@@ -35,7 +36,8 @@ public class Main extends Canvas implements Runnable{
     private HUD hud;
     private Obstacles obs;
     public PauseMenu pause;
-    public static StartMenu start;
+    public StartMenu start;
+    public SettingsMenu settingsMenu;
 
     private Population pop;
     //private Body test;
@@ -50,7 +52,7 @@ public class Main extends Canvas implements Runnable{
         Settings,
     };
     
-    public static STATE gameState = STATE.Start;
+    public STATE gameState = STATE.Settings;
 
     public Main(){
         if(!Constants.load){
@@ -64,6 +66,7 @@ public class Main extends Canvas implements Runnable{
         obs = new Obstacles();
         pause = new PauseMenu();
         start = new StartMenu();
+        settingsMenu = new SettingsMenu();
         window = new Window(Constants.WIDTH, Constants.HEIGHT, "Evolution", this);
 
         r = new Random();
@@ -145,6 +148,8 @@ public class Main extends Canvas implements Runnable{
             else{
                 pause.tick();
             }
+        }else if(gameState == STATE.Settings){
+            settingsMenu.tick();
         }
     }
 
@@ -176,7 +181,9 @@ public class Main extends Canvas implements Runnable{
                 //g.fillRect(0, 0, WIDTH, HEIGHT);
                 pause.render(g);
             }
-		}
+		}else if(gameState == STATE.Settings){
+            settingsMenu.render(g);
+        }
 
         g.dispose();
         bs.show();

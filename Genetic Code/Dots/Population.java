@@ -3,6 +3,7 @@ import java.awt.Graphics;
 
 import Core.Constants;
 import Core.Main;
+import Core.Settings;
 import More.Obstacles;
 
 public class Population {
@@ -70,7 +71,7 @@ public class Population {
         setBestDot();
         calculateFitnessSum();
 
-        if(Constants.calcBestStep){
+        if(Settings.calcBestStep){
             newBodies[0] = bodies[best].cloneFromBestStep();
         }else{
             newBodies[0] = bodies[best].clone();
@@ -79,7 +80,7 @@ public class Population {
         newBodies[0].isBest = true;
         for(int i = 1; i < newBodies.length; i++){
             Body parent = selectParent();
-            if(Constants.calcBestStep){
+            if(Settings.calcBestStep){
                 parent.brain.randomizeFromBest();
             }
 

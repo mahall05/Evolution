@@ -1,12 +1,12 @@
 package Menus;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
 
 import Core.Constants;
 
 public class StartMenu {
     public Button startButton;
     public Button loadButton;
+    public Button settingsButton;
 
     public StartMenu(){
         /* Start Button */
@@ -24,6 +24,14 @@ public class StartMenu {
         loadButton.setFontSize(50);
         loadButton.setLabel("Load");
         loadButton.offsetLabel(40, -10);
+
+        /* Settings Button */
+        settingsButton = new Button(loadButton.x, loadButton.y+loadButton.height+20, loadButton.width, loadButton.height);
+        settingsButton.setButtonColor(Color.white);
+        settingsButton.setFontColor(Color.red);
+        settingsButton.setFontSize(50);
+        settingsButton.setLabel("Settings");
+        settingsButton.offsetLabel(7, -10);
     }
 
     public void tick(){
@@ -33,12 +41,13 @@ public class StartMenu {
     public void render(Graphics g){
         g.setColor(Color.black);
         g.fillRect(0, 0, Constants.WIDTH, Constants.HEIGHT);
-        g.setFont(new Font(g.getFont().getFontName(), Font.PLAIN, 40));
+        g.setFont(new Font(g.getFont().getFontName(), Font.PLAIN, 100));
         g.setColor(Color.white);
-        g.drawString("Evolution", (Constants.WIDTH/2)-75, (Constants.HEIGHT/2)-100);
+        g.drawString("EVOLUTION", (Constants.WIDTH/2)-300, (Constants.HEIGHT/2)-150);
 
         startButton.render(g);
         loadButton.render(g);
+        settingsButton.render(g);
 
         /* Start Button */
         /*
@@ -51,5 +60,10 @@ public class StartMenu {
 
         /* Load Button */
 
+    }
+
+    public Button[] getButtons(){
+        Button[] buttons = {startButton, loadButton, settingsButton};
+        return buttons;
     }
 }

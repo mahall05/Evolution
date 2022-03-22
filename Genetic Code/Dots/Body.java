@@ -3,6 +3,7 @@ import java.awt.*;
 import java.io.Serializable;
 
 import Core.Constants;
+import Core.Settings;
 import More.Obstacles;
 
 public class Body implements Serializable{
@@ -89,7 +90,7 @@ public class Body implements Serializable{
   public void calculateFitness(Obstacles.Goal g){
     if(reachedGoal){
       fitness = 1.0/16.0 + 10000.0/(double)(brain.step * brain.step); // Bodies that make it to the goal have the highest fitness score
-    }else if(Constants.calcBestStep){
+    }else if(Settings.calcBestStep){
       fitness = 1.0/(bestDist * bestDist);
     }else{
       double distanceToGoal = detectDist(g);

@@ -17,6 +17,11 @@ public class Button{
 
     public String label;
 
+    public boolean bold = false;
+
+    private int mouseOffsetX = -7;
+    private int mouseOffsetY = -30;
+
     public Button(int x, int y, int width, int height){
         this.x = x;
         this.y = y;
@@ -32,13 +37,13 @@ public class Button{
         g.setColor(buttonColor);
         g.fillRect(x, y, width, height);
 
-        g.setFont(new Font(g.getFont().getFontName(), Font.PLAIN, fontSize));
+        g.setFont(new Font(g.getFont().getFontName(), (bold ? Font.BOLD : Font.PLAIN), fontSize));
         g.setColor(fontColor);
         g.drawString(label, x+3+xOffset, y+65+yOffset);
     }
 
     public boolean checkWithinButton(Point point){
-        if(point.getX() >= x && point.getX() <= x+width-1 && point.getY() >= y && point.getY() <= y+height-1){
+        if(point.getX()+mouseOffsetX >= x && point.getX()+mouseOffsetX <= x+width-1 && point.getY()+mouseOffsetY >= y && point.getY()+mouseOffsetY <= y+height-1){
             return true;
         }else{
             return false;
@@ -63,5 +68,8 @@ public class Button{
     }
     public void setFontColor(Color color){
         this.fontColor = color;
+    }
+    public void setBold(boolean b){
+        bold = b;
     }
 }

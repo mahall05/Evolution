@@ -1,0 +1,17 @@
+// TODO Auto-generated method stub
+        Point mousePos = Main.window.frame.getMousePosition();
+        System.out.println("Mouse click");
+
+        if(Main.gameState == STATE.Start){
+            Button start = Main.start.startButton;
+            Button load = Main.start.loadButton;
+            if(start.checkWithinButton(mousePos)){
+                Main.gameState = STATE.Game;
+            }else if(load.checkWithinButton(mousePos)){
+
+            }
+        }else if(Main.gameState == STATE.Game){
+
+        }else if(Main.gameState == STATE.Settings){
+
+        }
