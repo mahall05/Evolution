@@ -8,6 +8,7 @@ import Dots.Brain;
 import Dots.Population;
 import Menus.HUD;
 import Menus.PauseMenu;
+import Menus.StartMenu;
 import More.Obstacles;
 
 import java.awt.*;
@@ -33,19 +34,23 @@ public class Main extends Canvas implements Runnable{
     private Random r;
     private HUD hud;
     private Obstacles obs;
-    private PauseMenu pause;
+    public PauseMenu pause;
+    public static StartMenu start;
 
     private Population pop;
     //private Body test;
 
+    public static Window window;
+
     private static Body[] loadedBodies;
     
     public enum STATE{
+        Start,
         Game,
         Settings,
     };
     
-    public static STATE gameState = STATE.Game;
+    public static STATE gameState = STATE.Start;
 
     public Main(){
         if(!Constants.load){
@@ -58,7 +63,8 @@ public class Main extends Canvas implements Runnable{
         hud = new HUD(pop);
         obs = new Obstacles();
         pause = new PauseMenu();
-        new Window(Constants.WIDTH, Constants.HEIGHT, "Evolution", this);
+        start = new StartMenu();
+        window = new Window(Constants.WIDTH, Constants.HEIGHT, "Evolution", this);
 
         r = new Random();
     }
@@ -120,7 +126,9 @@ public class Main extends Canvas implements Runnable{
   */
 
     private void tick(){
-        if(gameState == STATE.Game){
+        if(gameState == STATE.Start){
+            start.tick();
+        }else if(gameState == STATE.Game){
             if(!paused){
                 //test.tick(obs);
                 obs.tick();
@@ -149,7 +157,9 @@ public class Main extends Canvas implements Runnable{
 
         Graphics g = bs.getDrawGraphics();
 
-        if(gameState == STATE.Game){
+        if(gameState == STATE.Start){
+            start.render(g);
+        }else if(gameState == STATE.Game){
             if(!paused){
                 // render HUD, and all bodies
                 //test.render(g);
