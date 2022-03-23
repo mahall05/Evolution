@@ -1,6 +1,7 @@
 package Core;
 import java.util.Random;
 import javax.swing.JFrame;
+import java.awt.*;
 
 import Dots.AccelVector;
 import Dots.Body;
@@ -14,7 +15,6 @@ import Menus.SettingsMenu;
 import Menus.StartMenu;
 import More.Obstacles;
 
-import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -63,7 +63,6 @@ public class Main extends Canvas implements Runnable{
     public Main(){
         pop = new Population(POPULATION_SIZE);
         //test = new Body(500);
-        hud = new HUD(pop);
         obs = new Obstacles();
 
         /* MENUS */
@@ -73,6 +72,7 @@ public class Main extends Canvas implements Runnable{
         loadMenu = new LoadMenu();
         saveMenu = new SaveMenu();
 
+        hud = new HUD(pop);
         window = new Window(Constants.WIDTH, Constants.HEIGHT, "Evolution", this);
 
         r = new Random();
@@ -141,7 +141,6 @@ public class Main extends Canvas implements Runnable{
             if(!paused){
                 //test.tick(obs);
                 obs.tick();
-                hud.tick();
                 if(pop.allDotsDead()){
                     pop.calculateFitness(obs);
                     pop.naturalSelection(obs);
@@ -150,6 +149,7 @@ public class Main extends Canvas implements Runnable{
                 }else{
                     pop.tick(obs);
                 }
+                hud.tick();
             }
             else{
                 pause.tick();
@@ -181,10 +181,10 @@ public class Main extends Canvas implements Runnable{
                 g.setColor(Color.white);
                 g.fillRect(0, 0, Constants.WIDTH, Constants.HEIGHT);
                 obs.render(g);
-                hud.render(g);
                 if(!pop.allDotsDead()){
                     pop.render(g);
                 }
+                hud.render(g);
             }else{
                 //g.setColor(Color.black);
                 //g.fillRect(0, 0, WIDTH, HEIGHT);

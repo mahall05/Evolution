@@ -1,5 +1,6 @@
 package Menus;
 import java.awt.*;
+import java.awt.MouseInfo;
 
 public class Button{
     public int x;
@@ -10,7 +11,8 @@ public class Button{
     public int xOffset = 0;
     public int yOffset = 0;
 
-    public Color buttonColor;
+    public Color buttonColor = Color.WHITE;
+    public Color hoverColor = Color.GRAY;
     public Color fontColor;
 
     public int fontSize;
@@ -34,7 +36,11 @@ public class Button{
     }
 
     public void render(Graphics g){
-        g.setColor(buttonColor);
+        if(checkWithinButton(MouseInfo.getPointerInfo().getLocation())){
+            g.setColor(hoverColor);
+        }else{
+            g.setColor(buttonColor);
+        }
         g.fillRect(x, y, width, height);
 
         g.setFont(new Font(g.getFont().getFontName(), (bold ? Font.BOLD : Font.PLAIN), fontSize));
@@ -76,10 +82,14 @@ public class Button{
         Button b = new Button(x, y, this.width, this.height);
         b.setButtonColor(this.buttonColor);
         b.setFontColor(this.fontColor);
+        b.setHoverColor(this.hoverColor);
         b.setFontSize(this.fontSize);
         b.setLabel(this.label);
         b.setBold(this.bold);
         b.offsetLabel(this.xOffset, this.yOffset);
         return b;
+    }
+    public void setHoverColor(Color color){
+        this.hoverColor = color;
     }
 }

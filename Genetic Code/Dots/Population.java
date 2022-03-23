@@ -18,6 +18,7 @@ public class Population {
     private int brainSize = 400;
 
     public int gen = 1;
+    public int loadedGen;
 
     private double fitnessSum;
     private int best;
@@ -44,6 +45,7 @@ public class Population {
             bodies[0].isBest = true;
         }else{
             bodies = new Body[size];
+            loadedGen = 0;
             for(int i = 0; i < size; i++){
                 bodies[i] = new Body(brainSize);
             }
@@ -206,7 +208,7 @@ public class Population {
     }
 
     public void save(int slot){
-        SaveInfo info = new SaveInfo(LocalDate.now(), gen, ableToReachGoal, bestSteps);
+        SaveInfo info = new SaveInfo(LocalDate.now(), gen+loadedGen, ableToReachGoal, bestSteps);
         try{
             // Create file output stream
             FileOutputStream fileOutStr = new FileOutputStream("Saves/brain"+slot+".ser");
@@ -235,6 +237,14 @@ public class Population {
             loadedBrain = (Brain) objInStr.readObject();
             objInStr.close();
             fileInStr.close();
+            FileInputStream infoFileInStr = new FileInputStream("Saves/info"+slot+".ser");
+            ObjectInputStream infoInStr = new ObjectInputStream(infoFileInStr);
+            SaveInfo info = (SaveInfo) infoInStr.readObject();
+            infoFileInStr.close();
+            infoInStr.close();
+            ableToReachGoal = info.ableToReachGoal;
+            loadedGen = info.generation;
+            bestSteps = info.steps;
         }catch(IOException  exp){
             System.out.println("Error IOException");
             exp.printStackTrace();
