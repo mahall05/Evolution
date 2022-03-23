@@ -1,5 +1,8 @@
 package Dots;
 import java.awt.Graphics;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 
 import Core.Constants;
 import Core.Main;
@@ -27,10 +30,6 @@ public class Population {
         for(int i = 0; i < size; i++){
             bodies[i] = new Body(brainSize);
         }
-    }
-
-    public Population(Body[] loadedBodies){
-        bodies = loadedBodies;
     }
 
     public void render(Graphics g){
@@ -93,7 +92,6 @@ public class Population {
         }
 
         bodies = newBodies.clone();
-        //Main.save(bodies);
         gen++;
     }
 
@@ -172,5 +170,26 @@ public class Population {
             System.out.println("Times: " + timesWithinScore);
             System.out.println("Mutation Rate: " + mutationRate);
         }
+    }
+
+    public void save(){
+        try{
+            // Create file output stream
+            FileOutputStream fileOutStr = new FileOutputStream("brain.ser");
+            // Create an object output stream and write object
+            ObjectOutputStream objOutStr = new ObjectOutputStream(fileOutStr);
+            objOutStr.writeObject(bodies[0].brain);
+            //Close all streams
+            objOutStr.close();
+            fileOutStr.close();
+            System.out.print("Serialized data is saved in a file - brain.ser");
+        }catch(IOException exp){
+            System.out.println("Error IOException");
+            exp.printStackTrace();
+        }
+    }
+
+    public void load(){
+
     }
 }
