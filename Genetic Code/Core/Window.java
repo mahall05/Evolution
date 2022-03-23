@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.event.MouseInputListener;
 
 import java.awt.*;
+import java.awt.event.*;
 
 public class Window extends Canvas{
 	public JFrame frame;
@@ -11,7 +12,7 @@ public class Window extends Canvas{
 	public Window(int width, int height, String title, Main game) {
         frame = new JFrame();
         MyMouseListener mouseClick = new MyMouseListener(game, this);
-        //MyMouseListener mml = new MyMouseListener();
+		KeyInput input = new KeyInput(game);
         frame = new JFrame(title);
 		
 		frame.setPreferredSize(new Dimension(width, height));
@@ -26,6 +27,11 @@ public class Window extends Canvas{
 		frame.add(game);
         frame.addMouseListener((MouseInputListener) mouseClick);
 		game.addMouseListener(mouseClick);
+		game.addKeyListener(input);
 		game.start();
+	}
+
+	public void closeWindow(){
+		frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 	}
 }

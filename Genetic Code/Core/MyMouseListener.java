@@ -33,15 +33,30 @@ public class MyMouseListener extends JComponent implements MouseInputListener{
                 // TODO load the brain
 
             }else if(settings.checkWithinButton(mousePos)){
-                // TODO open the settings menu
+                game.gameState = Main.STATE.Settings;
             }
 
         }else if(game.gameState == Main.STATE.Game){
+            Button settings = game.pause.settings;
+            Button save = game.pause.save;
+            Button quit = game.pause.quit;
+
+            if(Main.paused){
+                if(settings.checkWithinButton(mousePos)){
+                    game.gameState = Main.STATE.Settings;
+                }else if(save.checkWithinButton(mousePos)){
+                    // TODO save the current brains
+                }else if(quit.checkWithinButton(mousePos)){
+                    Main.window.closeWindow();
+                    game.stop();
+                }
+            }
 
         }else if(game.gameState == Main.STATE.Settings){
             Button fitnessToggle = game.settingsMenu.fitnessToggle;
             Button popPlus = game.settingsMenu.populationPlus;
             Button popMin = game.settingsMenu.populationMinus;
+            Button back = game.settingsMenu.back;
 
             if(fitnessToggle.checkWithinButton(mousePos)){
                 Settings.calcBestStep = !Settings.calcBestStep;
@@ -49,6 +64,13 @@ public class MyMouseListener extends JComponent implements MouseInputListener{
                 Settings.populationSize += 100;
             }else if(popMin.checkWithinButton(mousePos)){
                 Settings.populationSize -= 100;
+            }else if(back.checkWithinButton(mousePos)){
+                System.out.println("Back");
+                if(Main.paused){
+                    game.gameState = Main.STATE.Game;
+                }else{
+                    game.gameState = Main.STATE.Start;
+                }
             }
         }
     }

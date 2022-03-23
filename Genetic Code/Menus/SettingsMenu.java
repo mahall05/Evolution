@@ -5,11 +5,21 @@ import Core.Constants;
 import Core.Settings;
 
 public class SettingsMenu {
+    public Button back;
     public Button fitnessToggle;
     public Button populationPlus;
     public Button populationMinus;
 
     public SettingsMenu(){
+        /* Back Button */
+        back = new Button(40, Constants.HEIGHT-100, 75, 25);
+        back.setButtonColor(Color.white);
+        back.setFontColor(Color.red);
+        back.setFontSize(20);
+        back.setLabel("Back");
+        back.setBold(true);
+        back.offsetLabel(11, -45);
+
         /* Start Button */
         fitnessToggle = new Button(80, 40, 75, 30);
         fitnessToggle.setButtonColor(Color.white);
@@ -46,6 +56,9 @@ public class SettingsMenu {
         g.setColor(Color.black);
         g.fillRect(0, 0, Constants.WIDTH, Constants.HEIGHT);
 
+        /* Back Button */
+        back.render(g);
+
         /* Toggle Fitness Calc Mode */
         g.setFont(new Font(g.getFont().getFontName(), Font.BOLD, 16));
         g.setColor(Color.white);
@@ -59,12 +72,5 @@ public class SettingsMenu {
         populationPlus.render(g);
         g.drawString(""+Settings.populationSize, 100, 130);
         populationMinus.render(g);
-
-        //populationPlus.render(g);
-        /*
-        startButton.render(g);
-        loadButton.render(g);
-        settingsButton.render(g);
-        */
     }
 }

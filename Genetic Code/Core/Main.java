@@ -26,7 +26,7 @@ public class Main extends Canvas implements Runnable{
     private Thread thread;  // The game runs on this thread
     private boolean running = false;
 
-    public static boolean paused = false;
+    public static boolean paused = true;
     //public int diff;
     
     // 0 = normal
@@ -43,8 +43,6 @@ public class Main extends Canvas implements Runnable{
     //private Body test;
 
     public static Window window;
-
-    private static Body[] loadedBodies;
     
     public enum STATE{
         Start,
@@ -52,15 +50,10 @@ public class Main extends Canvas implements Runnable{
         Settings,
     };
     
-    public STATE gameState = STATE.Settings;
+    public STATE gameState = STATE.Game;
 
     public Main(){
-        if(!Constants.load){
-            pop = new Population(POPULATION_SIZE);
-        }else{
-            load();
-            pop = new Population(loadedBodies);
-        }
+        pop = new Population(POPULATION_SIZE);
         //test = new Body(500);
         hud = new HUD(pop);
         obs = new Obstacles();
@@ -175,8 +168,7 @@ public class Main extends Canvas implements Runnable{
                 if(!pop.allDotsDead()){
                     pop.render(g);
                 }
-            }
-            else{
+            }else{
                 //g.setColor(Color.black);
                 //g.fillRect(0, 0, WIDTH, HEIGHT);
                 pause.render(g);
@@ -214,43 +206,5 @@ public class Main extends Canvas implements Runnable{
 		new Main();
 	}
 
-    /* Save Brains */
-    public static void save(Body[] bodies){
-        try
-		  {
-			 //Create file output stream
-			 FileOutputStream fileOutStr =  new FileOutputStream("bodies.ser"); 
-			//Create object output stream and write object
-			 ObjectOutputStream objOutStr = new ObjectOutputStream(fileOutStr);
-			 objOutStr.writeObject(bodies);
-			 //Close all streams
-			 objOutStr.close();
-			 fileOutStr.close();
-			 //System.out.printf("Serialized data is saved in a file - bodies.ser");
-		  }catch(IOException exp)
-		  {
-			  System.out.println("Error IOException");
-			  exp.printStackTrace();
-		  }
-    }
-
-    public static void load(){
-        try{
-			FileInputStream fileInStr = new FileInputStream("bodies.ser");
-		 	ObjectInputStream objInStr = new ObjectInputStream(fileInStr);
-		 	loadedBodies = (Body[]) objInStr.readObject();
-		 	objInStr.close();
-		 	fileInStr.close();
-			//System.out.println(", theBuilding has been deserialized");
-	  	}catch(IOException exp){
-		  	System.out.println("Error IOException");
-		 	exp.printStackTrace();
-		 	return;
-	  	}catch(ClassNotFoundException cexp){
-			System.out.println("BuildingGUI class not found");
-			cexp.printStackTrace();
-			return;
-	  	}
-    }
     // try to read through this for help: https://stackoverflow.com/questions/54292078/saving-and-loading-an-object-in-java-that-isnt-a-string-or-int
 }

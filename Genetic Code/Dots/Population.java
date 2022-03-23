@@ -93,7 +93,7 @@ public class Population {
         }
 
         bodies = newBodies.clone();
-        Main.save(bodies);
+        //Main.save(bodies);
         gen++;
     }
 
