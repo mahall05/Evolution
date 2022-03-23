@@ -33,9 +33,9 @@ public class Population {
     private boolean ableToReachGoal = false;
     private int bestSteps = brainSize;
 
-    public Population(int size, boolean load){
+    public Population(int size, boolean load, int slot){
         if(load){
-            //load();
+            load(slot);
             bodies = new Body[size];
             for(int i = 0; i < size; i++){
                 bodies[i] = new Body(brainSize);
@@ -51,7 +51,7 @@ public class Population {
     }
 
     public Population(int size){
-        this(size, false);
+        this(size, false, 0);
     }
 
     public void render(Graphics g){

@@ -77,6 +77,34 @@ public class MyMouseListener extends JComponent implements MouseInputListener{
                     game.gameState = Main.STATE.Start;
                 }
             }
+        }else if(game.gameState == Main.STATE.Save){
+            Button[] slots = game.saveMenu.slots;
+            Button back = game.saveMenu.back;
+
+            if(back.checkWithinButton(mousePos)){
+                game.gameState = Main.STATE.Game;
+            }
+            else{
+                for(int i = 0; i < slots.length; i++){
+                    if(slots[i].checkWithinButton(mousePos)){
+                        game.pop.save(i+1);
+                    }
+                }
+            }
+        }else if(game.gameState == Main.STATE.Load){
+            Button[] slots = game.saveMenu.slots;
+            Button back = game.saveMenu.back;
+
+            if(back.checkWithinButton(mousePos)){
+                game.gameState = Main.STATE.Start;
+            }
+            else{
+                for(int i = 0; i < slots.length; i++){
+                    if(slots[i].checkWithinButton(mousePos)){
+                        game.load(i+1);
+                    }
+                }
+            }
         }
     }
 

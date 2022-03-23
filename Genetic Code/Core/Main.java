@@ -58,7 +58,7 @@ public class Main extends Canvas implements Runnable{
         Load,
     };
     
-    public STATE gameState = STATE.Save;
+    public STATE gameState = STATE.Start;
 
     public Main(){
         pop = new Population(POPULATION_SIZE);
@@ -223,8 +223,8 @@ public class Main extends Canvas implements Runnable{
         return rng;
     }
 
-    public void load(){
-        pop = new Population(POPULATION_SIZE, true);
+    public void load(int slot){
+        pop = new Population(POPULATION_SIZE, true, slot);
         gameState = STATE.Game;
     }
 	
