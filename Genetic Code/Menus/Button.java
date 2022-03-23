@@ -72,4 +72,14 @@ public class Button{
     public void setBold(boolean b){
         bold = b;
     }
+    public Button copy(int x, int y){
+        Button b = new Button(x, y, this.width, this.height);
+        b.setButtonColor(this.buttonColor);
+        b.setFontColor(this.fontColor);
+        b.setFontSize(this.fontSize);
+        b.setLabel(this.label);
+        b.setBold(this.bold);
+        b.offsetLabel(this.xOffset, this.yOffset);
+        return b;
+    }
 }

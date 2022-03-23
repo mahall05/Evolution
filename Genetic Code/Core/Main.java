@@ -7,7 +7,9 @@ import Dots.Body;
 import Dots.Brain;
 import Dots.Population;
 import Menus.HUD;
+import Menus.LoadMenu;
 import Menus.PauseMenu;
+import Menus.SaveMenu;
 import Menus.SettingsMenu;
 import Menus.StartMenu;
 import More.Obstacles;
@@ -35,9 +37,13 @@ public class Main extends Canvas implements Runnable{
     private Random r;
     private HUD hud;
     private Obstacles obs;
+
+    /* MENUS */
     public PauseMenu pause;
     public StartMenu start;
     public SettingsMenu settingsMenu;
+    public LoadMenu loadMenu;
+    public SaveMenu saveMenu;
 
     public Population pop;
     //private Body test;
@@ -48,18 +54,25 @@ public class Main extends Canvas implements Runnable{
         Start,
         Game,
         Settings,
+        Save,
+        Load,
     };
     
-    public STATE gameState = STATE.Start;
+    public STATE gameState = STATE.Save;
 
     public Main(){
         pop = new Population(POPULATION_SIZE);
         //test = new Body(500);
         hud = new HUD(pop);
         obs = new Obstacles();
+
+        /* MENUS */
         pause = new PauseMenu();
         start = new StartMenu();
         settingsMenu = new SettingsMenu();
+        loadMenu = new LoadMenu();
+        saveMenu = new SaveMenu();
+
         window = new Window(Constants.WIDTH, Constants.HEIGHT, "Evolution", this);
 
         r = new Random();
@@ -143,6 +156,10 @@ public class Main extends Canvas implements Runnable{
             }
         }else if(gameState == STATE.Settings){
             settingsMenu.tick();
+        }else if(gameState == STATE.Save){
+            saveMenu.tick();
+        }else if(gameState == STATE.Load){
+            loadMenu.tick();
         }
     }
 
@@ -175,6 +192,10 @@ public class Main extends Canvas implements Runnable{
             }
 		}else if(gameState == STATE.Settings){
             settingsMenu.render(g);
+        }else if(gameState == STATE.Save){
+            saveMenu.render(g);
+        }else if(gameState == STATE.Load){
+            loadMenu.render(g);
         }
 
         g.dispose();

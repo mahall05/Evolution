@@ -5,11 +5,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.time.LocalDate;
 
 import Core.Constants;
 import Core.Main;
 import Core.Settings;
 import More.Obstacles;
+import Saves.SaveInfo;
 
 public class Population {
     private Body[] bodies;
@@ -28,6 +30,8 @@ public class Population {
     public double skipChance = 0.001;
 
     private Brain loadedBrain;
+    private boolean ableToReachGoal = false;
+    private int bestSteps = brainSize;
 
     public Population(int size, boolean load){
         if(load){
@@ -109,6 +113,14 @@ public class Population {
             System.out.println("Mutation rate: " + mutationRate);
         }
 
+        if(!ableToReachGoal){
+            for(int i = 0; i < bodies.length; i++){
+                if(bodies[i].ableToReachGoal){
+                    ableToReachGoal = true;
+                }
+            }
+        }
+
         bodies = newBodies.clone();
         gen++;
     }
@@ -163,7 +175,7 @@ public class Population {
         bestScore = bodies[best].fitness;
         System.out.println("Old best: " + oldBestScore);
         System.out.println("New best: " + bestScore);
-        if(!Constants.ableToReachGoal){
+        if(!ableToReachGoal){
             withinScoreRange();
         }
         else{
@@ -174,6 +186,9 @@ public class Population {
         if(bodies[best].reachedGoal){
             brainSize = bodies[best].brain.step;
             System.out.println("Step: " + bodies[best].brain.step);
+            if(bodies[best].brain.step < bestSteps){
+                bestSteps = bodies[best].brain.step;
+            }
         }
     }
 
@@ -191,15 +206,21 @@ public class Population {
     }
 
     public void save(int slot){
+        SaveInfo info = new SaveInfo(LocalDate.now(), gen, ableToReachGoal, bestSteps);
         try{
             // Create file output stream
             FileOutputStream fileOutStr = new FileOutputStream("Saves/brain"+slot+".ser");
+            FileOutputStream infoFileOutStr = new FileOutputStream("Saves/info"+slot+".ser");
             // Create an object output stream and write object
             ObjectOutputStream objOutStr = new ObjectOutputStream(fileOutStr);
+            ObjectOutputStream infoOutStr = new ObjectOutputStream(infoFileOutStr);
             objOutStr.writeObject(bodies[0].brain);
+            infoOutStr.writeObject(info);
             //Close all streams
             objOutStr.close();
             fileOutStr.close();
+            infoFileOutStr.close();
+            infoOutStr.close();
             System.out.print("Serialized data is saved in a file - Saves/brain"+slot+".ser");
         }catch(IOException exp){
             System.out.println("Error IOException");

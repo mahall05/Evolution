@@ -1,8 +1,9 @@
 package Saves;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class SaveInfo {
+public class SaveInfo implements Serializable{
     public LocalDate date;
     public int generation;
     public boolean ableToReachGoal;

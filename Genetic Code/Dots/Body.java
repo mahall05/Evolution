@@ -24,6 +24,8 @@ public class Body implements Serializable{
 
   int brainSize;
 
+  boolean ableToReachGoal = false;
+
   double bestDist = 5000000;
 
   public Body(int brainSize){
@@ -48,7 +50,7 @@ public class Body implements Serializable{
         }
         else if(checkCollision(obs.goal)){
           reachedGoal = true;
-          Constants.ableToReachGoal = true;
+          ableToReachGoal = true;
           finish = System.currentTimeMillis();
           elapsedTime = finish - start;
         }

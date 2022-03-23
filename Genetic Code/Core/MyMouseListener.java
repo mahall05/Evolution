@@ -7,6 +7,8 @@ import javax.swing.event.MouseInputListener;
 
 import org.w3c.dom.events.MouseEvent;
 import Menus.Button;
+import Menus.LoadMenu;
+import Menus.SaveMenu;
 
 public class MyMouseListener extends JComponent implements MouseInputListener{
     private Main game;
@@ -30,8 +32,9 @@ public class MyMouseListener extends JComponent implements MouseInputListener{
             if(start.checkWithinButton(mousePos)){
                 game.gameState = Main.STATE.Game;
             }else if(load.checkWithinButton(mousePos)){
-                game.load();
-
+                game.loadMenu = new LoadMenu();
+                game.gameState = Main.STATE.Load;
+                //game.load();
             }else if(settings.checkWithinButton(mousePos)){
                 game.gameState = Main.STATE.Settings;
             }
@@ -45,8 +48,9 @@ public class MyMouseListener extends JComponent implements MouseInputListener{
                 if(settings.checkWithinButton(mousePos)){
                     game.gameState = Main.STATE.Settings;
                 }else if(save.checkWithinButton(mousePos)){
-                    // Open save screen
-                    //game.pop.save();
+                    game.saveMenu = new SaveMenu();
+                    game.gameState = Main.STATE.Save;
+                    // TODO Open save screen
                 }else if(quit.checkWithinButton(mousePos)){
                     Main.window.closeWindow();
                     game.stop();
