@@ -26,7 +26,7 @@ public class Main extends Canvas implements Runnable{
     private Thread thread;  // The game runs on this thread
     private boolean running = false;
 
-    public static boolean paused = true;
+    public static boolean paused = false;
     //public int diff;
     
     // 0 = normal
@@ -39,7 +39,7 @@ public class Main extends Canvas implements Runnable{
     public StartMenu start;
     public SettingsMenu settingsMenu;
 
-    private Population pop;
+    public Population pop;
     //private Body test;
 
     public static Window window;
@@ -50,7 +50,7 @@ public class Main extends Canvas implements Runnable{
         Settings,
     };
     
-    public STATE gameState = STATE.Game;
+    public STATE gameState = STATE.Start;
 
     public Main(){
         pop = new Population(POPULATION_SIZE);
@@ -200,6 +200,11 @@ public class Main extends Canvas implements Runnable{
         double range = maxInclusive - minInclusive + 1;
         double rng = (Math.random() * range) + minInclusive;
         return rng;
+    }
+
+    public void load(){
+        pop = new Population(POPULATION_SIZE, true);
+        gameState = STATE.Game;
     }
 	
 	public static void main(String args[]) {

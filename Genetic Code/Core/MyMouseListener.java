@@ -30,7 +30,7 @@ public class MyMouseListener extends JComponent implements MouseInputListener{
             if(start.checkWithinButton(mousePos)){
                 game.gameState = Main.STATE.Game;
             }else if(load.checkWithinButton(mousePos)){
-                // TODO load the brain
+                game.load();
 
             }else if(settings.checkWithinButton(mousePos)){
                 game.gameState = Main.STATE.Settings;
@@ -45,7 +45,8 @@ public class MyMouseListener extends JComponent implements MouseInputListener{
                 if(settings.checkWithinButton(mousePos)){
                     game.gameState = Main.STATE.Settings;
                 }else if(save.checkWithinButton(mousePos)){
-                    // TODO save the current brains
+                    // Open save screen
+                    //game.pop.save();
                 }else if(quit.checkWithinButton(mousePos)){
                     Main.window.closeWindow();
                     game.stop();

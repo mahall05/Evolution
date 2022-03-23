@@ -10,6 +10,9 @@
 10. Directional movement/facing an angle
 11. Add the ability to export the current best path to pickup where I left off (Ryan's idea)
 12. Possibly, with a combination of number 1 and number 8, have mutations occur only after the best possible position?
+13. Add more features to saving and loading. Save slots with information? This would require saving and loading menus
+
+14. Another version of this where the dots have to stay on a specified path and die if they leave it
 
 1. This worked amazingly. The dots are much smarter now and get to the goal much faster
 2. 
@@ -22,3 +25,4 @@
 8. 
 9. This works... kind of? Something isn't right with it though. It breaks everything, so not really
 10. 
+11. Saving and loading seems to work

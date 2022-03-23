@@ -1,7 +1,9 @@
 package Dots;
 import java.awt.Graphics;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import Core.Constants;
@@ -25,11 +27,27 @@ public class Population {
     public double mutationRate = 0.1;
     public double skipChance = 0.001;
 
-    public Population(int size){
-        bodies = new Body[size];
-        for(int i = 0; i < size; i++){
-            bodies[i] = new Body(brainSize);
+    private Brain loadedBrain;
+
+    public Population(int size, boolean load){
+        if(load){
+            //load();
+            bodies = new Body[size];
+            for(int i = 0; i < size; i++){
+                bodies[i] = new Body(brainSize);
+            }
+            bodies[0].brain = loadedBrain;
+            bodies[0].isBest = true;
+        }else{
+            bodies = new Body[size];
+            for(int i = 0; i < size; i++){
+                bodies[i] = new Body(brainSize);
+            }
         }
+    }
+
+    public Population(int size){
+        this(size, false);
     }
 
     public void render(Graphics g){
@@ -172,24 +190,39 @@ public class Population {
         }
     }
 
-    public void save(){
+    public void save(int slot){
         try{
             // Create file output stream
-            FileOutputStream fileOutStr = new FileOutputStream("brain.ser");
+            FileOutputStream fileOutStr = new FileOutputStream("Saves/brain"+slot+".ser");
             // Create an object output stream and write object
             ObjectOutputStream objOutStr = new ObjectOutputStream(fileOutStr);
             objOutStr.writeObject(bodies[0].brain);
             //Close all streams
             objOutStr.close();
             fileOutStr.close();
-            System.out.print("Serialized data is saved in a file - brain.ser");
+            System.out.print("Serialized data is saved in a file - Saves/brain"+slot+".ser");
         }catch(IOException exp){
             System.out.println("Error IOException");
             exp.printStackTrace();
         }
     }
 
-    public void load(){
-
+    public void load(int slot){
+        try{
+            FileInputStream fileInStr = new FileInputStream("Saves/brain"+slot+".ser");
+            ObjectInputStream objInStr = new ObjectInputStream(fileInStr);
+            loadedBrain = (Brain) objInStr.readObject();
+            objInStr.close();
+            fileInStr.close();
+        }catch(IOException  exp){
+            System.out.println("Error IOException");
+            exp.printStackTrace();
+            return;
+        }catch(ClassNotFoundException cexp){
+            System.out.println("Brian class not found");
+            cexp.printStackTrace();
+            return;
+        }
+        System.out.println(", brain has been deserialized");
     }
 }
