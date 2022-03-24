@@ -4,8 +4,11 @@ import Core.Constants;
 import Saves.SaveInfo;
 import java.awt.*;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 public class LoadMenu {
     public SaveInfo[] info = new SaveInfo[5];
@@ -80,6 +83,41 @@ public class LoadMenu {
             objInStr.close();
             fileInStr.close();
             return info;
+        }catch(FileNotFoundException exp){
+            return generate(slot);
+        }catch(IOException  exp){
+            System.out.println("Error IOException");
+            exp.printStackTrace();
+            return null;
+        }catch(ClassNotFoundException cexp){
+            System.out.println("Brian class not found");
+            cexp.printStackTrace();
+            return null;
+        }
+    }
+
+    private SaveInfo generate(int slot){
+        try{
+            SaveInfo genInfo = new SaveInfo(null, 0, false, 0);
+            FileOutputStream fileOutStr = new FileOutputStream("Saves/info"+slot+".ser");
+            ObjectOutputStream objOutStr = new ObjectOutputStream(fileOutStr);
+            objOutStr.writeObject(genInfo);
+            objOutStr.close();
+            fileOutStr.close();
+        }catch(IOException exp){
+            System.out.println("Error IOException");
+            exp.printStackTrace();
+        }
+
+        try{
+            FileInputStream fileInStr = new FileInputStream("Saves/info"+slot+".ser");
+            ObjectInputStream objInStr = new ObjectInputStream(fileInStr);
+            SaveInfo info = (SaveInfo) objInStr.readObject();
+            objInStr.close();
+            fileInStr.close();
+            return info;
+        }catch(FileNotFoundException exp){
+            return generate(slot);
         }catch(IOException  exp){
             System.out.println("Error IOException");
             exp.printStackTrace();

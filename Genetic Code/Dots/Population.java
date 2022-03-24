@@ -207,6 +207,12 @@ public class Population {
         }
     }
 
+    public void printPath(){
+        for(int i = 0; i < brainSize; i++){
+            System.out.println(bodies[0].brain.paths[i].xAcc + ", " + bodies[0].brain.paths[i].yAcc);
+        }
+    }
+
     public void save(int slot){
         SaveInfo info = new SaveInfo(LocalDate.now(), gen+loadedGen, ableToReachGoal, bestSteps);
         try{
