@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import Core.Constants;
 import Core.Main;
 import Core.Settings;
-import More.Obstacles;
+import Maps.Obstacles;
 import Saves.SaveInfo;
 
 public class Population {

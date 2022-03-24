@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import Core.Constants;
 import Core.Settings;
-import More.Obstacles;
+import Maps.Obstacles;
 
 public class Body implements Serializable{
     int width = 7;

@@ -13,7 +13,7 @@ import Menus.PauseMenu;
 import Menus.SaveMenu;
 import Menus.SettingsMenu;
 import Menus.StartMenu;
-import More.Obstacles;
+import Maps.OriginalMap;
 
 import java.awt.image.BufferStrategy;
 import java.io.FileInputStream;
@@ -36,7 +36,11 @@ public class Main extends Canvas implements Runnable{
 
     private Random r;
     private HUD hud;
-    private Obstacles obs;
+
+    /* MAPS */
+    private OriginalMap map1;
+
+    private Map activeMap;
 
     /* MENUS */
     public PauseMenu pause;
@@ -61,9 +65,10 @@ public class Main extends Canvas implements Runnable{
     public STATE gameState = STATE.Start;
 
     public Main(){
-        pop = new Population(POPULATION_SIZE);
-        //test = new Body(500);
-        obs = new Obstacles();
+        /* MAPS */
+        map1 = new OriginalMap();
+
+
 
         /* MENUS */
         pause = new PauseMenu();
@@ -71,6 +76,8 @@ public class Main extends Canvas implements Runnable{
         settingsMenu = new SettingsMenu();
         loadMenu = new LoadMenu();
         saveMenu = new SaveMenu();
+
+        pop = new Population(POPULATION_SIZE);
 
         hud = new HUD(pop);
         window = new Window(Constants.WIDTH, Constants.HEIGHT, "Evolution", this);
@@ -140,14 +147,14 @@ public class Main extends Canvas implements Runnable{
         }else if(gameState == STATE.Game){
             if(!paused){
                 //test.tick(obs);
-                obs.tick();
+                map1.tick();
                 if(pop.allDotsDead()){
-                    pop.calculateFitness(obs);
-                    pop.naturalSelection(obs);
+                    pop.calculateFitness(map1);
+                    pop.naturalSelection(map1);
                     pop.mutate();
                     //pop.skipSteps();
                 }else{
-                    pop.tick(obs);
+                    pop.tick(map1);
                 }
                 hud.tick();
             }
