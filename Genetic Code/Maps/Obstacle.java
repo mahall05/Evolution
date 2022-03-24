@@ -9,6 +9,7 @@ public class Obstacle{
     public int y = 0;
     public int width = 0;
     public int height = 0;
+    
     public Obstacle(int x, int y, int width, int height){
         this.x = x;
         this.y = y;

@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import Core.Constants;
 import Core.Main;
 import Core.Settings;
-import Maps.Obstacles;
+import Maps.OriginalMap;
 import Saves.SaveInfo;
 
 public class Population {
@@ -63,20 +63,20 @@ public class Population {
         bodies[0].render(g);
     }
 
-    public void tick(Obstacles obs){
+    public void tick(OriginalMap map){
         for(int i = 0; i < bodies.length; i++){
             if(bodies[i].brain.step > brainSize){
                 bodies[i].dead = true;
             }
             else{
-                bodies[i].tick(obs);
+                bodies[i].tick(map);
             }
         }
     }
 
-    public void calculateFitness(Obstacles obs){
+    public void calculateFitness(OriginalMap map){
         for(int i = 0; i < bodies.length; i++){
-            bodies[i].calculateFitness(obs.goal);
+            bodies[i].calculateFitness(map.goal);
         }
     }
 
@@ -89,7 +89,7 @@ public class Population {
         return true; // If it never returns false, then they are all dead so return true
     }
 
-    public void naturalSelection(Obstacles obs){
+    public void naturalSelection(OriginalMap map){
         Body[] newBodies = new Body[bodies.length];
         setBestDot();
         calculateFitnessSum();

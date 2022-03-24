@@ -1,4 +1,5 @@
 package Core;
+import java.util.Map;
 import java.util.Random;
 import javax.swing.JFrame;
 import java.awt.*;
@@ -67,8 +68,6 @@ public class Main extends Canvas implements Runnable{
     public Main(){
         /* MAPS */
         map1 = new OriginalMap();
-
-
 
         /* MENUS */
         pause = new PauseMenu();
@@ -187,7 +186,7 @@ public class Main extends Canvas implements Runnable{
                 //test.render(g);
                 g.setColor(Color.white);
                 g.fillRect(0, 0, Constants.WIDTH, Constants.HEIGHT);
-                obs.render(g);
+                map1.render(g);
                 if(!pop.allDotsDead()){
                     pop.render(g);
                 }

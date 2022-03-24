@@ -5,10 +5,12 @@ import java.awt.Graphics;
 import Core.Constants;
 
 public class OriginalMap extends Map{
-    public static int goalOffset = -300;
-    int goalXD = 50;
-    int goalYD = 50;
-    public Goal goal = new Goal((Constants.WIDTH/2)-(goalXD/2)+goalOffset, 10, goalXD, goalYD);
+    public OriginalMap(){
+        goalOffset = -300;
+        goalXD = 50;
+        goalYD = 50;
+        goal = new Goal((Constants.WIDTH/2)-(goalXD/2)+goalOffset, 10, goalXD, goalYD);
+    }
 
     public Obstacle[] obstacles = {
         new Obstacle(Constants.WIDTH/2 - goal.width/2 - 40 + goalOffset, 0, 20, 80),                          //   Walls around the goal
