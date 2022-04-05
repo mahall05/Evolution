@@ -4,20 +4,153 @@ import javax.swing.event.MouseInputListener;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferStrategy;
 
 public class Main extends Canvas implements Runnable{
 
-    public static void main(String[] args){
-        
+    private Thread thread; // The game runs on this thread
+    private boolean running = false;
+
+    private Random r;
+    private HUD hud;
+    private FileHandler handler;
+
+    /* MENUS */
+    public PauseMenu pause;
+    public StartMenu start;
+    public SettingsMenu settingsMenu;
+    public LoadMenu loadMenu;
+    public SaveMenu saveMenu;
+
+    public Population pop;
+
+    private Map activeMap;
+    public static Window window;
+
+    public enum STATE{
+        Start,
+        Running,
+        Paused,
+        Settings,
+        Save,
+        Load,
+    };
+
+    public STATE gameState;
+
+    public Main(){
+        /* MENUS */
+        start = new StartMenu();
+        pause = new PauseMenu();
+        settingsMenu = new SettingsMenu();
+        loadMenu = new LoadMenu();
+        saveMenu = new SaveMenu();
+
+        handler = new FileHandler();
+
+        window = new Window(Constants.WIDTH, Constants.HEIGHT, "Evolution", this);
+
+        r = new Random();
     }
 
+    private void tick(){
+        if(gameState == STATE.Start){
+            start.tick();
+        }else if(gameState == STATE.Game){
+            activeMap.tick();
+            if(pop.allDotsDead()){
+                pop.calculateFitness(activeMap);
+                pop.naturalSelection(activeMap);
+                pop.mutate();
+            }else{
+                pop.tick(activeMap);
+            }
+            hud.tick();
+        }else if(gameState == STATE.Paused){
+            pause.tick();
+        }else if(gameState == STATE.Settings){
+            settingsMenu.tick();
+        }else if(gameState == STATE.Save){
+            saveMenu.tick();
+        }else if(gameState == STATE.Load){
+            loadMenu.tick();
+        }
+    }
+
+    private void render(){
+        BufferStrategy bs = this.getBufferStrategy();
+        if(bs == null){
+            this.createBufferStrategy(3);
+            return;
+        }
+
+        Graphics g = bs.getDrawGraphics();
+
+        if(gameState == STATE.Start){
+            start.render(g);
+        }else if(gameState == STATE.Game){
+            g.setColor(Color.white);
+            g.fillRect(0, 0, Constants.WIDTH, Constants.HEIGHT);
+            activeMap.render(g);
+            if(!pop.allDotsDead()){
+                pop.render(g);
+            }
+            hud.render(g);
+        }else if(gameState == STATE.Paused){
+            pause.render(g);
+        }else if(gameState == STATE.Settings){
+            settingsMenu.render(g);
+        }else if(gameState == STATE.Save){
+            saveMenu.render(g);
+        }else if(gameState == STATE.Load){
+            loadMenu.render(g);
+        }
+
+        g.dispose();
+        bs.show();
+    }
+
+
+
+
     @Override
-    public void run() {
-        // TODO Auto-generated method stub
-        
+    public void run() { // The game loop
+        this.requestFocus();
+        long lastTime = System.nanoTime();
+        double amountOfTicks = 60.0;
+        double ns = 1000000000 / amountOfTicks;
+        double delta = 0;
+        long timer = System.currentTimeMillis();
+        int frames = 0;
+        while(running){
+            long now = System.nanoTime();
+            delta += (now - lastTime) / ns;
+            lastTime = now;
+            while(delta >= 1){
+                tick();
+                delta--;
+            }
+            if(running){
+                render();
+            }
+            frames++;
+
+            if(System.currentTimeMillis() - timer > 1000){
+                timer += 1000;
+                frames = 0;
+            }
+        }
     }
     
     public void start(){
+        thread = new Thread(this);
+        thread.start();
+        running = true;
 
+        gameState = STATE.Start;
+    }
+
+    public static void main(String[] args){
+        new Main();
     }
 }
