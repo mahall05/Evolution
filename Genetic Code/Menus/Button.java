@@ -13,6 +13,7 @@ public class Button{
 
     public Color buttonColor = Color.WHITE;
     public Color hoverColor = Color.GRAY;
+    public Color color;
     public Color fontColor;
 
     public int fontSize;
@@ -36,11 +37,7 @@ public class Button{
     }
 
     public void render(Graphics g){
-        if(checkWithinButton(MouseInfo.getPointerInfo().getLocation())){
-            g.setColor(hoverColor);
-        }else{
-            g.setColor(buttonColor);
-        }
+        g.setColor(color);
         g.fillRect(x, y, width, height);
 
         g.setFont(new Font(g.getFont().getFontName(), (bold ? Font.BOLD : Font.PLAIN), fontSize));

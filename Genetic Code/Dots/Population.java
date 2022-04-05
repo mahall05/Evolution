@@ -10,8 +10,8 @@ import java.time.LocalDate;
 import Core.Constants;
 import Core.Main;
 import Core.Settings;
-import Maps.OriginalMap;
 import Saves.SaveInfo;
+import Maps.*;
 
 public class Population {
     private Body[] bodies;
@@ -34,6 +34,7 @@ public class Population {
     private boolean ableToReachGoal = false;
     private int bestSteps = brainSize;
 
+    /*
     public Population(int size, boolean load, int slot){
         if(load){
             load(slot);
@@ -51,9 +52,18 @@ public class Population {
             }
         }
     }
+    */
+
+    public Population(Brain brain, int size){
+        
+    }
 
     public Population(int size){
-        this(size, false, 0);
+        bodies = new Body[size];
+        loadedGen = 0;
+        for(int i = 0; i < size; i++){
+            bodies[i] = new Body(brainSize);
+        }
     }
 
     public void render(Graphics g){
@@ -63,7 +73,7 @@ public class Population {
         bodies[0].render(g);
     }
 
-    public void tick(OriginalMap map){
+    public void tick(Map map){
         for(int i = 0; i < bodies.length; i++){
             if(bodies[i].brain.step > brainSize){
                 bodies[i].dead = true;
@@ -74,7 +84,7 @@ public class Population {
         }
     }
 
-    public void calculateFitness(OriginalMap map){
+    public void calculateFitness(Map map){
         for(int i = 0; i < bodies.length; i++){
             bodies[i].calculateFitness(map.goal);
         }
@@ -89,7 +99,7 @@ public class Population {
         return true; // If it never returns false, then they are all dead so return true
     }
 
-    public void naturalSelection(OriginalMap map){
+    public void naturalSelection(Map map){
         Body[] newBodies = new Body[bodies.length];
         setBestDot();
         calculateFitnessSum();

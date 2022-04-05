@@ -1,5 +1,4 @@
 package Core;
-import java.util.Map;
 import java.util.Random;
 import javax.swing.JFrame;
 import java.awt.*;
@@ -14,7 +13,8 @@ import Menus.PauseMenu;
 import Menus.SaveMenu;
 import Menus.SettingsMenu;
 import Menus.StartMenu;
-import Maps.OriginalMap;
+import Maps.Maps;
+import Maps.Map;
 
 import java.awt.image.BufferStrategy;
 import java.io.FileInputStream;
@@ -37,9 +37,10 @@ public class Main extends Canvas implements Runnable{
 
     private Random r;
     private HUD hud;
+    private FileHandler handler;
 
     /* MAPS */
-    private OriginalMap map1;
+    private Map map1;
 
     private Map activeMap;
 
@@ -67,18 +68,19 @@ public class Main extends Canvas implements Runnable{
 
     public Main(){
         /* MAPS */
-        map1 = new OriginalMap();
+        map1 = Maps.originalMap;
+
+        activeMap = map1;
 
         /* MENUS */
-        pause = new PauseMenu();
         start = new StartMenu();
+        pause = new PauseMenu();
         settingsMenu = new SettingsMenu();
         loadMenu = new LoadMenu();
         saveMenu = new SaveMenu();
 
-        pop = new Population(POPULATION_SIZE);
+        handler = new FileHandler();
 
-        hud = new HUD(pop);
         window = new Window(Constants.WIDTH, Constants.HEIGHT, "Evolution", this);
 
         r = new Random();
@@ -145,15 +147,14 @@ public class Main extends Canvas implements Runnable{
             start.tick();
         }else if(gameState == STATE.Game){
             if(!paused){
-                //test.tick(obs);
-                map1.tick();
+                activeMap.tick();
                 if(pop.allDotsDead()){
-                    pop.calculateFitness(map1);
-                    pop.naturalSelection(map1);
+                    pop.calculateFitness(activeMap);
+                    pop.naturalSelection(activeMap);
                     pop.mutate();
                     //pop.skipSteps();
                 }else{
-                    pop.tick(map1);
+                    pop.tick(activeMap);
                 }
                 hud.tick();
             }
@@ -206,6 +207,16 @@ public class Main extends Canvas implements Runnable{
 
         g.dispose();
         bs.show();
+    }
+
+    public void newSimulation(){
+        pop = new Population(POPULATION_SIZE);
+        hud = new HUD(pop);
+        gameState = STATE.Game;
+    }
+
+    public static void resumeSimulation(){
+
     }
 
     public static float clamp(float var, float min, int max){

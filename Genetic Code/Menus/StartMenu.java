@@ -1,5 +1,6 @@
 package Menus;
 import java.awt.*;
+import java.awt.MouseInfo;
 
 import Core.Constants;
 
@@ -36,6 +37,9 @@ public class StartMenu {
 
     public void tick(){
         //TODO check if button is clicked
+        startButton.color = startButton.checkWithinButton(MouseInfo.getPointerInfo().getLocation()) ? startButton.hoverColor : startButton.buttonColor;
+        loadButton.color = loadButton.checkWithinButton(MouseInfo.getPointerInfo().getLocation()) ? loadButton.hoverColor : loadButton.buttonColor;
+        settingsButton.color = settingsButton.checkWithinButton(MouseInfo.getPointerInfo().getLocation()) ? settingsButton.hoverColor : settingsButton.buttonColor;
     }
 
     public void render(Graphics g){

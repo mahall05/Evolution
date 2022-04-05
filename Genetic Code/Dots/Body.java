@@ -37,7 +37,7 @@ public class Body implements Serializable{
     start = System.currentTimeMillis();
   }
 
-    public void tick(OriginalMap map){
+    public void tick(Map map){
       if(!dead && !reachedGoal){
         move();
         if(detectDist(map.goal) < bestDist){
