@@ -6,6 +6,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferStrategy;
 
+import Menus.*;
+
 public class Main extends Canvas implements Runnable{
 
     private Thread thread; // The game runs on this thread
