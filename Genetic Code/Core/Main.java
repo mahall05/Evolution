@@ -8,6 +8,7 @@ import Maps.Map;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferStrategy;
+import java.io.IOException;
 
 import Menus.*;
 
@@ -17,7 +18,6 @@ public class Main extends Canvas implements Runnable{
     private boolean running = false;
 
     private HUD hud;
-    private FileHandler handler;
 
     /* MENUS */
     public PauseMenu pause;
@@ -25,6 +25,7 @@ public class Main extends Canvas implements Runnable{
     public SettingsMenu settingsMenu;
     public LoadMenu loadMenu;
     public SaveMenu saveMenu;
+    public MapsMenu mapsMenu;
 
     public Population pop;
 
@@ -38,19 +39,19 @@ public class Main extends Canvas implements Runnable{
         Settings,
         Save,
         Load,
+        MapSelection,
     };
 
     public STATE gameState;
 
-    public Main(){
+    public Main() throws IOException{
         /* MENUS */
         start = new StartMenu();
         pause = new PauseMenu();
         settingsMenu = new SettingsMenu();
         loadMenu = new LoadMenu();
         saveMenu = new SaveMenu();
-
-        handler = new FileHandler();
+        mapsMenu = new MapsMenu();
 
         window = new Window(Constants.WIDTH, Constants.HEIGHT, "Evolution", this);
     }
@@ -76,6 +77,8 @@ public class Main extends Canvas implements Runnable{
             saveMenu.tick();
         }else if(gameState == STATE.Load){
             loadMenu.tick();
+        }else if(gameState == STATE.MapSelection){
+            mapsMenu.tick();
         }
     }
 
@@ -106,6 +109,8 @@ public class Main extends Canvas implements Runnable{
             saveMenu.render(g);
         }else if(gameState == STATE.Load){
             loadMenu.render(g);
+        }else if(gameState == STATE.MapSelection){
+            mapsMenu.render(g);
         }
 
         g.dispose();
@@ -149,10 +154,10 @@ public class Main extends Canvas implements Runnable{
         thread.start();
         running = true;
 
-        gameState = STATE.Start;
+        gameState = STATE.MapSelection;
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws IOException{
         new Main();
     }
 }
