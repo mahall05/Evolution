@@ -3,7 +3,7 @@ package Menus;
 import Core.Constants;
 import java.awt.*;
 
-public class StartMenu {
+public class StartMenu{
     public Button[] buttons = new Button[3];
     private String[] buttonLabels = {"Start", "Load", "Settings"};
     private int[][] offsets = {{45, -10}, {40, -10}, {7, -10}};

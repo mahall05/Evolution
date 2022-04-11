@@ -21,4 +21,11 @@ public class SettingsMenu {
             buttons[i].offsetLabel(offsets[i][0], offsets[i][1]);
         }
     }
+
+    public void tick(){
+
+    }
+    public void render(Graphics g){
+        
+    }
 }

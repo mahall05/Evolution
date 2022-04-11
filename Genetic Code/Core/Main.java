@@ -2,6 +2,9 @@ package Core;
 import javax.swing.JFrame;
 import javax.swing.event.MouseInputListener;
 
+import Dots.Population;
+import Maps.Map;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferStrategy;
@@ -13,7 +16,6 @@ public class Main extends Canvas implements Runnable{
     private Thread thread; // The game runs on this thread
     private boolean running = false;
 
-    private Random r;
     private HUD hud;
     private FileHandler handler;
 
@@ -51,14 +53,12 @@ public class Main extends Canvas implements Runnable{
         handler = new FileHandler();
 
         window = new Window(Constants.WIDTH, Constants.HEIGHT, "Evolution", this);
-
-        r = new Random();
     }
 
     private void tick(){
         if(gameState == STATE.Start){
             start.tick();
-        }else if(gameState == STATE.Game){
+        }else if(gameState == STATE.Running){
             activeMap.tick();
             if(pop.allDotsDead()){
                 pop.calculateFitness(activeMap);
@@ -90,7 +90,7 @@ public class Main extends Canvas implements Runnable{
 
         if(gameState == STATE.Start){
             start.render(g);
-        }else if(gameState == STATE.Game){
+        }else if(gameState == STATE.Running){
             g.setColor(Color.white);
             g.fillRect(0, 0, Constants.WIDTH, Constants.HEIGHT);
             activeMap.render(g);

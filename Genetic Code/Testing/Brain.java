@@ -7,7 +7,7 @@ public class Brain implements Serializable {
 
     public Brain(){
         for(int i = 0; i < paths.length; i++){
-            paths[i] = new AccelVector(i*i, i*i);
+            paths[i] = new AccelVector(i*i, i+2);
         }
     }
 
