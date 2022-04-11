@@ -1,4 +1,4 @@
-package Core;
+package Testing;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,24 +9,23 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Scanner;
 
-/* TODO testing */
-import Testing.Brain;
+import Testing.AccelVector;
 
 public class FileHandler {
-    public static void save(Brain brain, int brainNum){
-        try (FileOutputStream fos = new FileOutputStream("brain"+brainNum+".ser"); ObjectOutputStream oos = new ObjectOutputStream(fos);) {
-            oos.writeObject(brain);
+    public static void save(AccelVector[] paths, int brainNum){
+        try (FileOutputStream fos = new FileOutputStream("Exports/Brain"+brainNum+"/paths"+brainNum+".ser"); ObjectOutputStream oos = new ObjectOutputStream(fos);) {
+            oos.writeObject(paths);
         }catch (IOException ioe){
             System.out.println("Problem saving Brain"+brainNum);
             ioe.printStackTrace();
         }
     }
 
-    public static Brain load(int brainNum){
-        Brain loadedBrain = new Brain();
+    public static AccelVector[] load(int brainNum){
+        AccelVector[] loadedPaths = new AccelVector[2];
 
-        try (FileInputStream fis = new FileInputStream("brain"+brainNum+".ser"); ObjectInputStream ois = new ObjectInputStream(fis);) {
-            loadedBrain = (Brain) ois.readObject();
+        try (FileInputStream fis = new FileInputStream("Exports/Brain"+brainNum+"/paths"+brainNum+".ser"); ObjectInputStream ois = new ObjectInputStream(fis);) {
+            loadedPaths = (AccelVector[]) ois.readObject();
         } catch (IOException ioe){
             System.out.println("Error reading file");
             ioe.printStackTrace();
@@ -34,6 +33,6 @@ public class FileHandler {
             System.out.println("Error loading brains");
             cnfe.printStackTrace();
         }
-        return loadedBrain;
+        return loadedPaths;
     }
 }
