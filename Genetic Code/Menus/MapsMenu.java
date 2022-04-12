@@ -18,9 +18,17 @@ public class MapsMenu {
     private int mouseOffsetX = -7;
     private int mouseOffsetY = -30;
 
+    public Button back;
+
     //private int imageSizeX
 
     public MapsMenu() throws IOException{
+        /* Back Button */
+        back = new Button(40, Constants.HEIGHT-100, 75, 25);
+        back.setButtonColor(Color.white);
+        back.setLabel("Back", Color.red, 20, true);
+        back.offsetLabel(11, -45);
+
         coordinates = new int[images.length][2];
         images[0] = ImageIO.read(new File("Menus/MapImages", "map1.png"));
         images[1] = ImageIO.read(new File("Menus/MapImages", "map2.png"));
@@ -50,6 +58,7 @@ public class MapsMenu {
             g.drawImage(images[i], coordinates[i][0], coordinates[i][1], null);
             g.drawString(labels[i], coordinates[i][0]+(images[i].getWidth()/2)-50, coordinates[i][1]+images[i].getHeight()+20);
         }
+        back.render(g);
     }
 
     public int[][] getCoordinates(){

@@ -155,12 +155,21 @@ public class Main extends Canvas implements Runnable{
         this.activeMap = map;
     }
     
-    public void start(){
+    public synchronized void start(){
         thread = new Thread(this);
         thread.start();
         running = true;
 
-        gameState = STATE.Start;
+        gameState = STATE.Load;
+    }
+
+    public synchronized void stop(){
+        try{
+            thread.join();
+            running = false;
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) throws IOException{

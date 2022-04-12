@@ -39,6 +39,7 @@ public class MyMouseListener extends JComponent implements MouseInputListener{
                             game.gameState = Main.STATE.Load;
                             break;
                         case(2):
+                            game.settingsMenu.prevState = Main.STATE.Start;
                             game.gameState = Main.STATE.Settings;
                             break;
                     }
@@ -47,15 +48,47 @@ public class MyMouseListener extends JComponent implements MouseInputListener{
         }else if(game.gameState == Main.STATE.Running){
 
         }else if(game.gameState == Main.STATE.Paused){
+            Button[] buttons = game.pause.buttons;
+            // Settings, save, quit
 
+            for(int i = 0; i < buttons.length; i++){
+                if(buttons[i].checkWithinButton(mousePos)){
+                    switch(i){
+                        case(0):
+                            game.settingsMenu.prevState = Main.STATE.Paused;
+                            game.gameState = Main.STATE.Settings;
+                            break;
+                        case(1):
+                            game.gameState = Main.STATE.Save;
+                            break;
+                        case(2):
+                            Main.window.closeWindow();
+                            game.stop();
+                            break;
+                    }
+                }
+            }
         }else if(game.gameState == Main.STATE.Settings){
+            Button back = game.settingsMenu.back;
+            Button fitnessToggle = game.settingsMenu.fitnessToggle;
+            Button[] populationModifiers = game.settingsMenu.populationModifiers;
 
+            if(back.checkWithinButton(mousePos)){
+                game.gameState = game.settingsMenu.prevState;
+            }else if(fitnessToggle.checkWithinButton(mousePos)){
+                Settings.calcBestStep = !Settings.calcBestStep;
+            }else if(populationModifiers[0].checkWithinButton(mousePos)){
+                Settings.populationSize += 100;
+            }else if(populationModifiers[1].checkWithinButton(mousePos)){
+                Settings.populationSize -= 100;
+            }
         }else if(game.gameState == Main.STATE.Save){
 
         }else if(game.gameState == Main.STATE.Load){
 
         }else if(game.gameState == Main.STATE.MapSelection){
             int[][] coordinates = game.mapsMenu.getCoordinates();
+            Button back = game.mapsMenu.back;
             // Original Map, New Map
             boolean mapSelected = false;
 
@@ -74,6 +107,9 @@ public class MyMouseListener extends JComponent implements MouseInputListener{
                         game.gameState = Main.STATE.Running;
                     }
                 }
+            }
+            if(back.checkWithinButton(mousePos)){
+                game.gameState = Main.STATE.Start;
             }
         }
     }
