@@ -15,6 +15,8 @@ public class MapsMenu {
     private int[][] coordinates;
     private String[] labels = {"Original Map", "New Map"};
     private int imageX = 50, imageY = 225;
+    private int mouseOffsetX = -7;
+    private int mouseOffsetY = -30;
 
     //private int imageSizeX
 
@@ -47,6 +49,18 @@ public class MapsMenu {
         for(int i = 0; i < images.length; i++){
             g.drawImage(images[i], coordinates[i][0], coordinates[i][1], null);
             g.drawString(labels[i], coordinates[i][0]+(images[i].getWidth()/2)-50, coordinates[i][1]+images[i].getHeight()+20);
+        }
+    }
+
+    public int[][] getCoordinates(){
+        return coordinates;
+    }
+
+    public boolean checkWithinButton(Point point, int image){
+        if(point.getX()+mouseOffsetX >= coordinates[image][0] && point.getX()+mouseOffsetX <= coordinates[image][0]+images[image].getWidth()-1 && point.getY()+mouseOffsetY >= coordinates[image][1] && point.getY()+mouseOffsetY <= coordinates[image][1]+images[image].getHeight()-1){
+            return true;
+        }else{
+            return false;
         }
     }
 }

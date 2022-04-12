@@ -3,7 +3,7 @@ import javax.swing.JFrame;
 import javax.swing.event.MouseInputListener;
 
 import Dots.Population;
-import Maps.Map;
+import Maps.*;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -54,6 +54,11 @@ public class Main extends Canvas implements Runnable{
         mapsMenu = new MapsMenu();
 
         window = new Window(Constants.WIDTH, Constants.HEIGHT, "Evolution", this);
+        activeMap = Maps.originalMap; // TODO have this selection happen by the user
+        
+        /* TESTING */
+        pop = new Population();
+        hud = new HUD(pop);
     }
 
     private void tick(){
@@ -117,9 +122,6 @@ public class Main extends Canvas implements Runnable{
         bs.show();
     }
 
-
-
-
     @Override
     public void run() { // The game loop
         this.requestFocus();
@@ -148,13 +150,17 @@ public class Main extends Canvas implements Runnable{
             }
         }
     }
+
+    public void setMap(Map map){
+        this.activeMap = map;
+    }
     
     public void start(){
         thread = new Thread(this);
         thread.start();
         running = true;
 
-        gameState = STATE.MapSelection;
+        gameState = STATE.Start;
     }
 
     public static void main(String[] args) throws IOException{

@@ -10,11 +10,8 @@ public class Window extends Canvas{
 
     public Window(int width, int height, String title, Main game){
         frame = new JFrame();
-        // TODO Create Mouse and Key Listeners
-        /*
         MyMouseListener mouseClick = new MyMouseListener(game, this);
         KeyInput input = new KeyInput(game);
-        */
         frame = new JFrame(title);
 
         frame.setPreferredSize(new Dimension(width, height));
@@ -27,12 +24,9 @@ public class Window extends Canvas{
         frame.setVisible(true);
 
         frame.add(game);
-        // TODO listeners
-        /*
         frame.addMouseListener((MouseInputListener) mouseClick);
         game.addMouseListener(mouseClick);
         game.addKeyListener(input);
-        */
         game.start();
     }
 
