@@ -55,10 +55,6 @@ public class Main extends Canvas implements Runnable{
 
         window = new Window(Constants.WIDTH, Constants.HEIGHT, "Evolution", this);
         activeMap = Maps.originalMap; // TODO have this selection happen by the user
-        
-        /* TESTING */
-        pop = new Population();
-        hud = new HUD(pop);
     }
 
     private void tick(){
@@ -151,6 +147,15 @@ public class Main extends Canvas implements Runnable{
         }
     }
 
+    public void newSimulation(){
+        pop = new Population();
+        hud = new HUD(pop);
+    }
+
+    public void loadSimulation(){
+        hud = new HUD(pop);
+    }
+
     public void setMap(Map map){
         this.activeMap = map;
     }
@@ -160,7 +165,7 @@ public class Main extends Canvas implements Runnable{
         thread.start();
         running = true;
 
-        gameState = STATE.Load;
+        gameState = STATE.Start;
     }
 
     public synchronized void stop(){
@@ -174,5 +179,17 @@ public class Main extends Canvas implements Runnable{
 
     public static void main(String[] args) throws IOException{
         new Main();
+    }
+
+    public static int randomInt(int minInclusive, int maxInclusive){
+        int range = maxInclusive - minInclusive + 1;
+        int rng = (int)(Math.random() * range) + minInclusive;
+        return rng;
+    }
+
+    public static double randomDouble(double minInclusive, double maxInclusive){
+        double range = maxInclusive - minInclusive + 1;
+        double rng = (Math.random() * range) + minInclusive;
+        return rng;
     }
 }

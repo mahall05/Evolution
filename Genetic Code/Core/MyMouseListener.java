@@ -6,6 +6,8 @@ import javax.swing.JComponent;
 import javax.swing.event.MouseInputListener;
 
 import org.w3c.dom.events.MouseEvent;
+
+import Core.Files.FileHandler;
 import Menus.Button;
 import Menus.LoadMenu;
 import Menus.SaveMenu;
@@ -78,12 +80,18 @@ public class MyMouseListener extends JComponent implements MouseInputListener{
             }else if(fitnessToggle.checkWithinButton(mousePos)){
                 Settings.calcBestStep = !Settings.calcBestStep;
             }else if(populationModifiers[0].checkWithinButton(mousePos)){
-                Settings.populationSize += 100;
-            }else if(populationModifiers[1].checkWithinButton(mousePos)){
                 Settings.populationSize -= 100;
+            }else if(populationModifiers[1].checkWithinButton(mousePos)){
+                Settings.populationSize += 100;
             }
         }else if(game.gameState == Main.STATE.Save){
+            Button[] buttons = game.saveMenu.buttons;
 
+            for(int i = 0; i < buttons.length; i++){
+                if(buttons[i].checkWithinButton(mousePos)){
+                    FileHandler.save(game.pop, (i+1));
+                }
+            }
         }else if(game.gameState == Main.STATE.Load){
 
         }else if(game.gameState == Main.STATE.MapSelection){
@@ -104,6 +112,7 @@ public class MyMouseListener extends JComponent implements MouseInputListener{
                             break;
                     }
                     if(mapSelected){                          // Don't start the game unless a map has been properly selected
+                        game.newSimulation();
                         game.gameState = Main.STATE.Running;
                     }
                 }
