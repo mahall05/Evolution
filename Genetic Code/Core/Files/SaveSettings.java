@@ -1,8 +1,10 @@
 package Core.Files;
 
+import java.io.Serializable;
+
 import Core.Settings;
 
-public class SaveSettings {
+public class SaveSettings implements Serializable{
     public boolean calcBestStep;
     public int populationSize;
 

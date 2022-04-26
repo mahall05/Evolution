@@ -1,10 +1,14 @@
 package Menus;
 
 import Core.Constants;
+import Core.Files.FileHandler;
+import Core.Files.SaveInfo;
+
 import java.awt.*;
 
 public class FileMenu {
     public Button[] buttons = new Button[5];
+    public SaveInfo[] info = new SaveInfo[5];
     protected String title;
 
     public FileMenu(){
@@ -18,6 +22,16 @@ public class FileMenu {
             buttons[i].setLabel("Slot "+(i+1), Color.red, 50, true);
             buttons[i].offsetLabel(0, 0);
         }
+
+        // Perform load operation
+        load();
+        for(int i = 0; i < buttons.length; i++){
+            if(info[i] == null){
+                info[i] = new SaveInfo();
+                FileHandler.saveInfo(info[i], (i+1));
+            }
+        }
+        load();
     }
 
     public void tick(){
@@ -33,6 +47,16 @@ public class FileMenu {
 
         for(int i = 0; i < buttons.length; i++){
             buttons[i].render(g);
+        }
+
+        for(int i = 0; i < buttons.length; i++){
+            g.drawString(info[i].date.toString(), buttons[i].x+10, buttons[i].y+10);
+        }
+    }
+
+    public void load(){
+        for(int i = 0; i < buttons.length; i++){
+            info[i] = FileHandler.loadInfo(i+1);
         }
     }
 }

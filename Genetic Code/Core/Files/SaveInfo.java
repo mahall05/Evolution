@@ -1,8 +1,9 @@
 package Core.Files;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class SaveInfo {
+public class SaveInfo implements Serializable{
     public LocalDate date;
     public int generation;
     public boolean ableToReachGoal;
@@ -17,5 +18,12 @@ public class SaveInfo {
 
     public SaveInfo(LocalDate date, int generation){
         this(date, generation, false, 0);
+    }
+
+    public SaveInfo(){
+        date = null;
+        generation = 0;
+        ableToReachGoal = false;
+        steps = 0;
     }
 }

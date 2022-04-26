@@ -33,7 +33,16 @@ public class FileHandler {
         try (FileOutputStream fos = new FileOutputStream("Exports/Brain"+brainNum+"/settings"+brainNum+".ser"); ObjectOutputStream oos = new ObjectOutputStream(fos);) {
             oos.writeObject(settings);
         }catch (IOException ioe){
-            System.out.println("Problem saving Brain"+brainNum);
+            System.out.println("Problem saving Brain settings "+brainNum);
+            ioe.printStackTrace();
+        }
+    }
+
+    public static void saveInfo(SaveInfo info, int brainNum){
+        try (FileOutputStream fos = new FileOutputStream("Exports/Brain"+brainNum+"/info"+brainNum+".ser"); ObjectOutputStream oos = new ObjectOutputStream(fos);) {
+            oos.writeObject(info);
+        }catch (IOException ioe){
+            System.out.println("Problem saving Brain info "+brainNum);
             ioe.printStackTrace();
         }
     }
@@ -44,7 +53,7 @@ public class FileHandler {
         try (FileInputStream fis = new FileInputStream("Exports/Brain"+brainNum+"/paths"+brainNum+".ser"); ObjectInputStream ois = new ObjectInputStream(fis);) {
             loadedPaths = (AccelVector[]) ois.readObject();
         } catch (IOException ioe){
-            System.out.println("Error reading file");
+            System.out.println("Error reading file " + brainNum);
             ioe.printStackTrace();
         }catch (ClassNotFoundException cnfe){
             System.out.println("Error loading brains");
@@ -59,11 +68,13 @@ public class FileHandler {
         try (FileInputStream fis = new FileInputStream("Exports/Brain"+brainNum+"/info"+brainNum+".ser"); ObjectInputStream ois = new ObjectInputStream(fis);) {
             info = (SaveInfo) ois.readObject();
         } catch (IOException ioe){
-            System.out.println("Error reading file");
+            System.out.println("Error reading file " + brainNum);
             ioe.printStackTrace();
+            info = null;
         }catch (ClassNotFoundException cnfe){
             System.out.println("Error loading brains");
             cnfe.printStackTrace();
+            info = null;
         }
         return info;
     }
@@ -74,7 +85,7 @@ public class FileHandler {
         try (FileInputStream fis = new FileInputStream("Exports/Brain"+brainNum+"/settings"+brainNum+".ser"); ObjectInputStream ois = new ObjectInputStream(fis);) {
             loadedPaths = (AccelVector[]) ois.readObject();
         } catch (IOException ioe){
-            System.out.println("Error reading file");
+            System.out.println("Error reading file " + brainNum);
             ioe.printStackTrace();
         }catch (ClassNotFoundException cnfe){
             System.out.println("Error loading brains");
