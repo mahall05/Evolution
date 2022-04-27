@@ -67,7 +67,9 @@ public class FileHandler {
 
         try (FileInputStream fis = new FileInputStream("Exports/Brain"+brainNum+"/info"+brainNum+".ser"); ObjectInputStream ois = new ObjectInputStream(fis);) {
             info = (SaveInfo) ois.readObject();
+            System.out.println("Succesfully loaded");
         } catch (IOException ioe){
+            saveInfo(info, brainNum);
             System.out.println("Error reading file " + brainNum);
             ioe.printStackTrace();
             info = null;

@@ -25,12 +25,6 @@ public class FileMenu {
 
         // Perform load operation
         load();
-        for(int i = 0; i < buttons.length; i++){
-            if(info[i] == null){
-                info[i] = new SaveInfo();
-                FileHandler.saveInfo(info[i], (i+1));
-            }
-        }
         load();
     }
 
@@ -50,7 +44,11 @@ public class FileMenu {
         }
 
         for(int i = 0; i < buttons.length; i++){
-            g.drawString(info[i].date.toString(), buttons[i].x+10, buttons[i].y+10);
+            if(!info[i].equals(null)){
+                g.drawString(info[i].date.toString(), buttons[i].x+100, buttons[i].y+10);
+            }else{
+                g.drawString("Null", buttons[i].x+100, buttons[i].y+10);
+            }
         }
     }
 
