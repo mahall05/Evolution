@@ -47,6 +47,10 @@ public class FileMenu {
             buttons[i].render(g);
         }
 
+        printInfo(g);
+    }
+
+    public void printInfo(Graphics g){
         g.setFont(new Font(g.getFont().getFontName(), Font.PLAIN, 15));
         g.setColor(Color.white);
 

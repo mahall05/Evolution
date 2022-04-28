@@ -37,7 +37,7 @@ public class MyMouseListener extends JComponent implements MouseInputListener{
                             game.gameState = Main.STATE.MapSelection;
                             break;
                         case(1):
-                            game.loadMenu = new LoadMenu();
+                            game.loadMenu.load();
                             game.gameState = Main.STATE.Load;
                             break;
                         case(2):
@@ -61,6 +61,7 @@ public class MyMouseListener extends JComponent implements MouseInputListener{
                             game.gameState = Main.STATE.Settings;
                             break;
                         case(1):
+                            game.saveMenu.load();
                             game.gameState = Main.STATE.Save;
                             break;
                         case(2):
@@ -90,6 +91,7 @@ public class MyMouseListener extends JComponent implements MouseInputListener{
             for(int i = 0; i < buttons.length; i++){
                 if(buttons[i].checkWithinButton(mousePos)){
                     FileHandler.save(game.pop, (i+1));
+                    game.saveMenu.load();
                 }
             }
         }else if(game.gameState == Main.STATE.Load){
