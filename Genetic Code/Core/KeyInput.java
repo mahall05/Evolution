@@ -7,7 +7,6 @@ public class KeyInput extends KeyAdapter{
 
     private Main game;
     private boolean[] keyDown = new boolean[1];
-    Main.STATE prevState = Main.STATE.Start;
 
     public KeyInput(Main game){
         this.game = game;
@@ -21,12 +20,15 @@ public class KeyInput extends KeyAdapter{
         int key = e.getKeyCode(); // Gets the key code of the key that was pressed
 
         if(key == KeyEvent.VK_ESCAPE) {
-            if(game.gameState != Main.STATE.Paused){
-                prevState = game.gameState;
-                game.gameState = Main.STATE.Paused;
-            }else{
-                game.gameState = prevState;
-            }
+			if(game.gameState == Main.STATE.Running){
+				game.prevState = Main.STATE.Running;
+				game.gameState = Main.STATE.Paused;
+			}else if(game.gameState == Main.STATE.Paused){
+				game.prevState = Main.STATE.Paused;
+				game.gameState = Main.STATE.Running;
+			}else{
+				game.gameState = game.prevState;
+			}
         }
         
 		//if(key == KeyEvent.VK_P) {game.pop.printPath();}

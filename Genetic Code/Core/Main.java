@@ -43,6 +43,7 @@ public class Main extends Canvas implements Runnable{
     };
 
     public STATE gameState;
+    public STATE prevState = STATE.Start;
 
     public Main() throws IOException{
         /* MENUS */

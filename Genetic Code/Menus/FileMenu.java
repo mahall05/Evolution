@@ -32,6 +32,10 @@ public class FileMenu {
         }
     }
 
+    public Button[] getButtons(){
+        return buttons;
+    }
+
     public void tick(){
 
     }

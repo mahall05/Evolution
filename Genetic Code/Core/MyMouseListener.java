@@ -32,6 +32,7 @@ public class MyMouseListener extends JComponent implements MouseInputListener{
 
             for(int i = 0; i < buttons.length; i++){
                 if(buttons[i].checkWithinButton(mousePos)){
+                    game.prevState = Main.STATE.Start;
                     switch(i){
                         case(0):
                             game.gameState = Main.STATE.MapSelection;
@@ -55,6 +56,7 @@ public class MyMouseListener extends JComponent implements MouseInputListener{
 
             for(int i = 0; i < buttons.length; i++){
                 if(buttons[i].checkWithinButton(mousePos)){
+                    game.prevState = Main.STATE.Paused;
                     switch(i){
                         case(0):
                             game.settingsMenu.prevState = Main.STATE.Paused;
@@ -86,7 +88,7 @@ public class MyMouseListener extends JComponent implements MouseInputListener{
                 Settings.populationSize += 100;
             }
         }else if(game.gameState == Main.STATE.Save){
-            Button[] buttons = game.saveMenu.buttons;
+            Button[] buttons = game.saveMenu.getButtons();
 
             for(int i = 0; i < buttons.length; i++){
                 if(buttons[i].checkWithinButton(mousePos)){
