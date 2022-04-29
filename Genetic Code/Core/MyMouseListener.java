@@ -96,7 +96,23 @@ public class MyMouseListener extends JComponent implements MouseInputListener{
                     game.saveMenu.load();
                 }
             }
+
+
+
+
+            /* WORK IN PROGRESS HERE */
         }else if(game.gameState == Main.STATE.Load){
+            Button[] buttons  = game.loadMenu.getButtons();
+
+            for(int i = 0; i < buttons.length; i++){
+                if(buttons[i].checkWithinButton(mousePos)){
+                    
+                }
+            }
+            /* WORK IN PROGRESS HERE */
+
+
+
 
         }else if(game.gameState == Main.STATE.MapSelection){
             int[][] coordinates = game.mapsMenu.getCoordinates();
