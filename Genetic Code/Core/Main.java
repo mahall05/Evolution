@@ -153,9 +153,9 @@ public class Main extends Canvas implements Runnable{
         hud = new HUD(pop);
     }
 
-    public void loadSimulation(AccelVector[] loadedPaths, Map map){
+    public void loadSimulation(AccelVector[] loadedPaths, Map map, int loadedGen){
         this.activeMap = map;
-        pop = new Population(loadedPaths);
+        pop = new Population(loadedPaths, loadedGen);
         hud = new HUD(pop);
     }
 

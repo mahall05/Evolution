@@ -16,6 +16,6 @@ public class HUD {
 
     public void render(Graphics g){
         g.setColor(Color.black);
-        g.drawString("Generation: " + pop.gen, 10, 20);
+        g.drawString("Generation: " + (pop.gen+pop.loadedGen), 10, 20);
     }
 }

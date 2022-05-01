@@ -14,7 +14,7 @@ import Maps.Map;
 public class FileHandler {
     public static void save(Population pop, Map map, int brainNum){
         AccelVector[] paths = pop.getBestPaths();
-        SaveInfo info = new SaveInfo(LocalDate.now(), map, pop.gen, pop.ableToReachGoal, pop.bestSteps);
+        SaveInfo info = new SaveInfo(LocalDate.now(), map, pop.gen+pop.loadedGen, pop.ableToReachGoal, pop.bestSteps);
         SaveSettings settings = new SaveSettings();
 
         try (FileOutputStream fos = new FileOutputStream("Exports/Brain"+brainNum+"/paths"+brainNum+".ser"); ObjectOutputStream oos = new ObjectOutputStream(fos);) {

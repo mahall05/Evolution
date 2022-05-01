@@ -8,6 +8,7 @@ import javax.swing.event.MouseInputListener;
 import org.w3c.dom.events.MouseEvent;
 
 import Core.Files.FileHandler;
+import Core.Files.SaveInfo;
 import Menus.Button;
 import Menus.LoadMenu;
 import Menus.SaveMenu;
@@ -97,24 +98,16 @@ public class MyMouseListener extends JComponent implements MouseInputListener{
                 }
             }
 
-
-
-
-            /* WORK IN PROGRESS HERE */
         }else if(game.gameState == Main.STATE.Load){
             Button[] buttons  = game.loadMenu.getButtons();
 
             for(int i = 0; i < buttons.length; i++){
                 if(buttons[i].checkWithinButton(mousePos)){
-                    game.loadSimulation(FileHandler.loadPaths(i+1), FileHandler.loadInfo(i+1).map);
+                    SaveInfo loadedInfo = FileHandler.loadInfo(i+1);
+                    game.loadSimulation(FileHandler.loadPaths(i+1), loadedInfo.map, loadedInfo.generation);
                     game.gameState = Main.STATE.Running;
                 }
             }
-            /* WORK IN PROGRESS HERE */
-
-
-
-
         }else if(game.gameState == Main.STATE.MapSelection){
             int[][] coordinates = game.mapsMenu.getCoordinates();
             Button back = game.mapsMenu.back;

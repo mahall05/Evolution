@@ -35,10 +35,9 @@ public class Population {
         }
     }
 
-    public Population(AccelVector[] loadedPaths){
+    public Population(AccelVector[] loadedPaths, int loadedGen){
         bodies = new Body[Settings.populationSize];
-        /* TODO get the loaded generation */
-        //loadedGen = ?
+        this.loadedGen = loadedGen;
         for(int i = 0; i < Settings.populationSize; i++){
             bodies[i] = new Body(loadedPaths);
         }
