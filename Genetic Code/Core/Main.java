@@ -2,6 +2,8 @@ package Core;
 import javax.swing.JFrame;
 import javax.swing.event.MouseInputListener;
 
+import Core.Files.FileHandler;
+import Core.Files.SaveSettings;
 import Dots.AccelVector;
 import Dots.Population;
 import Maps.*;
@@ -56,6 +58,7 @@ public class Main extends Canvas implements Runnable{
         mapsMenu = new MapsMenu();
 
         window = new Window(Constants.WIDTH, Constants.HEIGHT, "Evolution", this);
+        loadSettings();
     }
 
     private void tick(){
@@ -178,6 +181,13 @@ public class Main extends Canvas implements Runnable{
         }catch(Exception e){
             e.printStackTrace();
         }
+    }
+
+    private void loadSettings(){
+        SaveSettings settings = FileHandler.loadSettings();
+
+        Settings.calcBestStep = settings.calcBestStep;
+        Settings.populationSize = settings.populationSize;
     }
 
     public static void main(String[] args) throws IOException{

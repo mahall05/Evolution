@@ -78,6 +78,7 @@ public class MyMouseListener extends JComponent implements MouseInputListener{
             Button back = game.settingsMenu.back;
             Button fitnessToggle = game.settingsMenu.fitnessToggle;
             Button[] populationModifiers = game.settingsMenu.populationModifiers;
+            Button save = game.settingsMenu.save;
 
             if(back.checkWithinButton(mousePos)){
                 game.gameState = game.settingsMenu.prevState;
@@ -87,6 +88,8 @@ public class MyMouseListener extends JComponent implements MouseInputListener{
                 Settings.populationSize -= 100;
             }else if(populationModifiers[1].checkWithinButton(mousePos)){
                 Settings.populationSize += 100;
+            }else if(save.checkWithinButton(mousePos)){
+                FileHandler.saveSettings();
             }
         }else if(game.gameState == Main.STATE.Save){
             Button[] buttons = game.saveMenu.getButtons();

@@ -10,6 +10,7 @@ public class SettingsMenu {
     public Button back;
     public Button fitnessToggle;
     public Button[] populationModifiers = new Button[2];
+    public Button save;
 
     public Main.STATE prevState = Main.STATE.Start;
 
@@ -37,6 +38,12 @@ public class SettingsMenu {
         populationModifiers[1].setButtonColor(Color.white);
         populationModifiers[1].setLabel("+", Color.red, 20, true);
         populationModifiers[1].offsetLabel(6, -47);
+
+        /* Save Settings Button */
+        save = new Button(Constants.WIDTH-125, Constants.HEIGHT-100, 75, 25);
+        save.setButtonColor(Color.white);
+        save.setLabel("Save", Color.red, 20, true);
+        save.offsetLabel(10, -45);
     }
 
     public void tick(){
@@ -60,5 +67,7 @@ public class SettingsMenu {
         for(int i = 0; i < populationModifiers.length; i++){
             populationModifiers[i].render(g);
         }
+
+        save.render(g);
     }
 }

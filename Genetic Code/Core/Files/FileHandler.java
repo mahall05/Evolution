@@ -39,6 +39,17 @@ public class FileHandler {
         }
     }
 
+    public static void saveSettings(){
+        SaveSettings settings = new SaveSettings();
+
+        try (FileOutputStream fos = new FileOutputStream("Core/settings.ser"); ObjectOutputStream oos = new ObjectOutputStream(fos);) {
+            oos.writeObject(settings);
+        }catch (IOException ioe){
+            System.out.println("Problem saving settings");
+            ioe.printStackTrace();
+        }
+    }
+
     public static void saveInfo(SaveInfo info, int brainNum){
         try (FileOutputStream fos = new FileOutputStream("Exports/Brain"+brainNum+"/info"+brainNum+".ser"); ObjectOutputStream oos = new ObjectOutputStream(fos);) {
             oos.writeObject(info);
@@ -82,11 +93,11 @@ public class FileHandler {
         return info;
     }
 
-    public static AccelVector[] loadSettings(int brainNum){
-        AccelVector[] loadedPaths = new AccelVector[2];
+    public static SaveSettings loadBrainSettings(int brainNum){
+        SaveSettings settings = new SaveSettings();
 
         try (FileInputStream fis = new FileInputStream("Exports/Brain"+brainNum+"/settings"+brainNum+".ser"); ObjectInputStream ois = new ObjectInputStream(fis);) {
-            loadedPaths = (AccelVector[]) ois.readObject();
+            settings = (SaveSettings) ois.readObject();
         } catch (IOException ioe){
             System.out.println("Error reading file " + brainNum);
             ioe.printStackTrace();
@@ -94,6 +105,21 @@ public class FileHandler {
             System.out.println("Error loading brains");
             cnfe.printStackTrace();
         }
-        return loadedPaths;
+        return settings;
+    }
+
+    public static SaveSettings loadSettings(){
+        SaveSettings settings = new SaveSettings();
+
+        try (FileInputStream fis = new FileInputStream("Core/settings.ser"); ObjectInputStream ois = new ObjectInputStream(fis);) {
+            settings = (SaveSettings) ois.readObject();
+        } catch (IOException ioe){
+            System.out.println("Error reading file");
+            ioe.printStackTrace();
+        }catch (ClassNotFoundException cnfe){
+            System.out.println("Error loading brains");
+            cnfe.printStackTrace();
+        }
+        return settings;
     }
 }
