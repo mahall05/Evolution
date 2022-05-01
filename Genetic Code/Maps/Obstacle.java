@@ -1,10 +1,11 @@
 package Maps;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.Serializable;
 
 import Core.Constants;
 
-public class Obstacle{
+public class Obstacle implements Serializable{
     public int x = 0;
     public int y = 0;
     public int width = 0;

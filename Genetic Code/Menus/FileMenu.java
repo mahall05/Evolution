@@ -60,8 +60,9 @@ public class FileMenu {
 
         for(int i = 0; i < buttons.length; i++){
             g.drawString(info[i].date==null ? "Empty" : info[i].date.toString(), buttons[i].x+225, buttons[i].y+15);
-            g.drawString("Generation: " + info[i].generation, buttons[i].x+225, buttons[i].y+30);
-            g.drawString(info[i].ableToReachGoal ? "Able to reach goal in " + info[i].steps + " steps": "Not able to reach goal", buttons[i].x+225, buttons[i].y+45);
+            g.drawString(info[i].map==null ? "N/A" : info[i].map.getName(), buttons[i].x+225, buttons[i].y+30);
+            g.drawString("Generation: " + info[i].generation, buttons[i].x+225, buttons[i].y+45);
+            g.drawString(info[i].ableToReachGoal ? "Able to reach goal in " + info[i].steps + " steps": "Not able to reach goal", buttons[i].x+225, buttons[i].y+60);
         }
     }
 

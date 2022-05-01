@@ -16,5 +16,5 @@ public class Maps {
         //new Obstacle(Constants.WIDTH/2 - 100, Constants.HEIGHT - 140, 200, 20),
         new Obstacle(Constants.WIDTH/2 - 100, Constants.HEIGHT - 200, 200, 20),
     };
-    public static Map originalMap = new Map(map1Obstacles, new Goal((Constants.WIDTH/2)-(50/2)-300, 10, 50, 50));
+    public static Map originalMap = new Map(map1Obstacles, new Goal((Constants.WIDTH/2)-(50/2)-300, 10, 50, 50), "Original Map");
 }

@@ -2,6 +2,7 @@ package Core;
 import javax.swing.JFrame;
 import javax.swing.event.MouseInputListener;
 
+import Dots.AccelVector;
 import Dots.Population;
 import Maps.*;
 
@@ -29,7 +30,7 @@ public class Main extends Canvas implements Runnable{
 
     public Population pop;
 
-    private Map activeMap;
+    public Map activeMap;
     public static Window window;
 
     public enum STATE{
@@ -55,7 +56,6 @@ public class Main extends Canvas implements Runnable{
         mapsMenu = new MapsMenu();
 
         window = new Window(Constants.WIDTH, Constants.HEIGHT, "Evolution", this);
-        activeMap = Maps.originalMap; // TODO have this selection happen by the user
     }
 
     private void tick(){
@@ -153,7 +153,9 @@ public class Main extends Canvas implements Runnable{
         hud = new HUD(pop);
     }
 
-    public void loadSimulation(){
+    public void loadSimulation(AccelVector[] loadedPaths, Map map){
+        this.activeMap = map;
+        pop = new Population(loadedPaths);
         hud = new HUD(pop);
     }
 

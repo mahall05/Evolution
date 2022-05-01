@@ -92,7 +92,7 @@ public class MyMouseListener extends JComponent implements MouseInputListener{
 
             for(int i = 0; i < buttons.length; i++){
                 if(buttons[i].checkWithinButton(mousePos)){
-                    FileHandler.save(game.pop, (i+1));
+                    FileHandler.save(game.pop, game.activeMap, (i+1));
                     game.saveMenu.load();
                 }
             }
@@ -106,7 +106,8 @@ public class MyMouseListener extends JComponent implements MouseInputListener{
 
             for(int i = 0; i < buttons.length; i++){
                 if(buttons[i].checkWithinButton(mousePos)){
-                    
+                    game.loadSimulation(FileHandler.loadPaths(i+1), FileHandler.loadInfo(i+1).map);
+                    game.gameState = Main.STATE.Running;
                 }
             }
             /* WORK IN PROGRESS HERE */

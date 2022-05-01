@@ -43,7 +43,7 @@ public class Population {
             bodies[i] = new Body(loadedPaths);
         }
         bodies[0].isBest = true;
-        mutate();
+        //mutate();
     }
 
     public void render(Graphics g){
