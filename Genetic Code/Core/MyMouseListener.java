@@ -108,6 +108,7 @@ public class MyMouseListener extends JComponent implements MouseInputListener{
                 if(buttons[i].checkWithinButton(mousePos)){
                     SaveInfo loadedInfo = FileHandler.loadInfo(i+1);
                     game.loadSimulation(FileHandler.loadPaths(i+1), loadedInfo.map, loadedInfo.generation);
+                    game.loadSettings(FileHandler.loadBrainSettings(i+1));
                     game.gameState = Main.STATE.Running;
                 }
             }

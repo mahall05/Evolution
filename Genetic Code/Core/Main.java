@@ -29,6 +29,7 @@ public class Main extends Canvas implements Runnable{
     public LoadMenu loadMenu;
     public SaveMenu saveMenu;
     public MapsMenu mapsMenu;
+    public SettingsConformation settingsConf;
 
     public Population pop;
 
@@ -43,6 +44,7 @@ public class Main extends Canvas implements Runnable{
         Save,
         Load,
         MapSelection,
+        SettingsConformation,
     };
 
     public STATE gameState;
@@ -56,9 +58,10 @@ public class Main extends Canvas implements Runnable{
         loadMenu = new LoadMenu();
         saveMenu = new SaveMenu();
         mapsMenu = new MapsMenu();
+        settingsConf = new SettingsConformation();
 
         window = new Window(Constants.WIDTH, Constants.HEIGHT, "Evolution", this);
-        loadSettings();
+        loadSettings(FileHandler.loadSettings());
     }
 
     private void tick(){
@@ -84,6 +87,8 @@ public class Main extends Canvas implements Runnable{
             loadMenu.tick();
         }else if(gameState == STATE.MapSelection){
             mapsMenu.tick();
+        }else if(gameState == STATE.SettingsConformation){
+            settingsConf.tick();
         }
     }
 
@@ -116,6 +121,8 @@ public class Main extends Canvas implements Runnable{
             loadMenu.render(g);
         }else if(gameState == STATE.MapSelection){
             mapsMenu.render(g);
+        }else if(gameState == STATE.SettingsConformation){
+            settingsConf.render(g);
         }
 
         g.dispose();
@@ -183,9 +190,7 @@ public class Main extends Canvas implements Runnable{
         }
     }
 
-    private void loadSettings(){
-        SaveSettings settings = FileHandler.loadSettings();
-
+    public void loadSettings(SaveSettings settings){
         Settings.calcBestStep = settings.calcBestStep;
         Settings.populationSize = settings.populationSize;
     }
