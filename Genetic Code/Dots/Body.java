@@ -1,12 +1,11 @@
 package Dots;
 import java.awt.*;
-import java.io.Serializable;
 
 import Core.Constants;
 import Core.Settings;
 import Maps.*;
 
-public class Body implements Serializable{
+public class Body{
     int width = 7;
     int height = 7;
   public Brain brain;
@@ -37,31 +36,40 @@ public class Body implements Serializable{
     start = System.currentTimeMillis();
   }
 
+  public Body(AccelVector[] loadedPaths){
+      brain = new Brain(loadedPaths);
+      this.brainSize = brain.paths.length;
+
+      path = new Path(Constants.WIDTH/2+20, Constants.HEIGHT-75);
+      path.setVelLimit(7);
+      start = System.currentTimeMillis();
+  }
+
     public void tick(Map map){
-      if(!dead && !reachedGoal){
+        if(!dead && !reachedGoal){
         move();
         if(detectDist(map.goal) < bestDist){
-          bestDist = detectDist(map.goal);
-          brain.bestStep = brain.step;
+            bestDist = detectDist(map.goal);
+            brain.bestStep = brain.step;
         }
 
         if(path.x < 2 || path.y < 2 || path.x > Constants.WIDTH-2 || path.y > Constants.HEIGHT-45){ // Check for screen boundaries
-          dead = true;
+            dead = true;
         }
         else if(checkCollision(map.goal)){
-          reachedGoal = true;
-          ableToReachGoal = true;
-          finish = System.currentTimeMillis();
-          elapsedTime = finish - start;
+            reachedGoal = true;
+            ableToReachGoal = true;
+            finish = System.currentTimeMillis();
+            elapsedTime = finish - start;
         }
         else{
-          for (int i = 0; i < map.obstacles.length; i++){
+            for (int i = 0; i < map.obstacles.length; i++){
             if(checkCollision(map.obstacles[i])){
-              dead = true;
+                dead = true;
             }
-          }
+            }
         }
-      }
+        }
     }
 
   public void move(){

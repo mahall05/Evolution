@@ -1,48 +1,26 @@
 package Core;
-import java.util.Random;
 import javax.swing.JFrame;
-import java.awt.*;
+import javax.swing.event.MouseInputListener;
 
+import Core.Files.FileHandler;
+import Core.Files.SaveSettings;
 import Dots.AccelVector;
-import Dots.Body;
-import Dots.Brain;
 import Dots.Population;
-import Menus.HUD;
-import Menus.LoadMenu;
-import Menus.PauseMenu;
-import Menus.SaveMenu;
-import Menus.SettingsMenu;
-import Menus.StartMenu;
-import Maps.Maps;
-import Maps.Map;
+import Maps.*;
 
+import java.awt.*;
+import java.awt.event.*;
 import java.awt.image.BufferStrategy;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+
+import Menus.*;
 
 public class Main extends Canvas implements Runnable{
-    public static final int POPULATION_SIZE = 5000;
 
-    private Thread thread;  // The game runs on this thread
+    private Thread thread; // The game runs on this thread
     private boolean running = false;
 
-    public static boolean paused = false;
-    //public int diff;
-    
-    // 0 = normal
-    // 1 = hard
-
-    private Random r;
     private HUD hud;
-    private FileHandler handler;
-
-    /* MAPS */
-    private Map map1;
-
-    private Map activeMap;
 
     /* MENUS */
     public PauseMenu pause;
@@ -50,123 +28,67 @@ public class Main extends Canvas implements Runnable{
     public SettingsMenu settingsMenu;
     public LoadMenu loadMenu;
     public SaveMenu saveMenu;
+    public MapsMenu mapsMenu;
+    public SettingsConformation settingsConf;
 
     public Population pop;
-    //private Body test;
 
+    public Map activeMap;
     public static Window window;
-    
+
     public enum STATE{
         Start,
-        Game,
+        Running,
+        Paused,
         Settings,
         Save,
         Load,
+        MapSelection,
+        SettingsConformation,
     };
-    
-    public STATE gameState = STATE.Start;
 
-    public Main(){
-        /* MAPS */
-        map1 = Maps.originalMap;
+    public STATE gameState;
+    public STATE prevState = STATE.Start;
 
-        activeMap = map1;
-
+    public Main() throws IOException{
         /* MENUS */
         start = new StartMenu();
         pause = new PauseMenu();
         settingsMenu = new SettingsMenu();
         loadMenu = new LoadMenu();
         saveMenu = new SaveMenu();
-
-        handler = new FileHandler();
+        mapsMenu = new MapsMenu();
+        settingsConf = new SettingsConformation();
 
         window = new Window(Constants.WIDTH, Constants.HEIGHT, "Evolution", this);
-
-        r = new Random();
+        loadSettings(FileHandler.loadSettings());
     }
-
-    public synchronized void start(){
-        thread = new Thread(this);     // Initialize a new thread
-		thread.start();     // Start the thread
-		running = true;     // Thread is running
-    }
-
-    public synchronized void stop(){
-        try{
-            thread.join();  // Stops the thread
-            running = false;  // Thread is not running
-        }catch(Exception e){
-            e.printStackTrace();  // Print an error message
-        }
-    }
-
-    public void run() {     // The game loop
-		this.requestFocus();
-		long lastTime = System.nanoTime();
-		double amountOfTicks = 60.0;     // The amount of ticks/second
-		double ns = 1000000000 / amountOfTicks;     // The amount of nanoticks/tick
-		double delta = 0;
-		long timer = System.currentTimeMillis();
-		int frames = 0;
-		while(running) {
-			long now = System.nanoTime();
-			delta += (now - lastTime) / ns;
-			lastTime = now;
-			while(delta >= 1) {
-				tick();
-				delta--;
-			}
-			if(running)
-				render();
-			frames++;
-			
-			if(System.currentTimeMillis() - timer > 1000) {
-				timer += 1000;
-				//System.out.println("FPS: " + frames);
-				frames = 0;
-			}
-		}
-		stop();
-	}
-
-  /*
-  public void run(){
-    double pastTime = System.currentTimeMillis();
-    while(running){
-      if(System.currentTimeMillis() - pastTime >= 1000){
-        tick();
-        render();
-      }
-    }
-  }
-  */
 
     private void tick(){
         if(gameState == STATE.Start){
             start.tick();
-        }else if(gameState == STATE.Game){
-            if(!paused){
-                activeMap.tick();
-                if(pop.allDotsDead()){
-                    pop.calculateFitness(activeMap);
-                    pop.naturalSelection(activeMap);
-                    pop.mutate();
-                    //pop.skipSteps();
-                }else{
-                    pop.tick(activeMap);
-                }
-                hud.tick();
+        }else if(gameState == STATE.Running){
+            activeMap.tick();
+            if(pop.allDotsDead()){
+                pop.calculateFitness(activeMap);
+                pop.naturalSelection(activeMap);
+                pop.mutate();
+            }else{
+                pop.tick(activeMap);
             }
-            else{
-                pause.tick();
-            }
+            hud.tick();
+        }else if(gameState == STATE.Paused){
+            pause.tick();
         }else if(gameState == STATE.Settings){
             settingsMenu.tick();
         }else if(gameState == STATE.Save){
             saveMenu.tick();
         }else if(gameState == STATE.Load){
             loadMenu.tick();
+        }else if(gameState == STATE.MapSelection){
+            mapsMenu.tick();
+        }else if(gameState == STATE.SettingsConformation){
+            settingsConf.tick();
         }
     }
 
@@ -181,51 +103,100 @@ public class Main extends Canvas implements Runnable{
 
         if(gameState == STATE.Start){
             start.render(g);
-        }else if(gameState == STATE.Game){
-            if(!paused){
-                // render HUD, and all bodies
-                //test.render(g);
-                g.setColor(Color.white);
-                g.fillRect(0, 0, Constants.WIDTH, Constants.HEIGHT);
-                map1.render(g);
-                if(!pop.allDotsDead()){
-                    pop.render(g);
-                }
-                hud.render(g);
-            }else{
-                //g.setColor(Color.black);
-                //g.fillRect(0, 0, WIDTH, HEIGHT);
-                pause.render(g);
+        }else if(gameState == STATE.Running){
+            g.setColor(Color.white);
+            g.fillRect(0, 0, Constants.WIDTH, Constants.HEIGHT);
+            activeMap.render(g);
+            if(!pop.allDotsDead()){
+                pop.render(g);
             }
-		}else if(gameState == STATE.Settings){
+            hud.render(g);
+        }else if(gameState == STATE.Paused){
+            pause.render(g);
+        }else if(gameState == STATE.Settings){
             settingsMenu.render(g);
         }else if(gameState == STATE.Save){
             saveMenu.render(g);
         }else if(gameState == STATE.Load){
             loadMenu.render(g);
+        }else if(gameState == STATE.MapSelection){
+            mapsMenu.render(g);
+        }else if(gameState == STATE.SettingsConformation){
+            settingsConf.render(g);
         }
 
         g.dispose();
         bs.show();
     }
 
+    @Override
+    public void run() { // The game loop
+        this.requestFocus();
+        long lastTime = System.nanoTime();
+        double amountOfTicks = 60.0;
+        double ns = 1000000000 / amountOfTicks;
+        double delta = 0;
+        long timer = System.currentTimeMillis();
+        int frames = 0;
+        while(running){
+            long now = System.nanoTime();
+            delta += (now - lastTime) / ns;
+            lastTime = now;
+            while(delta >= 1){
+                tick();
+                delta--;
+            }
+            if(running){
+                render();
+            }
+            frames++;
+
+            if(System.currentTimeMillis() - timer > 1000){
+                timer += 1000;
+                frames = 0;
+            }
+        }
+    }
+
     public void newSimulation(){
-        pop = new Population(POPULATION_SIZE);
+        pop = new Population();
         hud = new HUD(pop);
-        gameState = STATE.Game;
     }
 
-    public static void resumeSimulation(){
-
+    public void loadSimulation(AccelVector[] loadedPaths, Map map, int loadedGen){
+        this.activeMap = map;
+        pop = new Population(loadedPaths, loadedGen);
+        hud = new HUD(pop);
     }
 
-    public static float clamp(float var, float min, int max){
-        if(var >= max)
-			return var = max;
-		else if(var <= min)
-			return var = min;
-		else
-			return var;
+    public void setMap(Map map){
+        this.activeMap = map;
+    }
+    
+    public synchronized void start(){
+        thread = new Thread(this);
+        thread.start();
+        running = true;
+
+        gameState = STATE.Start;
+    }
+
+    public synchronized void stop(){
+        try{
+            thread.join();
+            running = false;
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void loadSettings(SaveSettings settings){
+        Settings.calcBestStep = settings.calcBestStep;
+        Settings.populationSize = settings.populationSize;
+    }
+
+    public static void main(String[] args) throws IOException{
+        new Main();
     }
 
     public static int randomInt(int minInclusive, int maxInclusive){
@@ -239,15 +210,4 @@ public class Main extends Canvas implements Runnable{
         double rng = (Math.random() * range) + minInclusive;
         return rng;
     }
-
-    public void load(int slot){
-        pop = new Population(POPULATION_SIZE, true, slot);
-        gameState = STATE.Game;
-    }
-	
-	public static void main(String args[]) {
-		new Main();
-	}
-
-    // try to read through this for help: https://stackoverflow.com/questions/54292078/saving-and-loading-an-object-in-java-that-isnt-a-string-or-int
 }

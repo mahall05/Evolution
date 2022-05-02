@@ -1,8 +1,7 @@
 package Menus;
 import java.awt.*;
-import java.awt.MouseInfo;
 
-public class Button{
+public class Button {
     public int x;
     public int y;
     public int width;
@@ -13,7 +12,6 @@ public class Button{
 
     public Color buttonColor = Color.WHITE;
     public Color hoverColor = Color.GRAY;
-    public Color color;
     public Color fontColor;
 
     public int fontSize;
@@ -33,11 +31,11 @@ public class Button{
     }
 
     public void tick(){
-        // TODO check if button is clicked and add actions
+
     }
 
     public void render(Graphics g){
-        g.setColor(color);
+        g.setColor(buttonColor);
         g.fillRect(x, y, width, height);
 
         g.setFont(new Font(g.getFont().getFontName(), (bold ? Font.BOLD : Font.PLAIN), fontSize));
@@ -58,35 +56,27 @@ public class Button{
         this.yOffset = y;
     }
 
-    public void setLabel(String label){
+    public void setLabel(String label, Color fontColor, int fontSize, boolean bold){
         this.label = label;
-    }
-
-    public void setFontSize(int size){
-        this.fontSize = size;
+        this.fontColor = fontColor;
+        this.fontSize = fontSize;
+        this.bold = bold;
     }
 
     public void setButtonColor(Color color){
         this.buttonColor = color;
     }
-    public void setFontColor(Color color){
-        this.fontColor = color;
+
+    public void setHoverColor(Color color){
+        this.hoverColor = color;
     }
-    public void setBold(boolean b){
-        bold = b;
-    }
+
     public Button copy(int x, int y){
         Button b = new Button(x, y, this.width, this.height);
         b.setButtonColor(this.buttonColor);
-        b.setFontColor(this.fontColor);
+        b.setLabel(this.label, this.fontColor, this.fontSize, this.bold);
         b.setHoverColor(this.hoverColor);
-        b.setFontSize(this.fontSize);
-        b.setLabel(this.label);
-        b.setBold(this.bold);
         b.offsetLabel(this.xOffset, this.yOffset);
         return b;
-    }
-    public void setHoverColor(Color color){
-        this.hoverColor = color;
     }
 }

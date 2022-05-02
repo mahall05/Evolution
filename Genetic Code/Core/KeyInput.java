@@ -19,14 +19,25 @@ public class KeyInput extends KeyAdapter{
     public void keyPressed(KeyEvent e){
         int key = e.getKeyCode(); // Gets the key code of the key that was pressed
 
-        if(key == KeyEvent.VK_ESCAPE) {Main.paused = (game.gameState == Main.STATE.Game ? !Main.paused : Main.paused); keyDown[0] = true;}
-		if(key == KeyEvent.VK_P) {game.pop.printPath();}
+        if(key == KeyEvent.VK_ESCAPE) {
+			if(game.gameState == Main.STATE.Running){
+				game.prevState = Main.STATE.Running;
+				game.gameState = Main.STATE.Paused;
+			}else if(game.gameState == Main.STATE.Paused){
+				game.prevState = Main.STATE.Paused;
+				game.gameState = Main.STATE.Running;
+			}else{
+				game.gameState = game.prevState;
+			}
+        }
+        
+		//if(key == KeyEvent.VK_P) {game.pop.printPath();}
     }
 
     public void keyReleased(KeyEvent e) {
         int key = e.getKeyCode();
 
-        if(key == KeyEvent.VK_ESCAPE) {keyDown[0] = true;}
+        if(key == KeyEvent.VK_ESCAPE) {keyDown[0] = false;}
 	}
 	
     /*

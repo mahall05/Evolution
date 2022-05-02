@@ -1,73 +1,41 @@
 package Menus;
-import java.awt.*;
-import java.awt.MouseInfo;
 
 import Core.Constants;
+import java.awt.*;
 
-public class StartMenu {
-    public Button startButton;
-    public Button loadButton;
-    public Button settingsButton;
+public class StartMenu{
+    public Button[] buttons = new Button[3];
+    private String[] buttonLabels = {"Start", "Load", "Settings"};
+    private int[][] offsets = {{40, -10}, {38, -10}, {0, -10}};
 
     public StartMenu(){
-        /* Start Button */
-        startButton = new Button(Constants.WIDTH/2-100, Constants.HEIGHT/2-50, 200, 75);
-        startButton.setButtonColor(Color.white);
-        startButton.setFontColor(Color.red);
-        startButton.setFontSize(50);
-        startButton.setLabel("Start");
-        startButton.offsetLabel(45, -10);
 
-        /* Load Button */
-        loadButton = new Button(startButton.x, startButton.y+startButton.height+20, startButton.width, startButton.height);
-        loadButton.setButtonColor(Color.white);
-        loadButton.setFontColor(Color.red);
-        loadButton.setFontSize(50);
-        loadButton.setLabel("Load");
-        loadButton.offsetLabel(40, -10);
-
-        /* Settings Button */
-        settingsButton = new Button(loadButton.x, loadButton.y+loadButton.height+20, loadButton.width, loadButton.height);
-        settingsButton.setButtonColor(Color.white);
-        settingsButton.setFontColor(Color.red);
-        settingsButton.setFontSize(50);
-        settingsButton.setLabel("Settings");
-        settingsButton.offsetLabel(7, -10);
+        for(int i = 0; i < buttons.length; i++){
+            if(i == 0){
+                buttons[i] = new Button(Constants.WIDTH/2-100, Constants.HEIGHT/2-50, 200, 75); // Create the first buttons
+                buttons[i].bold = false;
+            }
+            else{
+                buttons[i] = buttons[i-1].copy(buttons[i-1].x, buttons[i-1].y+buttons[i-1].height+30); // Other buttons are copies of the first in different positions
+            }
+            buttons[i].setLabel(buttonLabels[i], Color.red, 50, true);
+            buttons[i].offsetLabel(offsets[i][0], offsets[i][1]);
+        }
     }
 
     public void tick(){
-        //TODO check if button is clicked
-        startButton.color = startButton.checkWithinButton(MouseInfo.getPointerInfo().getLocation()) ? startButton.hoverColor : startButton.buttonColor;
-        loadButton.color = loadButton.checkWithinButton(MouseInfo.getPointerInfo().getLocation()) ? loadButton.hoverColor : loadButton.buttonColor;
-        settingsButton.color = settingsButton.checkWithinButton(MouseInfo.getPointerInfo().getLocation()) ? settingsButton.hoverColor : settingsButton.buttonColor;
+
     }
 
     public void render(Graphics g){
         g.setColor(Color.black);
         g.fillRect(0, 0, Constants.WIDTH, Constants.HEIGHT);
-        g.setFont(new Font(g.getFont().getFontName(), Font.PLAIN, 100));
-        g.setColor(Color.white);
-        g.drawString("EVOLUTION", (Constants.WIDTH/2)-300, (Constants.HEIGHT/2)-150);
-
-        startButton.render(g);
-        loadButton.render(g);
-        settingsButton.render(g);
-
-        /* Start Button */
-        /*
-        g.setColor(Color.white);
-        g.fillRect(Constants.WIDTH/2-100, Constants.HEIGHT/2-50, 200, 75);
-        g.setFont(new Font(g.getFont().getFontName(), Font.PLAIN, 35));
+        g.setFont(new Font(g.getFont().getFontName(), Font.PLAIN, 80));
         g.setColor(Color.red);
-        g.drawString("Settings", Constants.WIDTH/2-100+30, Constants.HEIGHT/2-50+50);
-        */
+        g.drawString("Evolution", (Constants.WIDTH/2)-160, (Constants.HEIGHT/2)-150);
 
-        /* Load Button */
-
-    }
-
-    public Button[] getButtons(){
-        Button[] buttons = {startButton, loadButton, settingsButton};
-        return buttons;
+        for(int i = 0; i < buttons.length; i++){
+            buttons[i].render(g);
+        }
     }
 }

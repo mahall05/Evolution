@@ -6,9 +6,13 @@ import javax.swing.JComponent;
 import javax.swing.event.MouseInputListener;
 
 import org.w3c.dom.events.MouseEvent;
+
+import Core.Files.FileHandler;
+import Core.Files.SaveInfo;
 import Menus.Button;
 import Menus.LoadMenu;
 import Menus.SaveMenu;
+import Maps.Maps;
 
 public class MyMouseListener extends JComponent implements MouseInputListener{
     private Main game;
@@ -22,88 +26,117 @@ public class MyMouseListener extends JComponent implements MouseInputListener{
     public void mouseClicked(java.awt.event.MouseEvent e) {
         // TODO Auto-generated method stub
         Point mousePos = window.frame.getMousePosition();
-        //System.out.println("Mouse click");
 
         if(game.gameState == Main.STATE.Start){
-            Button start = game.start.startButton;
-            Button load = game.start.loadButton;
-            Button settings = game.start.settingsButton;
+            Button[] buttons = game.start.buttons;
+            // Start, Load, Settings
 
-            if(start.checkWithinButton(mousePos)){
-                game.gameState = Main.STATE.Game;
-            }else if(load.checkWithinButton(mousePos)){
-                game.loadMenu = new LoadMenu();
-                game.gameState = Main.STATE.Load;
-                //game.load();
-            }else if(settings.checkWithinButton(mousePos)){
-                game.gameState = Main.STATE.Settings;
-            }
-
-        }else if(game.gameState == Main.STATE.Game){
-            Button settings = game.pause.settings;
-            Button save = game.pause.save;
-            Button quit = game.pause.quit;
-
-            if(Main.paused){
-                if(settings.checkWithinButton(mousePos)){
-                    game.gameState = Main.STATE.Settings;
-                }else if(save.checkWithinButton(mousePos)){
-                    game.saveMenu = new SaveMenu();
-                    game.gameState = Main.STATE.Save;
-                    // TODO Open save screen
-                }else if(quit.checkWithinButton(mousePos)){
-                    Main.window.closeWindow();
-                    game.stop();
+            for(int i = 0; i < buttons.length; i++){
+                if(buttons[i].checkWithinButton(mousePos)){
+                    game.prevState = Main.STATE.Start;
+                    switch(i){
+                        case(0):
+                            game.gameState = Main.STATE.MapSelection;
+                            break;
+                        case(1):
+                            game.loadMenu.load();
+                            game.gameState = Main.STATE.Load;
+                            break;
+                        case(2):
+                            game.settingsMenu.prevState = Main.STATE.Start;
+                            game.gameState = Main.STATE.Settings;
+                            break;
+                    }
                 }
             }
+        }else if(game.gameState == Main.STATE.Running){
 
+        }else if(game.gameState == Main.STATE.Paused){
+            Button[] buttons = game.pause.buttons;
+            // Settings, save, quit
+
+            for(int i = 0; i < buttons.length; i++){
+                if(buttons[i].checkWithinButton(mousePos)){
+                    game.prevState = Main.STATE.Paused;
+                    switch(i){
+                        case(0):
+                            game.settingsMenu.prevState = Main.STATE.Paused;
+                            game.gameState = Main.STATE.Settings;
+                            break;
+                        case(1):
+                            game.saveMenu.load();
+                            game.gameState = Main.STATE.Save;
+                            break;
+                        case(2):
+                            Main.window.closeWindow();
+                            game.stop();
+                            break;
+                    }
+                }
+            }
         }else if(game.gameState == Main.STATE.Settings){
-            Button fitnessToggle = game.settingsMenu.fitnessToggle;
-            Button popPlus = game.settingsMenu.populationPlus;
-            Button popMin = game.settingsMenu.populationMinus;
             Button back = game.settingsMenu.back;
+            Button fitnessToggle = game.settingsMenu.fitnessToggle;
+            Button[] populationModifiers = game.settingsMenu.populationModifiers;
+            Button save = game.settingsMenu.save;
 
-            if(fitnessToggle.checkWithinButton(mousePos)){
+            if(back.checkWithinButton(mousePos)){
+                game.gameState = game.settingsMenu.prevState;
+            }else if(fitnessToggle.checkWithinButton(mousePos)){
                 Settings.calcBestStep = !Settings.calcBestStep;
-            }else if(popPlus.checkWithinButton(mousePos)){
-                Settings.populationSize += 100;
-            }else if(popMin.checkWithinButton(mousePos)){
+            }else if(populationModifiers[0].checkWithinButton(mousePos)){
                 Settings.populationSize -= 100;
-            }else if(back.checkWithinButton(mousePos)){
-                System.out.println("Back");
-                if(Main.paused){
-                    game.gameState = Main.STATE.Game;
-                }else{
-                    game.gameState = Main.STATE.Start;
-                }
+            }else if(populationModifiers[1].checkWithinButton(mousePos)){
+                Settings.populationSize += 100;
+            }else if(save.checkWithinButton(mousePos)){
+                FileHandler.saveSettings();
             }
         }else if(game.gameState == Main.STATE.Save){
-            Button[] slots = game.saveMenu.slots;
-            Button back = game.saveMenu.back;
+            Button[] buttons = game.saveMenu.getButtons();
 
-            if(back.checkWithinButton(mousePos)){
-                game.gameState = Main.STATE.Game;
+            for(int i = 0; i < buttons.length; i++){
+                if(buttons[i].checkWithinButton(mousePos)){
+                    FileHandler.save(game.pop, game.activeMap, (i+1));
+                    game.saveMenu.load();
+                }
             }
-            else{
-                for(int i = 0; i < slots.length; i++){
-                    if(slots[i].checkWithinButton(mousePos)){
-                        game.pop.save(i+1);
+
+        }else if(game.gameState == Main.STATE.Load){
+            Button[] buttons  = game.loadMenu.getButtons();
+
+            for(int i = 0; i < buttons.length; i++){
+                if(buttons[i].checkWithinButton(mousePos)){
+                    SaveInfo loadedInfo = FileHandler.loadInfo(i+1);
+                    game.loadSimulation(FileHandler.loadPaths(i+1), loadedInfo.map, loadedInfo.generation);
+                    game.loadSettings(FileHandler.loadBrainSettings(i+1));
+                    game.gameState = Main.STATE.Running;
+                }
+            }
+        }else if(game.gameState == Main.STATE.MapSelection){
+            int[][] coordinates = game.mapsMenu.getCoordinates();
+            Button back = game.mapsMenu.back;
+            // Original Map, New Map
+            boolean mapSelected = false;
+
+            for(int i = 0; i < coordinates.length; i++){
+                if(game.mapsMenu.checkWithinButton(mousePos, i)){
+                    switch(i){
+                        case(0):
+                            game.setMap(Maps.originalMap);
+                            mapSelected = true;
+                            break;
+                        case(1):
+                            // TODO set to the new map
+                            break;
+                    }
+                    if(mapSelected){                          // Don't start the game unless a map has been properly selected
+                        game.newSimulation();
+                        game.gameState = Main.STATE.Running;
                     }
                 }
             }
-        }else if(game.gameState == Main.STATE.Load){
-            Button[] slots = game.saveMenu.slots;
-            Button back = game.saveMenu.back;
-
             if(back.checkWithinButton(mousePos)){
                 game.gameState = Main.STATE.Start;
-            }
-            else{
-                for(int i = 0; i < slots.length; i++){
-                    if(slots[i].checkWithinButton(mousePos)){
-                        game.load(i+1);
-                    }
-                }
             }
         }
     }

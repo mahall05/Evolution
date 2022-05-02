@@ -1,20 +1,14 @@
 package Dots;
 import java.awt.Graphics;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.time.LocalDate;
 
 import Core.Constants;
 import Core.Main;
 import Core.Settings;
-import Saves.SaveInfo;
+//import Saves.SaveInfo;
 import Maps.*;
 
 public class Population {
-    private Body[] bodies;
+    public Body[] bodies;
     private int brainSize = 400;
 
     public int gen = 1;
@@ -30,40 +24,25 @@ public class Population {
     public double mutationRate = 0.1;
     public double skipChance = 0.001;
 
-    private Brain loadedBrain;
-    private boolean ableToReachGoal = false;
-    private int bestSteps = brainSize;
+    public boolean ableToReachGoal = false;
+    public int bestSteps = brainSize;
 
-    /*
-    public Population(int size, boolean load, int slot){
-        if(load){
-            load(slot);
-            bodies = new Body[size];
-            for(int i = 0; i < size; i++){
-                bodies[i] = new Body(brainSize);
-            }
-            bodies[0].brain = loadedBrain;
-            bodies[0].isBest = true;
-        }else{
-            bodies = new Body[size];
-            loadedGen = 0;
-            for(int i = 0; i < size; i++){
-                bodies[i] = new Body(brainSize);
-            }
-        }
-    }
-    */
-
-    public Population(Brain brain, int size){
-        
-    }
-
-    public Population(int size){
-        bodies = new Body[size];
+    public Population(){
+        bodies = new Body[Settings.populationSize];
         loadedGen = 0;
-        for(int i = 0; i < size; i++){
+        for(int i = 0; i < Settings.populationSize; i++){
             bodies[i] = new Body(brainSize);
         }
+    }
+
+    public Population(AccelVector[] loadedPaths, int loadedGen){
+        bodies = new Body[Settings.populationSize];
+        this.loadedGen = loadedGen;
+        for(int i = 0; i < Settings.populationSize; i++){
+            bodies[i] = new Body(loadedPaths);
+        }
+        bodies[0].isBest = true;
+        //mutate();
     }
 
     public void render(Graphics g){
@@ -100,7 +79,7 @@ public class Population {
     }
 
     public void naturalSelection(Map map){
-        Body[] newBodies = new Body[bodies.length];
+        Body[] newBodies = new Body[Settings.populationSize];
         setBestDot();
         calculateFitnessSum();
 
@@ -223,53 +202,8 @@ public class Population {
         }
     }
 
-    public void save(int slot){
-        SaveInfo info = new SaveInfo(LocalDate.now(), gen+loadedGen, ableToReachGoal, bestSteps);
-        try{
-            // Create file output stream
-            FileOutputStream fileOutStr = new FileOutputStream("Saves/brain"+slot+".ser");
-            FileOutputStream infoFileOutStr = new FileOutputStream("Saves/info"+slot+".ser");
-            // Create an object output stream and write object
-            ObjectOutputStream objOutStr = new ObjectOutputStream(fileOutStr);
-            ObjectOutputStream infoOutStr = new ObjectOutputStream(infoFileOutStr);
-            objOutStr.writeObject(bodies[0].brain);
-            infoOutStr.writeObject(info);
-            //Close all streams
-            objOutStr.close();
-            fileOutStr.close();
-            infoFileOutStr.close();
-            infoOutStr.close();
-            System.out.print("Serialized data is saved in a file - Saves/brain"+slot+".ser");
-        }catch(IOException exp){
-            System.out.println("Error IOException");
-            exp.printStackTrace();
-        }
-    }
-
-    public void load(int slot){
-        try{
-            FileInputStream fileInStr = new FileInputStream("Saves/brain"+slot+".ser");
-            ObjectInputStream objInStr = new ObjectInputStream(fileInStr);
-            loadedBrain = (Brain) objInStr.readObject();
-            objInStr.close();
-            fileInStr.close();
-            FileInputStream infoFileInStr = new FileInputStream("Saves/info"+slot+".ser");
-            ObjectInputStream infoInStr = new ObjectInputStream(infoFileInStr);
-            SaveInfo info = (SaveInfo) infoInStr.readObject();
-            infoFileInStr.close();
-            infoInStr.close();
-            ableToReachGoal = info.ableToReachGoal;
-            loadedGen = info.generation;
-            bestSteps = info.steps;
-        }catch(IOException  exp){
-            System.out.println("Error IOException");
-            exp.printStackTrace();
-            return;
-        }catch(ClassNotFoundException cexp){
-            System.out.println("Brian class not found");
-            cexp.printStackTrace();
-            return;
-        }
-        System.out.println(", brain has been deserialized");
+    public AccelVector[] getBestPaths(){
+        AccelVector[] bestPaths = bodies[0].brain.paths;
+        return bestPaths;
     }
 }

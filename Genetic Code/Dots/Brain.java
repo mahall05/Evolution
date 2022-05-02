@@ -1,9 +1,8 @@
 package Dots;
-import java.io.Serializable;
 
 import Core.Main;
 
-public class Brain implements Serializable{
+public class Brain{
   public int step = 0;
   public AccelVector[] paths;
   public int bestStep = 0;
@@ -11,6 +10,10 @@ public class Brain implements Serializable{
   public Brain(int size){
     paths = new AccelVector[size];
     randomize();
+  }
+
+  public Brain(AccelVector[] loadedPaths){
+    paths = loadedPaths;
   }
 
   public void randomize(){
