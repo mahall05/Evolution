@@ -16,7 +16,7 @@
 15. Another version of this where the dots have to stay on a specified path and die if they leave it
 
 1. This worked amazingly. The dots are much smarter now and get to the goal much faster
-2. 
+2. Another success. The menus seem to work great and settings save well.
 3. 
 4. 
 5.
@@ -27,3 +27,6 @@
 9. This works... kind of? Something isn't right with it though. It breaks everything, so not really
 10. 
 11. Saving and loading seems to work
+12.
+13. Success, save slot information is available
+14. Not quite when hovering over, but they do change colors when clicked
