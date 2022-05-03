@@ -1,7 +1,6 @@
 package Menus;
 
 import Core.Constants;
-import Core.Settings;
 import java.awt.*;
 
 public class SettingsConformation {

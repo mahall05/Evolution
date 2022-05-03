@@ -1,8 +1,6 @@
 package Dots;
 import java.awt.Graphics;
 
-import Core.Constants;
-import Core.Main;
 import Core.Settings;
 //import Saves.SaveInfo;
 import Maps.*;

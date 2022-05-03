@@ -1,6 +1,4 @@
 package Core;
-import javax.swing.JFrame;
-import javax.swing.event.MouseInputListener;
 
 import Core.Files.FileHandler;
 import Core.Files.SaveSettings;
@@ -9,7 +7,6 @@ import Dots.Population;
 import Maps.*;
 
 import java.awt.*;
-import java.awt.event.*;
 import java.awt.image.BufferStrategy;
 import java.io.IOException;
 

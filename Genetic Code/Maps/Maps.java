@@ -1,7 +1,6 @@
 package Maps;
 
 import Core.Constants;
-import java.awt.*;
 
 public class Maps {
     private static Obstacle[] map1Obstacles = {

@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.image.*;
 import java.io.File;
 import java.io.IOException;
-import java.lang.Object.*;
 
 import javax.imageio.ImageIO;
 

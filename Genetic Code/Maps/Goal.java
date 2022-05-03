@@ -2,8 +2,6 @@ package Maps;
 
 import java.io.Serializable;
 
-import javax.crypto.SecretKey;
-
 public class Goal implements Serializable{
     public int x = 0;
     public int y = 0;
