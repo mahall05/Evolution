@@ -1,5 +1,6 @@
 package Core;
 
+import java.awt.Color;
 import java.awt.Point;
 
 import javax.swing.JComponent;
@@ -148,12 +149,120 @@ public class MyMouseListener extends JComponent implements MouseInputListener{
 
     @Override
     public void mousePressed(java.awt.event.MouseEvent e) {
-        
+        Point mousePos = window.frame.getMousePosition();
+
+        if(game.gameState == Main.STATE.Start){
+            Button[] buttons = game.start.buttons;
+            // Start, Load, Settings
+
+            for(int i = 0; i < buttons.length; i++){
+                if(buttons[i].checkWithinButton(mousePos)){
+                    buttons[i].setButtonColor(Color.GRAY);
+                }
+            }
+        }else if(game.gameState == Main.STATE.Running){
+
+        }else if(game.gameState == Main.STATE.Paused){
+            Button[] buttons = game.pause.buttons;
+            // Settings, save, quit
+
+            for(int i = 0; i < buttons.length; i++){
+                if(buttons[i].checkWithinButton(mousePos)){
+                    buttons[i].setButtonColor(Color.GRAY);
+                }
+            }
+        }else if(game.gameState == Main.STATE.Settings){
+            Button[] buttons = {game.settingsMenu.back, game.settingsMenu.fitnessToggle, game.settingsMenu.populationModifiers[0],
+                                game.settingsMenu.populationModifiers[1], game.settingsMenu.save};
+
+            for(int i = 0; i < buttons.length; i++){
+                if(buttons[i].checkWithinButton(mousePos)){
+                    buttons[i].setButtonColor(Color.GRAY);
+                }
+            }
+        }else if(game.gameState == Main.STATE.Save){
+            Button[] buttons = game.saveMenu.getButtons();
+
+            for(int i = 0; i < buttons.length; i++){
+                if(buttons[i].checkWithinButton(mousePos)){
+                    buttons[i].setButtonColor(Color.GRAY);
+                }
+            }
+
+        }else if(game.gameState == Main.STATE.Load){
+            Button[] buttons  = game.loadMenu.getButtons();
+
+            for(int i = 0; i < buttons.length; i++){
+                if(buttons[i].checkWithinButton(mousePos)){
+                    buttons[i].setButtonColor(Color.GRAY);
+                }
+            }
+        }else if(game.gameState == Main.STATE.MapSelection){
+            Button back = game.mapsMenu.back;
+            
+            if(back.checkWithinButton(mousePos)){
+                back.setButtonColor(Color.GRAY);
+            }
+        }
     }
 
     @Override
     public void mouseReleased(java.awt.event.MouseEvent e) {
-        
+        Point mousePos = window.frame.getMousePosition();
+
+        if(game.gameState == Main.STATE.Start){
+            Button[] buttons = game.start.buttons;
+            // Start, Load, Settings
+
+            for(int i = 0; i < buttons.length; i++){
+                if(buttons[i].checkWithinButton(mousePos)){
+                    buttons[i].setButtonColor(Color.WHITE);
+                }
+            }
+        }else if(game.gameState == Main.STATE.Running){
+
+        }else if(game.gameState == Main.STATE.Paused){
+            Button[] buttons = game.pause.buttons;
+            // Settings, save, quit
+
+            for(int i = 0; i < buttons.length; i++){
+                if(buttons[i].checkWithinButton(mousePos)){
+                    buttons[i].setButtonColor(Color.WHITE);
+                }
+            }
+        }else if(game.gameState == Main.STATE.Settings){
+            Button[] buttons = {game.settingsMenu.back, game.settingsMenu.fitnessToggle, game.settingsMenu.populationModifiers[0],
+                                game.settingsMenu.populationModifiers[1], game.settingsMenu.save};
+
+            for(int i = 0; i < buttons.length; i++){
+                if(buttons[i].checkWithinButton(mousePos)){
+                    buttons[i].setButtonColor(Color.WHITE);
+                }
+            }
+        }else if(game.gameState == Main.STATE.Save){
+            Button[] buttons = game.saveMenu.getButtons();
+
+            for(int i = 0; i < buttons.length; i++){
+                if(buttons[i].checkWithinButton(mousePos)){
+                    buttons[i].setButtonColor(Color.WHITE);
+                }
+            }
+
+        }else if(game.gameState == Main.STATE.Load){
+            Button[] buttons  = game.loadMenu.getButtons();
+
+            for(int i = 0; i < buttons.length; i++){
+                if(buttons[i].checkWithinButton(mousePos)){
+                    buttons[i].setButtonColor(Color.WHITE);
+                }
+            }
+        }else if(game.gameState == Main.STATE.MapSelection){
+            Button back = game.mapsMenu.back;
+
+            if(back.checkWithinButton(mousePos)){
+                back.setButtonColor(Color.WHITE);
+            }
+        }
     }
 
     @Override
