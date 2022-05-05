@@ -7,10 +7,11 @@ public class Movement {
 
     private static double gravityMultiplier = -0.1;
     public boolean touchingGround = false;
+    public int touchingWall = 999;
 
-    private int velLimit = 5;
+    private int velLimit = 2;
     private final double JUMP_VELOCITY = -100;
-    private final double MOVE_SPEED = 2;
+    private final double MOVE_SPEED = 1;
 
     public Movement(){
         x = 0;
@@ -33,6 +34,18 @@ public class Movement {
     }
 
     public void tick(){
+        switch(touchingWall){
+            case(0):
+                yVel = 0;
+                break;
+            case(1):
+                leftVel = 0;
+                break;
+            case(2):
+                rightVel = 0;
+                break;
+        }
+
         xVel = rightVel - leftVel;
         x += xVel;
         y += yVel;
