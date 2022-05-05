@@ -4,6 +4,9 @@ import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.io.IOException;
 
+import Bodies.Body;
+import Maps.*;
+
 public class Main extends Canvas implements Runnable{
 
     private Thread thread; // The game runs on this thread
@@ -12,6 +15,7 @@ public class Main extends Canvas implements Runnable{
     public static Window window;
 
     public Body body;
+    public Map activeMap;
 
     public enum STATE{
         Start,
@@ -22,13 +26,16 @@ public class Main extends Canvas implements Runnable{
     public STATE prevState = STATE.Start;
 
     public Main() throws IOException{
+        activeMap = Maps.testing;
+        body = new Body();
         window = new Window(Constants.WIDTH, Constants.HEIGHT, "Evolution", this);
     }
 
     private void tick(){
         if(gameState == STATE.Start){
         }else if(gameState == STATE.Running){
-
+            activeMap.tick();
+            body.tick(activeMap);
         }
     }
 
@@ -45,6 +52,8 @@ public class Main extends Canvas implements Runnable{
         }else if(gameState == STATE.Running){
             g.setColor(Color.white);
             g.fillRect(0, 0, Constants.WIDTH, Constants.HEIGHT);
+            activeMap.render(g);
+            body.render(g);
         }
 
         g.dispose();
@@ -85,7 +94,7 @@ public class Main extends Canvas implements Runnable{
         thread.start();
         running = true;
 
-        gameState = STATE.Start;
+        gameState = STATE.Running;
     }
 
     public synchronized void stop(){

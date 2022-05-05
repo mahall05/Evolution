@@ -6,7 +6,7 @@ import java.awt.event.KeyEvent;
 public class KeyInput extends KeyAdapter{
 
     private Main game;
-    private boolean[] keyDown = new boolean[1];
+    private boolean[] keyDown = new boolean[4];
 
     public KeyInput(Main game){
         this.game = game;
@@ -20,8 +20,16 @@ public class KeyInput extends KeyAdapter{
         int key = e.getKeyCode(); // Gets the key code of the key that was pressed
 
         if(key == KeyEvent.VK_ESCAPE) {
-        }else if(key = KeyEvent.VK_SPACE){
-			
+			keyDown[0] = true;
+        }else if(key == KeyEvent.VK_SPACE){
+			keyDown[1] = true;
+			game.body.move.jump();
+		}else if(key == KeyEvent.VK_D){
+			keyDown[2] = true;
+			game.body.move.moveRight();
+		}else if(key == KeyEvent.VK_A){
+			keyDown[3] = true;
+			game.body.move.moveLeft();
 		}
         
 		//if(key == KeyEvent.VK_P) {game.pop.printPath();}
@@ -30,7 +38,18 @@ public class KeyInput extends KeyAdapter{
     public void keyReleased(KeyEvent e) {
         int key = e.getKeyCode();
 
-        if(key == KeyEvent.VK_ESCAPE) {keyDown[0] = false;}
+        if(key == KeyEvent.VK_ESCAPE) {
+			keyDown[0] = false;
+        }else if(key == KeyEvent.VK_SPACE){
+			keyDown[1] = false;
+			game.body.move.jump();
+		}else if(key == KeyEvent.VK_D){
+			keyDown[2] = false;
+			game.body.move.stopRight();
+		}else if(key == KeyEvent.VK_A){
+			keyDown[3] = false;
+			game.body.move.stopLeft();
+		}
 	}
 	
     /*
