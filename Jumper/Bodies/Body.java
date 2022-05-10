@@ -11,8 +11,11 @@ public class Body {
     public Movement move = new Movement();
 
     public void tick(Map map){
+      // ALWAYS UPDATE THE COLLISIONS FIRST
       move.touchingGround = checkTouching(map.ground);
       move.touchingWall = checkTouching(map.borders);
+
+      
       move.tick();
     }
 

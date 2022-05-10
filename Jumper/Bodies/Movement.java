@@ -63,9 +63,21 @@ public class Movement {
         }
     }
 
+    public void moveRight(double speed){
+        if(rightVel < velLimit){
+            rightVel += speed;
+        }
+    }
+
     public void moveLeft(){
         if(leftVel < velLimit){
             leftVel += MOVE_SPEED;
+        }
+    }
+
+    public void moveLeft(int speed){
+        if(leftVel < velLimit){
+            leftVel += speed;
         }
     }
 
