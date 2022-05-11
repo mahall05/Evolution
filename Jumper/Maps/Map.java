@@ -8,9 +8,11 @@ public class Map {
     public Obstacle[] obstacles;
     public Ground ground;
     public Border[] borders = new Border[3];
+    public Goal goal;
     private String name;
 
-    public Map(Obstacle[] obstacles, Ground ground, String name){
+    public Map(Goal goal, Obstacle[] obstacles, Ground ground, String name){
+        this.goal = goal;
         this.obstacles = obstacles;
         this.ground = ground;
         this.name = name;
@@ -23,6 +25,9 @@ public class Map {
     public void render(Graphics g){
         g.setColor(Color.GRAY);
         g.fillRect(ground.x, ground.y, ground.width, ground.height);
+
+        g.setColor(Color.red);
+        g.fillRect(goal.x, goal.y, goal.width, goal.height);
     }
 
     public void tick(){

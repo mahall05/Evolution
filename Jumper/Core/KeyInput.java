@@ -19,6 +19,7 @@ public class KeyInput extends KeyAdapter{
     public void keyPressed(KeyEvent e){
         int key = e.getKeyCode(); // Gets the key code of the key that was pressed
 
+		/*
         if(key == KeyEvent.VK_ESCAPE) {
 			keyDown[0] = true;
         }else if(key == KeyEvent.VK_SPACE){
@@ -31,6 +32,7 @@ public class KeyInput extends KeyAdapter{
 			keyDown[3] = true;
 			game.body.move.moveLeft();
 		}
+		*/
         
 		//if(key == KeyEvent.VK_P) {game.pop.printPath();}
     }
@@ -38,6 +40,7 @@ public class KeyInput extends KeyAdapter{
     public void keyReleased(KeyEvent e) {
         int key = e.getKeyCode();
 
+		/*
         if(key == KeyEvent.VK_ESCAPE) {
 			keyDown[0] = false;
         }else if(key == KeyEvent.VK_SPACE){
@@ -50,6 +53,7 @@ public class KeyInput extends KeyAdapter{
 			keyDown[3] = false;
 			game.body.move.stopLeft();
 		}
+		*/
 	}
 	
     /*

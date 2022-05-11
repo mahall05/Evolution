@@ -47,28 +47,28 @@ public class Body{
 
     public void tick(Map map){
         if(!dead && !reachedGoal){
-        move();
-        if(detectDist(map.goal) < bestDist){
-            bestDist = detectDist(map.goal);
-            brain.bestStep = brain.step;
-        }
+          move();
+          if(detectDist(map.goal) < bestDist){
+              bestDist = detectDist(map.goal);
+              brain.bestStep = brain.step;
+          }
 
-        if(path.x < 2 || path.y < 2 || path.x > Constants.WIDTH-2 || path.y > Constants.HEIGHT-45){ // Check for screen boundaries
-            dead = true;
-        }
-        else if(checkCollision(map.goal)){
-            reachedGoal = true;
-            ableToReachGoal = true;
-            finish = System.currentTimeMillis();
-            elapsedTime = finish - start;
-        }
-        else{
-            for (int i = 0; i < map.obstacles.length; i++){
-            if(checkCollision(map.obstacles[i])){
-                dead = true;
-            }
-            }
-        }
+          if(path.x < 2 || path.y < 2 || path.x > Constants.WIDTH-2 || path.y > Constants.HEIGHT-45){ // Check for screen boundaries
+              dead = true;
+          }
+          else if(checkCollision(map.goal)){
+              reachedGoal = true;
+              ableToReachGoal = true;
+              finish = System.currentTimeMillis();
+              elapsedTime = finish - start;
+          }
+          else{
+              for (int i = 0; i < map.obstacles.length; i++){
+              if(checkCollision(map.obstacles[i])){
+                  dead = true;
+              }
+              }
+          }
         }
     }
 

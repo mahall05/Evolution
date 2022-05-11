@@ -9,11 +9,32 @@ public class Brain {
 
     public Brain(int size){
         actions = new Actions[size];
+        randomize();
+        
+        for(int i = 0; i < size; i++){
+            System.out.println(actions[i]);
+        }
+        
     }
 
     public void randomize(){
         for(int i = 0; i < actions.length; i++){
             actions[i] = randomStep();
+            if(actions[i] != Actions.Jump){
+                actions[i+1] = actions[i];
+                actions[i+2] = actions[i];
+                actions[i+3] = actions[i];
+                actions[i+4] = actions[i];
+            }
+            /*
+            if(actions[i] != Actions.Jump){
+                for(int j = i; j < i+5; j++){
+                    if(j < 500)
+                        actions[j] = actions[i];
+                }
+            }
+            */
+            i += 4;
         }
     }
 
@@ -44,22 +65,17 @@ public class Brain {
 
     public Actions randomStep(){
         Actions action;
-        int num = Main.randomInt(0, 2);
+        int chance = Main.randomInt(1, 100);
+        int chanceOfJump = 20;
 
-            switch(num){
-                case(0):
-                    action = Actions.Right;
-                    break;
-                case(1):
-                    action = Actions.Left;
-                    break;
-                case(2):
-                    action = Actions.Jump;
-                    break;
-                default:
-                    action = Actions.Jump;
-                    break;
-            }
-            return action;
+        if(chance <= chanceOfJump){
+            action = Actions.Jump;
+        }else if(chance > chanceOfJump && chance < ((100-chanceOfJump)/2)){
+            action = Actions.Left;
+        }else{
+            action = Actions.Right;
+        }
+
+        return action;
     }
 }

@@ -5,6 +5,7 @@ import java.awt.image.BufferStrategy;
 import java.io.IOException;
 
 import Bodies.Body;
+import Bodies.Population;
 import Maps.*;
 
 public class Main extends Canvas implements Runnable{
@@ -14,7 +15,8 @@ public class Main extends Canvas implements Runnable{
 
     public static Window window;
 
-    public Body body;
+    //public Population pop;
+    public Body test;
     public Map activeMap;
 
     public enum STATE{
@@ -27,7 +29,8 @@ public class Main extends Canvas implements Runnable{
 
     public Main() throws IOException{
         activeMap = Maps.testing;
-        body = new Body();
+        //pop = new Population();
+        test = new Body(500);
         window = new Window(Constants.WIDTH, Constants.HEIGHT, "Evolution", this);
     }
 
@@ -35,7 +38,8 @@ public class Main extends Canvas implements Runnable{
         if(gameState == STATE.Start){
         }else if(gameState == STATE.Running){
             activeMap.tick();
-            body.tick(activeMap);
+            //pop.tick(activeMap);
+            test.tick(activeMap);
         }
     }
 
@@ -53,7 +57,8 @@ public class Main extends Canvas implements Runnable{
             g.setColor(Color.white);
             g.fillRect(0, 0, Constants.WIDTH, Constants.HEIGHT);
             activeMap.render(g);
-            body.render(g);
+            //pop.render(g);
+            test.render(g);
         }
 
         g.dispose();
