@@ -15,8 +15,8 @@ public class Main extends Canvas implements Runnable{
 
     public static Window window;
 
-    //public Population pop;
-    public Body test;
+    public Population pop;
+    //public Body test;
     public Map activeMap;
 
     public enum STATE{
@@ -29,8 +29,8 @@ public class Main extends Canvas implements Runnable{
 
     public Main() throws IOException{
         activeMap = Maps.testing;
-        //pop = new Population();
-        test = new Body(500);
+        pop = new Population();
+        //test = new Body(500);
         window = new Window(Constants.WIDTH, Constants.HEIGHT, "Evolution", this);
     }
 
@@ -38,8 +38,8 @@ public class Main extends Canvas implements Runnable{
         if(gameState == STATE.Start){
         }else if(gameState == STATE.Running){
             activeMap.tick();
-            //pop.tick(activeMap);
-            test.tick(activeMap);
+            pop.tick(activeMap);
+            //test.tick(activeMap);
         }
     }
 
@@ -57,8 +57,8 @@ public class Main extends Canvas implements Runnable{
             g.setColor(Color.white);
             g.fillRect(0, 0, Constants.WIDTH, Constants.HEIGHT);
             activeMap.render(g);
-            //pop.render(g);
-            test.render(g);
+            pop.render(g);
+            //test.render(g);
         }
 
         g.dispose();
@@ -117,13 +117,15 @@ public class Main extends Canvas implements Runnable{
 
     public static int randomInt(int minInclusive, int maxInclusive){
         int range = maxInclusive - minInclusive + 1;
-        int rng = (int)(Math.random() * range) + minInclusive;
+        int rng = (int) (int)(Math.random() * range) + minInclusive;
+
         return rng;
     }
 
     public static double randomDouble(double minInclusive, double maxInclusive){
         double range = maxInclusive - minInclusive + 1;
         double rng = (Math.random() * range) + minInclusive;
+
         return rng;
     }
 }

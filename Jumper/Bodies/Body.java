@@ -2,6 +2,8 @@ package Bodies;
 import java.awt.*;
 
 import Core.Constants;
+import Core.Settings;
+import Maps.Goal;
 import Maps.Map;
 import Maps.Obstacle;
 
@@ -29,6 +31,14 @@ public class Body {
     start = System.currentTimeMillis();
   }
 
+  public Body(Actions[] actions){
+    brain = new Brain(actions);
+    this.brainSize = actions.length;
+
+    move = new Movement(10, Constants.HEIGHT-100);
+    start = System.currentTimeMillis();
+  }
+
   public void tick(Map map){
     // ALWAYS UPDATE THE COLLISIONS FIRST
     move.touchingGround = checkTouching(map.ground);
@@ -39,6 +49,14 @@ public class Body {
       if(detectDist(map.goal) < bestDist){
         bestDist = detectDist(map.goal);
         brain.bestStep = brain.step;
+      }
+
+      // TODO check collision with obstacles
+      if((checkTouching(map.goal))){
+        reachedGoal = true;
+        ableToReachGoal = true;
+        finish = System.currentTimeMillis();
+        elapsedTime = finish - start;
       }
     }
     
@@ -72,6 +90,17 @@ public class Body {
       g.setColor(Color.black);
       g.fillOval(move.x, move.y, width, height);
     }
+    g.setColor(Color.red);
+    g.fillOval(move.x, move.y, width, width);
+
+    /*
+    // TODO testing
+    g.setColor(Color.black);
+    g.drawString("Right Speed" + move.rightVel, 10, 20);
+    g.drawString("Left Speed" + move.leftVel, 10, 40);
+    g.drawString("X Velocity: " + move.xVel, 10, 60);
+    g.drawString("Y Velocity: " + move.yVel, 10, 80);
+    */
   }
 
   public boolean checkTouching(Obstacle o){
@@ -97,5 +126,29 @@ public class Body {
 
   public double detectDist(Obstacle o){
     return Math.sqrt(((o.x - move.x) * (o.x - move.x)) + ((o.y - move.y) * (o.y - move.y)));
+  }
+
+  public Body clone(){
+    Body clone = new Body(brainSize);
+    clone.brain = brain.clone();
+    return clone;
+  }
+
+  public Body cloneFromBestStep(){
+    Body clone = new Body(brainSize);
+    brain.randomizeFromBest();
+    clone.brain = brain.clone();
+    return clone();
+  }
+
+  public void calculateFitness(Goal g){
+    if(reachedGoal){
+      fitness = 1.0/16.0 + 10000.0/(double)(brain.step * brain.step);
+    }else if(Settings.calcBestStep){
+      fitness = 1.0/(bestDist * bestDist);
+    }else{
+      double distanceToGoal = detectDist(g);
+      fitness = 1.0/(distanceToGoal * distanceToGoal);
+    }
   }
 }

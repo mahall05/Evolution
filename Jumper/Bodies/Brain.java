@@ -1,40 +1,41 @@
 package Bodies;
 
 import Core.Main;
+import java.util.Scanner;
+
+import javax.lang.model.util.ElementScanner6;
 
 public class Brain {
     public Actions[] actions;
     public int step = 0;
     public int bestStep = 0;
 
+    private int testNum = 5;
+
     public Brain(int size){
         actions = new Actions[size];
         randomize();
-        
+        /*
         for(int i = 0; i < size; i++){
             System.out.println(actions[i]);
         }
-        
+        */
+    }
+
+    public Brain(Actions[] actions){
+        this.actions = actions;
     }
 
     public void randomize(){
         for(int i = 0; i < actions.length; i++){
             actions[i] = randomStep();
             if(actions[i] != Actions.Jump){
-                actions[i+1] = actions[i];
-                actions[i+2] = actions[i];
-                actions[i+3] = actions[i];
-                actions[i+4] = actions[i];
-            }
-            /*
-            if(actions[i] != Actions.Jump){
-                for(int j = i; j < i+5; j++){
-                    if(j < 500)
+                for(int j = i; j < i+testNum; j++){
+                    if(j<actions.length)
                         actions[j] = actions[i];
                 }
+                i += 4;
             }
-            */
-            i += 4;
         }
     }
 
@@ -64,18 +65,16 @@ public class Brain {
     }
 
     public Actions randomStep(){
-        Actions action;
+        Actions action = Actions.WRONG;
         int chance = Main.randomInt(1, 100);
-        int chanceOfJump = 20;
 
-        if(chance <= chanceOfJump){
+        if (chance >= 1 && chance <= 20){
             action = Actions.Jump;
-        }else if(chance > chanceOfJump && chance < ((100-chanceOfJump)/2)){
+        }else if(chance > 20 && chance <= 60){
             action = Actions.Left;
-        }else{
+        }else if(chance > 60 && chance <= 100){
             action = Actions.Right;
         }
-
         return action;
     }
 }

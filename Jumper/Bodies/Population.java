@@ -6,7 +6,7 @@ import java.awt.*;
 
 public class Population {
     public Body[] bodies;
-    private int brainSize = 500;
+    private int brainSize = 1500;
 
     public int gen = 1;
     public int loadedGen;
@@ -32,6 +32,15 @@ public class Population {
         }
     }
 
+    public Population(Actions[] actions, int loadedGen){
+        bodies = new Body[Settings.populationSize];
+        this.loadedGen = loadedGen;
+        for(int i = 0; i < Settings.populationSize; i++){
+            bodies[i] = new Body(actions);
+        }
+        bodies[0].isBest = true;
+    }
+
     public void render(Graphics g){
         for(int i = 0; i < bodies.length; i++){
             bodies[i].render(g);
@@ -47,5 +56,58 @@ public class Population {
                 bodies[i].tick(map);
             }
         }
+    }
+
+    public void calculateFitness(Map map){
+        for(int i = 0; i < bodies.length; i++){
+            bodies[i].calculateFitness(map.goal);
+        }
+    }
+
+    public boolean allBodiesDead(){
+        for(int i = 0; i < bodies.length; i++){
+            if(!bodies[i].dead && !bodies[i].reachedGoal){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void naturalSelection(Map map){
+        Body[] newBodies = new Body[Settings.populationSize];
+        setBestDot();
+        calculateFitnessSum();
+
+        if(Settings.calcBestStep){
+            newBodies[0] = bodies[best].cloneFromBestStep();
+        }else{
+            newBodies[0] = bodies[best].clone();
+        }
+
+        newBodies[0].isBest = true;
+        for(int i = 1; i < newBodies.length; i++){
+            Body parent = selectParent();
+            if(Settings.calcBestStep){
+                newBodies[i] = parent.cloneFromBestStep();
+            }else{
+                newBodies[i] = parent.clone();
+            }
+        }
+
+        if(timesWithinScore >= 5){
+            mutationRate = mutationRate + 0.05;
+            System.out.println("Mutation rate: " + mutationRate);
+        }
+
+        if(!ableToReachGoal){
+            for(int i = 0; i < bodies.length; i++){
+                if(bodies[i].ableToReachGoal){
+                    ableToReachGoal = true;
+                }
+            }
+        }
+
+        bodies = newBodies.clone();
+        gen++;
     }
 }

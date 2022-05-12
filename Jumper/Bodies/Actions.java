@@ -1,3 +1,3 @@
 package Bodies;
 
-public enum Actions {Right, Left, Jump};
+public enum Actions {Right, Left, Jump, WRONG};

@@ -3,7 +3,7 @@ package Bodies;
 public class Movement {
     public int x, y;
 
-    public double xVel, yVel, rightVel, leftVel;
+    public double xVel, yVel, rightVel, leftVel, velDecayRate = 1;
 
     private static double gravityMultiplier = -0.1;
     public boolean touchingGround = false;
@@ -49,6 +49,9 @@ public class Movement {
         xVel = rightVel - leftVel;
         x += xVel;
         y += yVel;
+
+        rightVel = (rightVel - velDecayRate < 0 ? 0 : rightVel - velDecayRate);
+        leftVel = (leftVel - velDecayRate < 0 ? 0 : leftVel - velDecayRate);
 
         if(!touchingGround){
             yVel -= gravityMultiplier;
