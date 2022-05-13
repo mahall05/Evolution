@@ -21,12 +21,7 @@ public class Obstacle{
     }
 
     public Obstacle(int x, int y, int width, int height, boolean deadly){
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-        this.deadly = deadly;
-        this.hitbox = new Hitbox(x, y, width, height);
+        this(x, y, width, height, deadly, new Hitbox(x, y, width, height));
     }
 
     public Obstacle(int x, int y, int width, int height){
