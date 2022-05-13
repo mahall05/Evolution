@@ -10,7 +10,7 @@ public class Movement {
     public int touchingWall = 999;
 
     private int velLimit = 2;
-    private final double JUMP_VELOCITY = -100;
+    private final double JUMP_VELOCITY = -200;
     private final double MOVE_SPEED = 1;
 
     public Movement(){

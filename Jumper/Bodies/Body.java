@@ -18,7 +18,7 @@ public class Body {
   public boolean reachedGoal = false;
   public boolean ableToReachGoal = true;
 
-  private double fitness = 0, bestDist = 5000000;
+  public double fitness = 0, bestDist = 5000000;
 
   private long start, finish, elapsedTime;
 
@@ -85,13 +85,15 @@ public class Body {
   public void render(Graphics g){
     if(isBest){
       g.setColor(Color.green);
-      g.fillOval(move.x, move.y, width+3, height+3);
+      g.fillOval(move.x, move.y+3, width+3, height+3);
+      g.setColor(Color.red);
+      g.fillOval(move.x, move.y+3, width+3, width+3);
     }else{
       g.setColor(Color.black);
       g.fillOval(move.x, move.y, width, height);
+      g.setColor(Color.red);
+      g.fillOval(move.x, move.y, width, width);
     }
-    g.setColor(Color.red);
-    g.fillOval(move.x, move.y, width, width);
 
     /*
     // TODO testing

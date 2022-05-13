@@ -38,7 +38,13 @@ public class Main extends Canvas implements Runnable{
         if(gameState == STATE.Start){
         }else if(gameState == STATE.Running){
             activeMap.tick();
-            pop.tick(activeMap);
+            if(pop.allBodiesDead()){
+                pop.calculateFitness(activeMap);
+                pop.naturalSelection(activeMap);
+                pop.mutate();
+            }else{
+                pop.tick(activeMap);
+            }
             //test.tick(activeMap);
         }
     }
