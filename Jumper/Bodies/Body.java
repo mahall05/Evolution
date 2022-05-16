@@ -45,8 +45,10 @@ public class Body {
 
   public void tick(Map map){
     // ALWAYS UPDATE THE COLLISIONS FIRST
+    /*
     move.touchingGround = checkTouching(map.ground);
     move.touchingWall = checkTouching(map.borders);
+    */
 
     if(!dead && !reachedGoal){
       move();

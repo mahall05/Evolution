@@ -9,7 +9,8 @@ public class Movement {
 
     private static double gravityMultiplier = -0.1;
     public boolean touchingGround = false;
-    public int touchingWall = 999;
+
+    //public int touchingWall = 999;
 
     private int velLimit = 2;
     private final double JUMP_VELOCITY = -200;
@@ -36,6 +37,7 @@ public class Movement {
     }
 
     public void tick(){
+        /*
         switch(touchingWall){
             case(0):
                 yVel = 0;
@@ -45,6 +47,24 @@ public class Movement {
                 break;
             case(2):
                 rightVel = 0;
+                break;
+        }
+        */
+
+        int collision = hitbox.checkCollision();
+
+        switch(collision){
+            case(1):
+                yVel = 0;
+                break;
+            case(2):
+                yVel = 0;
+                break;
+            case(4):
+                rightVel = 0;
+                break;
+            case(16):
+                leftVel = 0;
                 break;
         }
 
