@@ -1,6 +1,7 @@
 package Maps;
 import java.io.Serializable;
-import Bodies.Hitbox;
+
+import Core.Hitbox;
 
 
 public class Obstacle{

@@ -9,7 +9,7 @@ public class Map {
     public Ground ground;
     public Border[] borders = new Border[3];
     public Goal goal;
-    private String name;
+    public String name;
 
     public Map(Goal goal, Obstacle[] obstacles, Ground ground, String name){
         this.goal = goal;

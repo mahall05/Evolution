@@ -1,5 +1,7 @@
 package Bodies;
 
+import Core.Hitbox;
+
 public class Movement {
     public int x, y;
 
@@ -13,18 +15,18 @@ public class Movement {
     private final double JUMP_VELOCITY = -200;
     private final double MOVE_SPEED = 1;
 
-    public Movement(){
-        x = 0;
-        y = 0;
-        xVel = 0;
-        yVel = 0;
-    }
+    private Hitbox hitbox;
 
-    public Movement(int x, int y){
+    public Movement(int x, int y, Hitbox hitbox){
         this.x = x;
         this.y = y;
         xVel = 0;
         yVel = 0;
+        this.hitbox = hitbox;
+    }
+
+    public Movement(Hitbox hitbox){
+        this(0, 0, hitbox);
     }
 
     public void jump(){
@@ -49,6 +51,8 @@ public class Movement {
         xVel = rightVel - leftVel;
         x += xVel;
         y += yVel;
+
+        hitbox.update(x, y);
 
         rightVel = (rightVel - velDecayRate < 0 ? 0 : rightVel - velDecayRate);
         leftVel = (leftVel - velDecayRate < 0 ? 0 : leftVel - velDecayRate);

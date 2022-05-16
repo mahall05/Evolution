@@ -2,16 +2,19 @@ package Bodies;
 import java.awt.*;
 
 import Core.Constants;
+import Core.Hitbox;
 import Core.Settings;
 import Maps.Goal;
 import Maps.Map;
 import Maps.Obstacle;
 
 public class Body {
+  private final int START_X = 10, START_Y = Constants.HEIGHT-100;
   private int width = 15, height = 50, brainSize;
 
   public Movement move;
   public Brain brain;
+  public Hitbox hitbox;
 
   public boolean isBest = false;
   public boolean dead = false;
@@ -24,10 +27,10 @@ public class Body {
 
   public Body(int brainSize){
     this.brainSize = brainSize;
-    move = new Movement();
     brain = new Brain(brainSize);
 
-    move = new Movement(10, Constants.HEIGHT-100);
+    hitbox = new Hitbox(START_X, START_Y, width, height);
+    move = new Movement(START_X, START_Y, hitbox);
     start = System.currentTimeMillis();
   }
 
@@ -35,7 +38,8 @@ public class Body {
     brain = new Brain(actions);
     this.brainSize = actions.length;
 
-    move = new Movement(10, Constants.HEIGHT-100);
+    hitbox = new Hitbox(START_X, START_Y, width, height);
+    move = new Movement(START_X, START_Y, hitbox);
     start = System.currentTimeMillis();
   }
 
@@ -94,6 +98,8 @@ public class Body {
       g.setColor(Color.red);
       g.fillOval(move.x, move.y, width, width);
     }
+
+    hitbox.render(g);
 
     /*
     // TODO testing
