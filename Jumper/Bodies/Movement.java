@@ -17,6 +17,8 @@ public class Movement {
     private final double JUMP_VELOCITY = -200;
     private final double MOVE_SPEED = 1;
 
+    private double jumping = 0;
+
     private Hitbox hitbox;
 
     public Movement(int x, int y, Hitbox hitbox){
@@ -33,7 +35,7 @@ public class Movement {
 
     public void jump(){
         if(touchingGround){
-            yVel += JUMP_VELOCITY;
+            jumping = JUMP_VELOCITY;
         }
     }
 
@@ -91,6 +93,8 @@ public class Movement {
         }
 
         xVel = rightVel - leftVel;
+        yVel += jumping;
+        jumping = 0;
         x += xVel;
         y += yVel;
 

@@ -49,6 +49,7 @@ public class Body {
     move.touchingGround = checkTouching(map.ground);
     move.touchingWall = checkTouching(map.borders);
     */
+    move.tick();
 
     if(!dead && !reachedGoal){
       move();
@@ -65,8 +66,6 @@ public class Body {
         elapsedTime = finish - start;
       }
     }
-    
-    move.tick();
   }
 
   private void move(){
@@ -101,7 +100,7 @@ public class Body {
       g.fillOval(move.x, move.y, width, width);
     }
 
-    hitbox.render(g);
+    //hitbox.render(g);
 
     /*
     // TODO testing
