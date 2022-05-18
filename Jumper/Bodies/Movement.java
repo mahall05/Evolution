@@ -1,6 +1,7 @@
 package Bodies;
 
 import Core.Hitbox;
+import Maps.Maps;
 
 public class Movement {
     public int x, y;
@@ -36,6 +37,22 @@ public class Movement {
         }
     }
 
+    public int borderCollide(int num){
+        switch(num){
+            case(16):
+                yVel = 0;
+                break;
+            case(32):
+                leftVel = 0;
+                break;
+            case(64):
+                rightVel = 0;
+                break;
+        }
+
+        return num;
+    }
+
     public void tick(){
         /*
         switch(touchingWall){
@@ -52,6 +69,11 @@ public class Movement {
         */
 
         int collision = hitbox.checkCollision();
+        touchingGround = hitbox.bottom.checkWithin(Maps.testing.ground.hitbox.top);
+
+        for(int i = 0; i < 16; i++){
+            collision = collision - 16 == i ? collision - borderCollide(16) : (collision - 32 == i ? collision - borderCollide(32) : (collision - 64 == i ? collision - borderCollide(64) : collision));
+        }
 
         switch(collision){
             case(1):
@@ -63,7 +85,7 @@ public class Movement {
             case(4):
                 rightVel = 0;
                 break;
-            case(16):
+            case(8):
                 leftVel = 0;
                 break;
         }

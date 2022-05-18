@@ -9,7 +9,7 @@ import Maps.Map;
 import Maps.Obstacle;
 
 public class Body {
-  private final int START_X = 10, START_Y = Constants.HEIGHT-100;
+  private final int START_X = 10, START_Y = Constants.HEIGHT-300;
   private int width = 15, height = 50, brainSize;
 
   public Movement move;

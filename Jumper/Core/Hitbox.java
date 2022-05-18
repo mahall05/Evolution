@@ -5,7 +5,7 @@ import Maps.*;
 
 public class Hitbox extends Box{
     //public int x, y, width, height;
-    private final int BOX_SIZE = 8;
+    private final int BOX_SIZE = 2;
 
     public Box bottom, top, right, left;
     public Box[] boxes = {top, bottom, left, right};
@@ -33,10 +33,21 @@ public class Hitbox extends Box{
                 sum += 4;
             }
             if(left.checkWithin(Maps.testing.obstacles[i].hitbox.right)){
-                sum += 16;
+                sum += 8;
             }
         }
 
+        if(checkWithin(Maps.testing.borders[0].hitbox)){
+            sum += 16;
+        }
+        if(checkWithin(Maps.testing.borders[1].hitbox)){
+            sum += 32;
+        }
+        if(checkWithin(Maps.testing.borders[2].hitbox)){
+            sum += 64;
+        }
+
+        /*
         for(int i = 0; i < Maps.testing.borders.length; i++){
             if(bottom.checkWithin(Maps.testing.borders[i].hitbox.top)){
                 sum += 1;
@@ -51,6 +62,7 @@ public class Hitbox extends Box{
                 sum += 16;
             }
         }
+        */
 
         if(bottom.checkWithin(Maps.testing.ground.hitbox.top)){
             sum += 1;
@@ -58,12 +70,14 @@ public class Hitbox extends Box{
         if(top.checkWithin(Maps.testing.ground.hitbox.bottom)){
             sum += 2;
         }
+        /*
         if(right.checkWithin(Maps.testing.ground.hitbox.left)){
             sum += 4;
         }
         if(left.checkWithin(Maps.testing.ground.hitbox.right)){
-            sum += 16;
+            sum += 8;
         }
+        */
 
         return sum;
     }
