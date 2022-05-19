@@ -27,16 +27,16 @@ public class Hitbox extends Box{
         int sum = 0;
         
         for(int i = 0; i < Maps.testing.obstacles.length; i++){
-            if(bottom.checkWithin(Maps.testing.obstacles[i].hitbox)){
+            if(bottom.checkWithin(Maps.testing.obstacles[i].hitbox.top)){
                 sum += 1;
             }
-            if(top.checkWithin(Maps.testing.obstacles[i].hitbox)){
+            if(top.checkWithin(Maps.testing.obstacles[i].hitbox.bottom)){
                 sum += 2;
             }
-            if(right.checkWithin(Maps.testing.obstacles[i].hitbox)){
+            if(right.checkWithin(Maps.testing.obstacles[i].hitbox.left)){
                 sum += 4;
             }
-            if(left.checkWithin(Maps.testing.obstacles[i].hitbox)){
+            if(left.checkWithin(Maps.testing.obstacles[i].hitbox.right)){
                 sum += 8;
             }
         }
@@ -58,6 +58,7 @@ public class Hitbox extends Box{
             sum += 2;
         }
 
+        System.out.println(sum);
         return sum;
     }
 
