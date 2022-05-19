@@ -15,7 +15,7 @@ public class Movement {
 
     private int velLimit = 2;
     private final double JUMP_VELOCITY = -6;
-    private final double MOVE_SPEED = 1;
+    private final double MOVE_SPEED = 2;
 
     private double jumping = 0;
     private double pullDown = 0;
@@ -57,7 +57,7 @@ public class Movement {
     }
 
     public void tick(){
-        touchingGround = hitbox.bottom.checkWithin(Maps.testing.ground.hitbox.top);
+        touchingGround = false;
 
         int collision = hitbox.checkCollision();
 
@@ -68,6 +68,7 @@ public class Movement {
         switch(collision){
             case(1):
                 yVel = 0;
+                touchingGround = true;
                 break;
             case(2):
                 yVel = 0;
@@ -79,6 +80,8 @@ public class Movement {
                 leftVel = 0;
                 break;
         }
+
+        System.out.println(touchingGround);
 
         xVel = rightVel - leftVel;
         yVel += jumping;

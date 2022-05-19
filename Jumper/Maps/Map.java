@@ -26,6 +26,10 @@ public class Map {
         g.setColor(Color.GRAY);
         g.fillRect(ground.x, ground.y, ground.width, ground.height);
 
+        for(int i = 0; i < obstacles.length; i++){
+            g.fillRect(obstacles[i].x, obstacles[i].y, obstacles[i].width, obstacles[i].height);
+        }
+
         g.setColor(Color.red);
         g.fillRect(goal.x, goal.y, goal.width, goal.height);
     }

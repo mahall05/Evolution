@@ -19,20 +19,24 @@ public class Hitbox extends Box{
         left = new Box(this.x, this.y, this.width/BOX_SIZE, this.height);
     }
 
+    public void within(){
+        System.out.println("Within");
+    }
+
     public int checkCollision(){
         int sum = 0;
         
         for(int i = 0; i < Maps.testing.obstacles.length; i++){
-            if(bottom.checkWithin(Maps.testing.obstacles[i].hitbox.top)){
+            if(bottom.checkWithin(Maps.testing.obstacles[i].hitbox)){
                 sum += 1;
             }
-            if(top.checkWithin(Maps.testing.obstacles[i].hitbox.bottom)){
+            if(top.checkWithin(Maps.testing.obstacles[i].hitbox)){
                 sum += 2;
             }
-            if(right.checkWithin(Maps.testing.obstacles[i].hitbox.left)){
+            if(right.checkWithin(Maps.testing.obstacles[i].hitbox)){
                 sum += 4;
             }
-            if(left.checkWithin(Maps.testing.obstacles[i].hitbox.right)){
+            if(left.checkWithin(Maps.testing.obstacles[i].hitbox)){
                 sum += 8;
             }
         }
@@ -47,37 +51,12 @@ public class Hitbox extends Box{
             sum += 64;
         }
 
-        /*
-        for(int i = 0; i < Maps.testing.borders.length; i++){
-            if(bottom.checkWithin(Maps.testing.borders[i].hitbox.top)){
-                sum += 1;
-            }
-            if(top.checkWithin(Maps.testing.borders[i].hitbox.bottom)){
-                sum += 2;
-            }
-            if(right.checkWithin(Maps.testing.borders[i].hitbox.left)){
-                sum += 4;
-            }
-            if(left.checkWithin(Maps.testing.borders[i].hitbox.right)){
-                sum += 16;
-            }
-        }
-        */
-
         if(bottom.checkWithin(Maps.testing.ground.hitbox.top)){
             sum += 1;
         }
         if(top.checkWithin(Maps.testing.ground.hitbox.bottom)){
             sum += 2;
         }
-        /*
-        if(right.checkWithin(Maps.testing.ground.hitbox.left)){
-            sum += 4;
-        }
-        if(left.checkWithin(Maps.testing.ground.hitbox.right)){
-            sum += 8;
-        }
-        */
 
         return sum;
     }
