@@ -6,7 +6,7 @@ import java.awt.*;
 
 public class Population {
     public Body[] bodies;
-    private int brainSize = 500;
+    private int brainSize = 1500;
 
     public int gen = 1;
     public int loadedGen;

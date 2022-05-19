@@ -14,10 +14,11 @@ public class Movement {
     //public int touchingWall = 999;
 
     private int velLimit = 2;
-    private final double JUMP_VELOCITY = -200;
+    private final double JUMP_VELOCITY = -6;
     private final double MOVE_SPEED = 1;
 
     private double jumping = 0;
+    private double pullDown = 0;
 
     private Hitbox hitbox;
 
@@ -56,22 +57,9 @@ public class Movement {
     }
 
     public void tick(){
-        /*
-        switch(touchingWall){
-            case(0):
-                yVel = 0;
-                break;
-            case(1):
-                leftVel = 0;
-                break;
-            case(2):
-                rightVel = 0;
-                break;
-        }
-        */
+        touchingGround = hitbox.bottom.checkWithin(Maps.testing.ground.hitbox.top);
 
         int collision = hitbox.checkCollision();
-        touchingGround = hitbox.bottom.checkWithin(Maps.testing.ground.hitbox.top);
 
         for(int i = 0; i < 16; i++){
             collision = collision - 16 == i ? collision - borderCollide(16) : (collision - 32 == i ? collision - borderCollide(32) : (collision - 64 == i ? collision - borderCollide(64) : collision));
