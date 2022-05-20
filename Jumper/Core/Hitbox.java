@@ -8,7 +8,6 @@ public class Hitbox extends Box{
     private final int BOX_SIZE = 2;
 
     public Box bottom, top, right, left;
-    public Box[] boxes = {top, bottom, left, right};
 
     public Hitbox(int x, int y, int width, int height){
         super(x, y, width, height);
@@ -58,7 +57,6 @@ public class Hitbox extends Box{
             sum += 2;
         }
 
-        System.out.println(sum);
         return sum;
     }
 

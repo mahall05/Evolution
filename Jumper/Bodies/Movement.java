@@ -72,6 +72,7 @@ public class Movement {
                 break;
             case(2):
                 yVel = 0;
+                y += 1;
                 break;
             case(4):
                 rightVel = 0;
@@ -79,9 +80,27 @@ public class Movement {
             case(8):
                 leftVel = 0;
                 break;
+            case(5):
+                rightVel = 0;
+                yVel = 0;
+                touchingGround = true;
+                break;
+            case(6):
+                rightVel = 0;
+                yVel = 0;
+                y += 1;
+                break;
+            case(9):
+                rightVel = 0;
+                yVel = 0;
+                touchingGround = true;
+                break;
+            case(10):
+                rightVel = 0;
+                yVel = 0;
+                y += 1;
+                break;
         }
-
-        System.out.println(touchingGround);
 
         xVel = rightVel - leftVel;
         yVel += jumping;

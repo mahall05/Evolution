@@ -70,9 +70,9 @@ public class Brain {
 
         if (chance >= 1 && chance <= 20){
             action = Actions.Jump;
-        }else if(chance > 20 && chance <= 40){ // TODO CHANGE THIS BACK TO 20 - 60
+        }else if(chance > 20 && chance <= 60){ // TODO CHANGE THIS BACK TO 20 - 60
             action = Actions.Left;
-        }else if(chance > 40 && chance <= 100){
+        }else if(chance > 60 && chance <= 100){
             action = Actions.Right;
         }
         return action;
