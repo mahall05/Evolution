@@ -28,16 +28,35 @@ public class Hitbox extends Box{
         for(int i = 0; i < Maps.testing.obstacles.length; i++){
             if(bottom.checkWithin(Maps.testing.obstacles[i].hitbox.top)){
                 sum += 1;
+                if(Maps.testing.obstacles[i].deadly){
+                    sum = 200;
+                }
             }
             if(top.checkWithin(Maps.testing.obstacles[i].hitbox.bottom)){
                 sum += 2;
+                if(Maps.testing.obstacles[i].deadly){
+                    sum = 200;
+                }
             }
             if(right.checkWithin(Maps.testing.obstacles[i].hitbox.left)){
                 sum += 4;
+                if(Maps.testing.obstacles[i].deadly){
+                    sum = 200;
+                }
             }
             if(left.checkWithin(Maps.testing.obstacles[i].hitbox.right)){
                 sum += 8;
+                if(Maps.testing.obstacles[i].deadly){
+                    sum = 200;
+                }
             }
+            /*
+            if(sum >= 1){ // This indicates a collision has taken place (because otherwise it would be 0)
+                if(Maps.testing.obstacles[i].deadly){
+                    sum = 200;
+                }
+            }
+            */
         }
 
         if(checkWithin(Maps.testing.borders[0].hitbox)){
@@ -57,6 +76,7 @@ public class Hitbox extends Box{
             sum += 2;
         }
 
+        //System.out.println(sum);
         return sum;
     }
 

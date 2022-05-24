@@ -47,6 +47,7 @@ public class Main extends Canvas implements Runnable{
                 pop.tick(activeMap);
             }
             
+            
             //test.tick(activeMap);
         }
     }

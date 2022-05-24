@@ -21,17 +21,19 @@ public class Movement {
     private double pullDown = 0;
 
     private Hitbox hitbox;
+    private Body body;
 
-    public Movement(int x, int y, Hitbox hitbox){
+    public Movement(int x, int y, Body body, Hitbox hitbox){
         this.x = x;
         this.y = y;
         xVel = 0;
         yVel = 0;
+        this.body = body;
         this.hitbox = hitbox;
     }
 
-    public Movement(Hitbox hitbox){
-        this(0, 0, hitbox);
+    public Movement(Body body, Hitbox hitbox){
+        this(0, 0, body, hitbox);
     }
 
     public void jump(){
@@ -102,6 +104,10 @@ public class Movement {
                 break;
         }
 
+        if(collision >= 200){
+            body.dead = true;
+        }
+
         xVel = rightVel - leftVel;
         yVel += jumping;
         jumping = 0;
@@ -113,7 +119,7 @@ public class Movement {
         rightVel = (rightVel - velDecayRate < 0 ? 0 : rightVel - velDecayRate);
         leftVel = (leftVel - velDecayRate < 0 ? 0 : leftVel - velDecayRate);
 
-        if(!touchingGround){
+        if(!touchingGround && !body.dead && !body.reachedGoal){
             yVel -= gravityMultiplier;
         }else{
             yVel = 0;

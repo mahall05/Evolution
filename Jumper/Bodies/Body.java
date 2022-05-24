@@ -19,7 +19,7 @@ public class Body {
   public boolean isBest = false;
   public boolean dead = false;
   public boolean reachedGoal = false;
-  public boolean ableToReachGoal = true;
+  public boolean ableToReachGoal = false;
 
   public double fitness = 0, bestDist = 5000000;
 
@@ -30,7 +30,7 @@ public class Body {
     brain = new Brain(brainSize);
 
     hitbox = new Hitbox(START_X, START_Y, width, height);
-    move = new Movement(START_X, START_Y, hitbox);
+    move = new Movement(START_X, START_Y, this, hitbox);
     start = System.currentTimeMillis();
   }
 
@@ -39,7 +39,7 @@ public class Body {
     this.brainSize = actions.length;
 
     hitbox = new Hitbox(START_X, START_Y, width, height);
-    move = new Movement(START_X, START_Y, hitbox);
+    move = new Movement(START_X, START_Y, this, hitbox);
     start = System.currentTimeMillis();
   }
 

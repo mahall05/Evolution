@@ -6,7 +6,7 @@ import java.awt.*;
 
 public class Population {
     public Body[] bodies;
-    private int brainSize = 5000;
+    private int brainSize = 2000;
 
     public int gen = 1;
     public int loadedGen;
@@ -179,7 +179,7 @@ public class Population {
     }
 
     public void withinScoreRange(){
-        if(bestScore *1000000 > oldBestScore *1000000 - 0.1 && bestScore *1000000 < oldBestScore *1000000 + 0.1){
+        if(oldBestScore / bestScore >= 0.9 && oldBestScore / bestScore < 1.2){
             timesWithinScore++;
             System.out.println("Times: " + timesWithinScore);
         }
