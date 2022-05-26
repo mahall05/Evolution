@@ -49,6 +49,12 @@ public class Population {
     }
 
     public void tick(Map map){
+        // TODO Testing
+        //System.out.println(bodies[0].brain.step);
+        if(bodies[0].brain.step < 2000)
+            System.out.println(bodies[0].brain.actions[bodies[0].brain.step]);
+        // TODO Testing
+
         for(int i = 0; i < bodies.length; i++){
             if(bodies[i].brain.step > brainSize){
                 bodies[i].dead = true;
@@ -73,6 +79,13 @@ public class Population {
         return true;
     }
 
+    public void skipSteps(){
+        bodies[0].brain.skipStep(skipChance/10);
+        for(int i = 1; i < bodies.length; i++){
+            bodies[i].brain.skipStep(skipChance);
+        }
+    }
+
     public void naturalSelection(Map map){
         Body[] newBodies = new Body[Settings.populationSize];
         setBestDot();
@@ -87,11 +100,14 @@ public class Population {
         newBodies[0].isBest = true;
         for(int i = 1; i < newBodies.length; i++){
             Body parent = selectParent();
+            
             if(Settings.calcBestStep){
                 newBodies[i] = parent.cloneFromBestStep();
             }else{
                 newBodies[i] = parent.clone();
             }
+            
+            //newBodies[i] = parent.clone();
         }
 
         if(timesWithinScore >= 5){
