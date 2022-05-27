@@ -79,23 +79,18 @@ public class Brain {
     }
 
     public void skipStep(double chance){
+        Actions[] newActions = actions;
+
         for(int i = 0; i < actions.length; i++){
           double random = Main.randomDouble(0, 1);
-          Actions[] newActions = new Actions[actions.length];
           if(random < chance){
-            //skip a step
-            for(int j = 0; j < i; j++){
-              newActions[j] = actions[j]; // fill in every step before
-            }
-    
             for(int j = i; j < actions.length-i-1; j++){
-              newActions[j] = actions[j+1]; // replace every step with the following step, effectively removing the chosen step
+              newActions[j] = newActions[j+1]; // replace every step with the following step, effectively removing the chosen step
             }
     
             newActions[actions.length-1] = randomStep();
-    
-            actions = newActions;
           }
         }
+        actions = newActions;
       }
 }

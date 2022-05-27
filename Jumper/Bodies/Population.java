@@ -41,6 +41,12 @@ public class Population {
         bodies[0].isBest = true;
     }
 
+    public void printPath(int body){
+        for(int i = 0; i < brainSize; i++){
+            System.out.println(bodies[6].brain.actions[i]);
+        }
+    }
+
     public void render(Graphics g){
         for(int i = 0; i < bodies.length; i++){
             bodies[i].render(g);
@@ -49,12 +55,6 @@ public class Population {
     }
 
     public void tick(Map map){
-        // TODO Testing
-        //System.out.println(bodies[0].brain.step);
-        if(bodies[0].brain.step < 2000)
-            System.out.println(bodies[0].brain.actions[bodies[0].brain.step]);
-        // TODO Testing
-
         for(int i = 0; i < bodies.length; i++){
             if(bodies[i].brain.step > brainSize){
                 bodies[i].dead = true;

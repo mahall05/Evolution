@@ -70,20 +70,16 @@ public class Body {
 
   private void move(){
     if(brain.actions.length > brain.step){
-      try{
-        switch(brain.actions[brain.step]){
-          case Jump:
-            move.jump();
-            break;
-          case Right:
-            move.moveRight();
-            break;
-          case Left:
-            move.moveLeft();
-            break;
-        }
-      }catch(NullPointerException e){
-        System.out.println("Something went wrong");
+      switch(brain.actions[brain.step]){
+        case Jump:
+          move.jump();
+          break;
+        case Right:
+          move.moveRight();
+          break;
+        case Left:
+          move.moveLeft();
+          break;
       }
       brain.step++;
     }else{
