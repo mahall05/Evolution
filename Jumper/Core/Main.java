@@ -7,6 +7,7 @@ import java.io.IOException;
 import Bodies.Body;
 import Bodies.Population;
 import Maps.*;
+import Menus.*;
 
 public class Main extends Canvas implements Runnable{
 
@@ -19,8 +20,13 @@ public class Main extends Canvas implements Runnable{
     //public Body test;
     public Map activeMap;
 
+    public HUD hud;
+    public StartMenu start;
+    public LineSelectMenu lineMenu;
+
     public enum STATE{
         Start,
+        LineSelect,
         Running,
     };
 
@@ -31,11 +37,18 @@ public class Main extends Canvas implements Runnable{
         activeMap = Maps.testing;
         pop = new Population();
         //test = new Body(5000);
+
+        hud = new HUD(pop);
+        start = new StartMenu();
+        lineMenu = new LineSelectMenu();
         window = new Window(Constants.WIDTH, Constants.HEIGHT, "Evolution", this);
     }
 
     private void tick(){
         if(gameState == STATE.Start){
+            start.tick();
+        }else if(gameState == STATE.LineSelect){
+            lineMenu.tick();
         }else if(gameState == STATE.Running){
             activeMap.tick();
             
@@ -48,7 +61,7 @@ public class Main extends Canvas implements Runnable{
                 pop.tick(activeMap);
             }
             
-            
+            hud.tick();
             //test.tick(activeMap);
         }
     }
@@ -63,12 +76,16 @@ public class Main extends Canvas implements Runnable{
         Graphics g = bs.getDrawGraphics();
 
         if(gameState == STATE.Start){
+            start.render(g);
+        }else if(gameState == STATE.LineSelect){
+            lineMenu.render(g);
         }else if(gameState == STATE.Running){
             g.setColor(Color.white);
             g.fillRect(0, 0, Constants.WIDTH, Constants.HEIGHT);
             activeMap.render(g);
             pop.render(g);
             //test.render(g);
+            hud.render(g);
         }
 
         g.dispose();
@@ -109,7 +126,7 @@ public class Main extends Canvas implements Runnable{
         thread.start();
         running = true;
 
-        gameState = STATE.Running;
+        gameState = STATE.LineSelect;
     }
 
     public synchronized void stop(){
