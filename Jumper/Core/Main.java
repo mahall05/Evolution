@@ -16,8 +16,8 @@ public class Main extends Canvas implements Runnable{
 
     public static Window window;
 
-    public Population pop;
-    //public Body test;
+    //public Population pop;
+    public Body test;
 
     public Map activeMap;
 
@@ -36,10 +36,10 @@ public class Main extends Canvas implements Runnable{
 
     public Main() throws IOException{
         activeMap = Maps.testing;
-        pop = new Population();
-        //test = new Body(5000);
+        //pop = new Population();
+        test = new Body(5000);
 
-        hud = new HUD(pop);
+        //hud = new HUD(pop);
         start = new StartMenu();
         lineMenu = new LineSelectMenu();
         window = new Window(Constants.WIDTH, Constants.HEIGHT, "Evolution", this);
@@ -52,7 +52,7 @@ public class Main extends Canvas implements Runnable{
             lineMenu.tick();
         }else if(gameState == STATE.Running){
             activeMap.tick();
-            
+            /*
             if(pop.allBodiesDead()){
                 pop.calculateFitness(activeMap);
                 pop.naturalSelection(activeMap);
@@ -61,9 +61,9 @@ public class Main extends Canvas implements Runnable{
             }else{
                 pop.tick(activeMap);
             }
-            
-            hud.tick();
-            //test.tick(activeMap);
+            */
+            //hud.tick();
+            test.tick(activeMap);
         }
     }
 
@@ -84,9 +84,9 @@ public class Main extends Canvas implements Runnable{
             g.setColor(Color.white);
             g.fillRect(0, 0, Constants.WIDTH, Constants.HEIGHT);
             activeMap.render(g);
-            pop.render(g);
-            //test.render(g);
-            hud.render(g);
+            //pop.render(g);
+            test.render(g);
+            //hud.render(g);
         }
 
         g.dispose();

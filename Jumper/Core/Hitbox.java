@@ -76,7 +76,7 @@ public class Hitbox extends Box{
             sum += 2;
         }
 
-        //System.out.println(sum);
+        System.out.println(sum);
         return sum;
     }
 

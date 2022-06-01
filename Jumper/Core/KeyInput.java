@@ -20,7 +20,7 @@ public class KeyInput extends KeyAdapter{
         int key = e.getKeyCode(); // Gets the key code of the key that was pressed
 
 		if(key == KeyEvent.VK_P){
-			game.pop.printPath(6);
+			//game.pop.printPath(6);
 		}
 
 		/*
