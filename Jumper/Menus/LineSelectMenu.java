@@ -12,7 +12,7 @@ public class LineSelectMenu{
     private String[] modLabels = {"-", "+"};
     private int[][] modOffsets = {{10, -25}, {0, -25}};
 
-    public int lineSpeed = 5;
+    public int lineSpeed = 10;
 
     public LineSelectMenu(){
 

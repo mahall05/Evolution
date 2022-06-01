@@ -18,6 +18,7 @@ public class Main extends Canvas implements Runnable{
 
     public Population pop;
     //public Body test;
+
     public Map activeMap;
 
     public HUD hud;
@@ -154,5 +155,9 @@ public class Main extends Canvas implements Runnable{
         double rng = (Math.random() * range) + minInclusive;
 
         return rng;
+    }
+
+    public void activateLine(int vel){
+        Maps.testing.obstacles[Maps.testing.obstacles.length-1].activate(vel);
     }
 }

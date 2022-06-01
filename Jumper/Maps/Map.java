@@ -32,7 +32,8 @@ public class Map {
             }else{
                 g.setColor(Color.GRAY);
             }
-            g.fillRect(obstacles[i].x, obstacles[i].y, obstacles[i].width, obstacles[i].height);
+            if(obstacles[i].active)
+                g.fillRect(obstacles[i].x, obstacles[i].y, obstacles[i].width, obstacles[i].height);
         }
 
         g.setColor(Color.red);
@@ -40,6 +41,10 @@ public class Map {
     }
 
     public void tick(){
-        
+        for(int i = 0; i < obstacles.length; i++){
+            if(obstacles[i].active){
+                obstacles[i].tick();
+            }
+        }
     }
 }

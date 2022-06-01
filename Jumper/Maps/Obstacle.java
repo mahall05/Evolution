@@ -10,8 +10,11 @@ public class Obstacle{
     public int y = 0;
     public int width = 0;
     public int height = 0;
+    public int xVel = 0;
+    public int yVel = 0;
     public boolean deadly;
     public Hitbox hitbox;
+    public boolean active = true;
 
     private final int BOX_SIZE = 4;
     private final int SIDE_SIZE = 100;
@@ -36,5 +39,19 @@ public class Obstacle{
 
     public Obstacle(int x, int y, int width, int height){
         this(x, y, width, height, false);
+    }
+
+    public void activate(int vel){
+        xVel = vel;
+        this.active = true;
+    }
+
+    public void activate(){
+        this.active = true;
+    }
+
+    public void tick(){
+        x += xVel;
+        y += yVel;
     }
 }

@@ -26,25 +26,25 @@ public class Hitbox extends Box{
         int sum = 0;
         
         for(int i = 0; i < Maps.testing.obstacles.length; i++){
-            if(bottom.checkWithin(Maps.testing.obstacles[i].hitbox.top)){
+            if(Maps.testing.obstacles[i].active && bottom.checkWithin(Maps.testing.obstacles[i].hitbox.top)){
                 sum += 1;
                 if(Maps.testing.obstacles[i].deadly){
                     sum = 200;
                 }
             }
-            if(top.checkWithin(Maps.testing.obstacles[i].hitbox.bottom)){
+            if(Maps.testing.obstacles[i].active && top.checkWithin(Maps.testing.obstacles[i].hitbox.bottom)){
                 sum += 2;
                 if(Maps.testing.obstacles[i].deadly){
                     sum = 200;
                 }
             }
-            if(right.checkWithin(Maps.testing.obstacles[i].hitbox.left)){
+            if(Maps.testing.obstacles[i].active && right.checkWithin(Maps.testing.obstacles[i].hitbox.left)){
                 sum += 4;
                 if(Maps.testing.obstacles[i].deadly){
                     sum = 200;
                 }
             }
-            if(left.checkWithin(Maps.testing.obstacles[i].hitbox.right)){
+            if(Maps.testing.obstacles[i].active && left.checkWithin(Maps.testing.obstacles[i].hitbox.right)){
                 sum += 8;
                 if(Maps.testing.obstacles[i].deadly){
                     sum = 200;
