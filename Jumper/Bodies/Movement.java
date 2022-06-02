@@ -1,6 +1,8 @@
 package Bodies;
 
 import Core.Hitbox;
+import Core.Main;
+import Maps.Map;
 import Maps.Maps;
 
 public class Movement {
@@ -58,10 +60,10 @@ public class Movement {
         return num;
     }
 
-    public void tick(){
+    public void tick(Map map){
         touchingGround = false;
 
-        int collision = hitbox.checkCollision();
+        int collision = hitbox.checkCollision(map);
 
         for(int i = 0; i < 16; i++){
             collision = collision - 16 == i ? collision - borderCollide(16) : (collision - 32 == i ? collision - borderCollide(32) : (collision - 64 == i ? collision - borderCollide(64) : collision));

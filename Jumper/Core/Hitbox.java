@@ -22,31 +22,31 @@ public class Hitbox extends Box{
         System.out.println("Within");
     }
 
-    public int checkCollision(){
+    public int checkCollision(Map map){
         int sum = 0;
         
-        for(int i = 0; i < Maps.testing.obstacles.length; i++){
-            if(bottom.checkWithin(Maps.testing.obstacles[i].hitbox.top)){
+        for(int i = 0; i < map.obstacles.length; i++){
+            if(bottom.checkWithin(map.obstacles[i].hitbox.top)){
                 sum += 1;
-                if(Maps.testing.obstacles[i].deadly){
+                if(map.obstacles[i].deadly){
                     sum = 200;
                 }
             }
-            if(top.checkWithin(Maps.testing.obstacles[i].hitbox.bottom)){
+            if(top.checkWithin(map.obstacles[i].hitbox.bottom)){
                 sum += 2;
-                if(Maps.testing.obstacles[i].deadly){
+                if(map.obstacles[i].deadly){
                     sum = 200;
                 }
             }
-            if(right.checkWithin(Maps.testing.obstacles[i].hitbox.left)){
+            if(right.checkWithin(map.obstacles[i].hitbox.left)){
                 sum += 4;
-                if(Maps.testing.obstacles[i].deadly){
+                if(map.obstacles[i].deadly){
                     sum = 200;
                 }
             }
-            if(left.checkWithin(Maps.testing.obstacles[i].hitbox.right)){
+            if(left.checkWithin(map.obstacles[i].hitbox.right)){
                 sum += 8;
-                if(Maps.testing.obstacles[i].deadly){
+                if(map.obstacles[i].deadly){
                     sum = 200;
                 }
             }
@@ -59,20 +59,26 @@ public class Hitbox extends Box{
             */
         }
 
-        if(checkWithin(Maps.testing.borders[0].hitbox)){
+        for(int i = 0; i < map.movingObstacles.length; i++){
+            if(map.movingObstacles[i].active && checkWithin(map.movingObstacles[i].hitbox)){
+                sum = 200;
+            }
+        }
+
+        if(checkWithin(map.borders[0].hitbox)){
             sum += 16;
         }
-        if(checkWithin(Maps.testing.borders[1].hitbox)){
+        if(checkWithin(map.borders[1].hitbox)){
             sum += 32;
         }
-        if(checkWithin(Maps.testing.borders[2].hitbox)){
+        if(checkWithin(map.borders[2].hitbox)){
             sum += 64;
         }
 
-        if(bottom.checkWithin(Maps.testing.ground.hitbox.top)){
+        if(bottom.checkWithin(map.ground.hitbox.top)){
             sum += 1;
         }
-        if(top.checkWithin(Maps.testing.ground.hitbox.bottom)){
+        if(top.checkWithin(map.ground.hitbox.bottom)){
             sum += 2;
         }
 

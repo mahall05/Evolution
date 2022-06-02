@@ -52,10 +52,14 @@ public class MyMouseListener extends JComponent implements MouseInputListener{
                     game.prevState = Main.STATE.LineSelect;
                     switch(i){
                         case(0):
-                            //Start with button
+                            //Start with line
+                            game.activeMap.movingObstacles[0].activate();
+                            game.activeMap.movingObstacles[0].setSpeed(game.lineMenu.lineSpeed/10, 0);
+                            game.gameState = Main.STATE.Running;
                             break;
                         case(1):
-                            //Start without button
+                            //Start without line
+                            game.gameState = Main.STATE.Running;
                             break;
                     }
                 }else if(modButtons[i].checkWithinButton(mousePos)){

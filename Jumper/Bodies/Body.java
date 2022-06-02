@@ -49,7 +49,7 @@ public class Body {
     move.touchingGround = checkTouching(map.ground);
     move.touchingWall = checkTouching(map.borders);
     */
-    move.tick();
+    move.tick(map);
 
     if(!dead && !reachedGoal){
       move();
