@@ -123,6 +123,9 @@ public class Population {
             }
         }
 
+        for(int i = 0; i < map.movingObstacles.length; i++){
+            map.movingObstacles[i].reset();
+        }
         bodies = newBodies.clone();
         gen++;
     }

@@ -6,10 +6,14 @@ public class MovingObstacle extends Obstacle {
     int xVel, yVel;
     public boolean active = false;
 
+    private int startX, startY;
+
     public MovingObstacle(int x, int y, int width, int height, int xVel, int yVel, boolean deadly, Hitbox hitbox){
         super(x, y, width, height, deadly, hitbox);
         this.xVel = xVel;
         this.yVel = yVel;
+        this.startX = x;
+        this.startY = y;
     }
 
     public MovingObstacle(int x, int y, int width, int height, boolean deadly, Hitbox hitbox){
@@ -43,5 +47,10 @@ public class MovingObstacle extends Obstacle {
         this.y += yVel;
 
         hitbox.update(this.x, this.y);
+    }
+
+    public void reset(){
+        this.x = startX;
+        this.y = startY;
     }
 }
