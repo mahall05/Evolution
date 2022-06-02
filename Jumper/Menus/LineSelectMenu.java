@@ -61,6 +61,18 @@ public class LineSelectMenu{
     }
 
     public void speedChange(int speed){
-        lineSpeed += speed;
+        if(speed > 0){
+            if(lineSpeed + speed > 20){
+                lineSpeed = 20;
+            }else{
+                lineSpeed += speed;
+            }
+        }else if(speed < 0){
+            if(lineSpeed + speed < 0){
+                lineSpeed = 0;
+            }else{
+                lineSpeed += speed;
+            }
+        }
     }
 }
