@@ -58,4 +58,8 @@ public class Map {
                 movingObstacles[i].tick();
         }
     }
+
+    public String getName(){
+        return name;
+    }
 }

@@ -21,6 +21,8 @@ public class KeyInput extends KeyAdapter{
 
 		if(key == KeyEvent.VK_P){
 			game.pop.printPath(6);
+		}else if(key == KeyEvent.VK_ESCAPE){
+			game.gameState = game.prevState;
 		}
 
 		/*

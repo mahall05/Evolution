@@ -31,14 +31,16 @@ public class MyMouseListener extends JComponent implements MouseInputListener{
                     switch(i){
                         case(0):
                             game.gameState = Main.STATE.LineSelect;
+                            game.prevState = Main.STATE.Start;
                             break;
                         case(1):
-                            //game.loadMenu.load();
-                            //game.gameState = Main.STATE.Load;
+                            game.loadMenu.load();
+                            game.gameState = Main.STATE.Load;
+                            game.prevState = Main.STATE.Start;
                             break;
                         case(2):
-                            //game.settingsMenu.prevState = Main.STATE.Start;
-                            //game.gameState = Main.STATE.Settings;
+                            game.prevState = Main.STATE.Start;
+                            game.gameState = Main.STATE.Settings;
                             break;
                     }
                 }
@@ -75,6 +77,33 @@ public class MyMouseListener extends JComponent implements MouseInputListener{
             }
         }else if(game.gameState == Main.STATE.Running){
             System.out.println("x: " + mousePos.getX() + ", y: " + mousePos.getY());
+        }else if(game.gameState == Main.STATE.Settings){
+            Button back = game.settingsMenu.back;
+            Button fitnessToggle = game.settingsMenu.fitnessToggle;
+            Button[] populationModifiers = game.settingsMenu.populationModifiers;
+            Button save = game.settingsMenu.save;
+
+            if(back.checkWithinButton(mousePos)){
+                game.gameState = game.prevState;
+            }else if(fitnessToggle.checkWithinButton(mousePos)){
+                Settings.calcBestStep = !Settings.calcBestStep;
+            }else if(populationModifiers[0].checkWithinButton(mousePos)){
+                Settings.populationSize -= 100;
+            }else if(populationModifiers[1].checkWithinButton(mousePos)){
+                Settings.populationSize += 100;
+            }else if(save.checkWithinButton(mousePos)){
+                //TODO save the settings
+            }
+        }else if(game.gameState == Main.STATE.Save){
+            // TODO save
+        }else if(game.gameState == Main.STATE.Load){
+            Button[] buttons = game.loadMenu.getButtons();
+
+            for(int i = 0; i < buttons.length; i++){
+                if(buttons[i].checkWithinButton(mousePos)){
+                    // TODO load the information from the selected slot
+                }
+            }
         }
     }
 
@@ -112,6 +141,41 @@ public class MyMouseListener extends JComponent implements MouseInputListener{
                     modButtons[i].setButtonColor(Color.GRAY);
                 }
             }
+        }else if(game.gameState == Main.STATE.Settings){
+            Button back = game.settingsMenu.back;
+            Button fitnessToggle = game.settingsMenu.fitnessToggle;
+            Button[] populationModifiers = game.settingsMenu.populationModifiers;
+            Button save = game.settingsMenu.save;
+
+            if(back.checkWithinButton(mousePos)){
+                back.setButtonColor(Color.GRAY);
+            }else if(fitnessToggle.checkWithinButton(mousePos)){
+                fitnessToggle.checkWithinButton(mousePos);
+            }else if(save.checkWithinButton(mousePos)){
+                save.setButtonColor(Color.GRAY);
+            }else{
+                for(int i = 0; i < populationModifiers.length; i++){
+                    if(populationModifiers[i].checkWithinButton(mousePos)){
+                        populationModifiers[i].setButtonColor(Color.GRAY);
+                    }
+                }
+            }
+        }else if(game.gameState == Main.STATE.Save){
+            Button[] buttons = game.saveMenu.getButtons();
+
+            for(int i = 0; i < buttons.length; i++){
+                if(buttons[i].checkWithinButton(mousePos)){
+                    buttons[i].setButtonColor(Color.GRAY);
+                }
+            }
+        }else if(game.gameState == Main.STATE.Load){
+            Button[] buttons = game.loadMenu.getButtons();
+
+            for(int i = 0; i < buttons.length; i++){
+                if(buttons[i].checkWithinButton(mousePos)){
+                    buttons[i].setButtonColor(Color.GRAY);
+                }
+            }
         }
     }
 
@@ -133,6 +197,30 @@ public class MyMouseListener extends JComponent implements MouseInputListener{
             for(int i = 0; i < buttons.length; i++){
                 buttons[i].setButtonColor(Color.white);
                 modButtons[i].setButtonColor(Color.white);
+            }
+        }else if(game.gameState == Main.STATE.Settings){
+            Button back = game.settingsMenu.back;
+            Button fitnessToggle = game.settingsMenu.fitnessToggle;
+            Button[] populationModifiers = game.settingsMenu.populationModifiers;
+            Button save = game.settingsMenu.save;
+
+            back.setButtonColor(Color.WHITE);
+            fitnessToggle.setButtonColor(Color.WHITE);
+            save.setButtonColor(Color.WHITE);
+            for(int i = 0; i < populationModifiers.length; i++){
+                populationModifiers[i].setButtonColor(Color.WHITE);
+            }
+        }else if(game.gameState == Main.STATE.Save){
+            Button[] buttons = game.saveMenu.getButtons();
+
+            for(int i = 0; i < buttons.length; i++){
+                buttons[i].setButtonColor(Color.WHITE);
+            }
+        }else if(game.gameState == Main.STATE.Load){
+            Button[] buttons = game.loadMenu.getButtons();
+
+            for(int i = 0; i < buttons.length; i++){
+                buttons[i].setButtonColor(Color.WHITE);
             }
         }
     }

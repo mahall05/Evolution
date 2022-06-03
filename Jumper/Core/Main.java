@@ -23,10 +23,16 @@ public class Main extends Canvas implements Runnable{
     public HUD hud;
     public StartMenu start;
     public LineSelectMenu lineMenu;
+    public SettingsMenu settingsMenu;
+    public SaveMenu saveMenu;
+    public LoadMenu loadMenu;
 
     public enum STATE{
         Start,
         LineSelect,
+        Settings,
+        Save,
+        Load,
         Running,
     };
 
@@ -41,6 +47,10 @@ public class Main extends Canvas implements Runnable{
         hud = new HUD(pop);
         start = new StartMenu();
         lineMenu = new LineSelectMenu();
+        settingsMenu = new SettingsMenu();
+        saveMenu = new SaveMenu();
+        loadMenu = new LoadMenu();
+
         window = new Window(Constants.WIDTH, Constants.HEIGHT, "Evolution", this);
     }
 
@@ -63,6 +73,12 @@ public class Main extends Canvas implements Runnable{
             
             hud.tick();
             //test.tick(activeMap);
+        }else if(gameState == STATE.Settings){
+            settingsMenu.tick();
+        }else if(gameState == STATE.Save){
+            saveMenu.tick();
+        }else if(gameState == STATE.Load){
+            loadMenu.tick();
         }
     }
 
@@ -86,6 +102,12 @@ public class Main extends Canvas implements Runnable{
             pop.render(g);
             //test.render(g);
             hud.render(g);
+        }else if(gameState == STATE.Settings){
+            settingsMenu.render(g);
+        }else if(gameState == STATE.Save){
+            saveMenu.render(g);
+        }else if(gameState == STATE.Load){
+            loadMenu.render(g);
         }
 
         g.dispose();
@@ -126,7 +148,7 @@ public class Main extends Canvas implements Runnable{
         thread.start();
         running = true;
 
-        gameState = STATE.LineSelect;
+        gameState = STATE.Start;
     }
 
     public synchronized void stop(){
