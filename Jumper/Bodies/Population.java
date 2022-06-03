@@ -9,7 +9,7 @@ public class Population {
     private int brainSize = 2000;
 
     public int gen = 1;
-    public int loadedGen;
+    //public int loadedGen;
 
     private double fitnessSum;
     private int best;
@@ -26,7 +26,6 @@ public class Population {
 
     public Population(){
         bodies = new Body[Settings.populationSize];
-        loadedGen = 0;
         for(int i = 0; i < Settings.populationSize; i++){
             bodies[i] = new Body(brainSize);
         }
@@ -34,7 +33,7 @@ public class Population {
 
     public Population(Actions[] actions, int loadedGen){
         bodies = new Body[Settings.populationSize];
-        this.loadedGen = loadedGen;
+        this.gen += loadedGen;
         for(int i = 0; i < Settings.populationSize; i++){
             bodies[i] = new Body(actions);
         }
@@ -208,5 +207,10 @@ public class Population {
             System.out.println("Times: " + timesWithinScore);
             System.out.println("Mutation Rate: " + mutationRate);
         }
+    }
+
+    public Actions[] getBestActions(){
+        Actions[] bestActions = bodies[0].brain.actions;
+        return bestActions;
     }
 }

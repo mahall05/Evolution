@@ -7,18 +7,18 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.time.LocalDate;
 
-import Dots.AccelVector;
-import Dots.Population;
+import Bodies.Actions;
+import Bodies.Population;
 import Maps.Map;
 
 public class FileHandler {
     public static void save(Population pop, Map map, int brainNum){
-        AccelVector[] paths = pop.getBestPaths();
-        SaveInfo info = new SaveInfo(LocalDate.now(), map, pop.gen+pop.loadedGen, pop.ableToReachGoal, pop.bestSteps);
+        Actions[] actions = pop.getBestActions();
+        SaveInfo info = new SaveInfo(LocalDate.now(), map, pop.gen, pop.ableToReachGoal, pop.bestSteps);
         SaveSettings settings = new SaveSettings();
 
-        try (FileOutputStream fos = new FileOutputStream("Exports/Brain"+brainNum+"/paths"+brainNum+".ser"); ObjectOutputStream oos = new ObjectOutputStream(fos);) {
-            oos.writeObject(paths);
+        try (FileOutputStream fos = new FileOutputStream("Exports/Brain"+brainNum+"/actions"+brainNum+".ser"); ObjectOutputStream oos = new ObjectOutputStream(fos);) {
+            oos.writeObject(actions);
         }catch (IOException ioe){
             System.out.println("Problem saving Brain"+brainNum);
             ioe.printStackTrace();
@@ -59,11 +59,11 @@ public class FileHandler {
         }
     }
 
-    public static AccelVector[] loadPaths(int brainNum){
-        AccelVector[] loadedPaths = new AccelVector[2];
+    public static Actions[] loadActions(int brainNum){
+        Actions[] loadedActions = new Actions[2];
 
-        try (FileInputStream fis = new FileInputStream("Exports/Brain"+brainNum+"/paths"+brainNum+".ser"); ObjectInputStream ois = new ObjectInputStream(fis);) {
-            loadedPaths = (AccelVector[]) ois.readObject();
+        try (FileInputStream fis = new FileInputStream("Exports/Brain"+brainNum+"/actions"+brainNum+".ser"); ObjectInputStream ois = new ObjectInputStream(fis);) {
+            loadedActions = (Actions[]) ois.readObject();
         } catch (IOException ioe){
             System.out.println("Error reading file " + brainNum);
             ioe.printStackTrace();
@@ -71,7 +71,7 @@ public class FileHandler {
             System.out.println("Error loading brains");
             cnfe.printStackTrace();
         }
-        return loadedPaths;
+        return loadedActions;
     }
 
     public static SaveInfo loadInfo(int brainNum){

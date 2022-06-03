@@ -4,8 +4,11 @@ import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.io.IOException;
 
+import Bodies.Actions;
 import Bodies.Body;
 import Bodies.Population;
+import Core.Files.FileHandler;
+import Core.Files.SaveSettings;
 import Maps.*;
 import Menus.*;
 
@@ -26,6 +29,7 @@ public class Main extends Canvas implements Runnable{
     public SettingsMenu settingsMenu;
     public SaveMenu saveMenu;
     public LoadMenu loadMenu;
+    public PauseMenu pauseMenu;
 
     public enum STATE{
         Start,
@@ -34,6 +38,7 @@ public class Main extends Canvas implements Runnable{
         Save,
         Load,
         Running,
+        Paused,
     };
 
     public STATE gameState;
@@ -50,8 +55,10 @@ public class Main extends Canvas implements Runnable{
         settingsMenu = new SettingsMenu();
         saveMenu = new SaveMenu();
         loadMenu = new LoadMenu();
+        pauseMenu = new PauseMenu();
 
         window = new Window(Constants.WIDTH, Constants.HEIGHT, "Evolution", this);
+        loadSettings(FileHandler.loadSettings());
     }
 
     private void tick(){
@@ -79,6 +86,15 @@ public class Main extends Canvas implements Runnable{
             saveMenu.tick();
         }else if(gameState == STATE.Load){
             loadMenu.tick();
+        }else if(gameState == STATE.Paused){
+            pauseMenu.tick();
+        }
+
+        // TODO remove this if this causes things not to work
+        if(gameState == STATE.Running && prevState != STATE.Paused){
+            prevState = STATE.Paused;
+        }else if(gameState == STATE.Paused && prevState != STATE.Running){
+            prevState = STATE.Running;
         }
     }
 
@@ -108,6 +124,8 @@ public class Main extends Canvas implements Runnable{
             saveMenu.render(g);
         }else if(gameState == STATE.Load){
             loadMenu.render(g);
+        }else if(gameState == STATE.Paused){
+            pauseMenu.render(g);
         }
 
         g.dispose();
@@ -141,6 +159,26 @@ public class Main extends Canvas implements Runnable{
                 frames = 0;
             }
         }
+    }
+
+    public void newSimulation(){
+        pop = new Population();
+        hud = new HUD(pop);
+    }
+
+    public void loadSimulation(Actions[] loadedActions, Map map, int loadedGen){
+        this.activeMap = map;
+        pop = new Population(loadedActions, loadedGen);
+        hud = new HUD(pop);
+    }
+
+    public void setMap(Map map){
+        this.activeMap = map;
+    }
+
+    public void loadSettings(SaveSettings settings){
+        Settings.calcBestStep = settings.calcBestStep;
+        Settings.populationSize = settings.populationSize;
     }
     
     public synchronized void start(){

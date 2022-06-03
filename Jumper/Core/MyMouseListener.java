@@ -6,6 +6,8 @@ import java.awt.Point;
 import javax.swing.JComponent;
 import javax.swing.event.MouseInputListener;
 
+import Core.Files.FileHandler;
+import Core.Files.SaveInfo;
 import Maps.Maps;
 import Menus.Button;
 
@@ -57,10 +59,12 @@ public class MyMouseListener extends JComponent implements MouseInputListener{
                             //Start with line
                             game.activeMap.movingObstacles[0].activate();
                             game.activeMap.movingObstacles[0].setSpeed(game.lineMenu.lineSpeed/10, 0);
+                            game.prevState = Main.STATE.Paused;
                             game.gameState = Main.STATE.Running;
                             break;
                         case(1):
                             //Start without line
+                            game.prevState = Main.STATE.Paused;
                             game.gameState = Main.STATE.Running;
                             break;
                     }
@@ -92,16 +96,26 @@ public class MyMouseListener extends JComponent implements MouseInputListener{
             }else if(populationModifiers[1].checkWithinButton(mousePos)){
                 Settings.populationSize += 100;
             }else if(save.checkWithinButton(mousePos)){
-                //TODO save the settings
+                FileHandler.saveSettings();
             }
         }else if(game.gameState == Main.STATE.Save){
-            // TODO save
+            Button[] buttons = game.saveMenu.getButtons();
+
+            for(int i = 0; i < buttons.length; i++){
+                if(buttons[i].checkWithinButton(mousePos)){
+                    FileHandler.save(game.pop, game.activeMap, (i+1));
+                    game.saveMenu.load();
+                }
+            }
         }else if(game.gameState == Main.STATE.Load){
             Button[] buttons = game.loadMenu.getButtons();
 
             for(int i = 0; i < buttons.length; i++){
                 if(buttons[i].checkWithinButton(mousePos)){
-                    // TODO load the information from the selected slot
+                    SaveInfo loadedInfo = FileHandler.loadInfo(i+1);
+                    game.loadSimulation(FileHandler.loadActions(i+1), loadedInfo.map, loadedInfo.generation);
+                    game.loadSettings(FileHandler.loadBrainSettings(i+1));
+                    game.gameState = Main.STATE.Running;
                 }
             }
         }

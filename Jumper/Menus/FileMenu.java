@@ -1,6 +1,7 @@
 package Menus;
 
 import Core.Constants;
+import Core.Files.FileHandler;
 //import Core.Files.FileHandler;
 import Core.Files.SaveInfo;
 
@@ -27,11 +28,10 @@ public class FileMenu {
         load();
         load();
 
-        /*
         for(int i = 0; i < buttons.length; i++){
             System.out.println(info[i].ableToReachGoal);
         }
-        */
+        
     }
 
     public Button[] getButtons(){
@@ -70,7 +70,7 @@ public class FileMenu {
 
     public void load(){
         for(int i = 0; i < buttons.length; i++){
-            //info[i] = FileHandler.loadInfo(i+1);
+            info[i] = FileHandler.loadInfo(i+1);
         }
     }
 }
