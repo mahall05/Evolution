@@ -28,8 +28,12 @@ public class MovingObstacle extends Obstacle {
         this(x, y, width, height, false);
     }
 
-    public void activate(){
+    public void toggle(){
         this.active = !this.active;
+    }
+
+    public void activate(boolean active){
+        this.active = active;
     }
 
     public void accelerate(int x, int y){

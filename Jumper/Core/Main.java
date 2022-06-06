@@ -168,6 +168,9 @@ public class Main extends Canvas implements Runnable{
 
     public void loadSimulation(Actions[] loadedActions, Map map, int loadedGen){
         this.activeMap = map;
+        for(int i = 0; i < activeMap.movingObstacles.length; i++){
+            activeMap.movingObstacles[i].reset();
+        }
         pop = new Population(loadedActions, loadedGen);
         hud = new HUD(pop);
     }

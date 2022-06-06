@@ -57,7 +57,7 @@ public class MyMouseListener extends JComponent implements MouseInputListener{
                     switch(i){
                         case(0):
                             //Start with line
-                            game.activeMap.movingObstacles[0].activate();
+                            game.activeMap.movingObstacles[0].activate(true);
                             game.activeMap.movingObstacles[0].setSpeed(game.lineMenu.lineSpeed/10, 0);
                             game.prevState = Main.STATE.Paused;
                             game.gameState = Main.STATE.Running;
@@ -116,6 +116,27 @@ public class MyMouseListener extends JComponent implements MouseInputListener{
                     game.loadSimulation(FileHandler.loadActions(i+1), loadedInfo.map, loadedInfo.generation);
                     game.loadSettings(FileHandler.loadBrainSettings(i+1));
                     game.gameState = Main.STATE.Running;
+                }
+            }
+        }else if(game.gameState == Main.STATE.Paused){
+            Button[] buttons = game.pauseMenu.buttons;
+
+            for(int i = 0; i < buttons.length; i++){
+                if(buttons[i].checkWithinButton(mousePos)){
+                    switch(i){
+                        case(0):
+                            game.gameState = Main.STATE.Settings;
+                            break;
+                        case(1):
+                            game.gameState = Main.STATE.Save;
+                            break;
+                        case(2):
+                            Main.window.closeWindow();
+                            game.stop();
+                            break;
+                    }
+
+                    game.prevState = Main.STATE.Paused;
                 }
             }
         }
@@ -190,6 +211,14 @@ public class MyMouseListener extends JComponent implements MouseInputListener{
                     buttons[i].setButtonColor(Color.GRAY);
                 }
             }
+        }else if(game.gameState == Main.STATE.Paused){
+            Button[] buttons = game.pauseMenu.buttons;
+
+            for(int i = 0; i < buttons.length; i++){
+                if(buttons[i].checkWithinButton(mousePos)){
+                    buttons[i].setButtonColor(Color.GRAY);
+                }
+            }
         }
     }
 
@@ -232,6 +261,12 @@ public class MyMouseListener extends JComponent implements MouseInputListener{
             }
         }else if(game.gameState == Main.STATE.Load){
             Button[] buttons = game.loadMenu.getButtons();
+
+            for(int i = 0; i < buttons.length; i++){
+                buttons[i].setButtonColor(Color.WHITE);
+            }
+        }else if(game.gameState == Main.STATE.Paused){
+            Button[] buttons = game.pauseMenu.buttons;
 
             for(int i = 0; i < buttons.length; i++){
                 buttons[i].setButtonColor(Color.WHITE);

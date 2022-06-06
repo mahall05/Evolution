@@ -1,8 +1,9 @@
 package Core;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class Box {
+public class Box implements Serializable{
     public int x, y, width, height;
 
     public Box(int x, int y, int width, int height){

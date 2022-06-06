@@ -1,6 +1,8 @@
 package Core;
 
 import java.awt.*;
+import java.io.Serializable;
+
 import Maps.*;
 
 public class Hitbox extends Box{

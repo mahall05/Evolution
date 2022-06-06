@@ -5,7 +5,7 @@ import Core.Hitbox;
 import Core.Box;
 
 
-public class Obstacle{
+public class Obstacle implements Serializable{
     public int x = 0;
     public int y = 0;
     public int width = 0;

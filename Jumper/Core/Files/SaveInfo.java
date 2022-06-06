@@ -11,6 +11,7 @@ public class SaveInfo implements Serializable{
     public boolean ableToReachGoal;
     public int steps;
     public Map map;
+    public boolean line;
 
     public SaveInfo(LocalDate date, Map map, int generation, boolean ableToReachGoal, int steps){
         this.date = date;
@@ -18,6 +19,7 @@ public class SaveInfo implements Serializable{
         this.ableToReachGoal = ableToReachGoal;
         this.steps = steps;
         this.map = map;
+        this.line = line;
     }
 
     /*

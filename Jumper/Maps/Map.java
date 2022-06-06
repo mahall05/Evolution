@@ -1,10 +1,11 @@
 package Maps;
 
 import java.awt.*;
+import java.io.Serializable;
 
 import Core.Constants;
 
-public class Map {
+public class Map implements Serializable{
     public Obstacle[] obstacles;
     public MovingObstacle[] movingObstacles;
     public Ground ground;
